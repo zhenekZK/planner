@@ -1,8 +1,11 @@
 import React from 'react';
+import DashboardContainer from './Dashboard/DashboardContainer';
 
 function App() {
     return (
-        <h1>test start</h1>
+        <div>
+            <DashboardContainer />
+        </div>
     );
 }
 
