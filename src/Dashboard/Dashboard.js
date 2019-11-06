@@ -1,10 +1,12 @@
 import React from 'react';
 import DashboardListContainer from "./DashboardListContainer";
+import DashboardToolboxContainer from "./DashboardToolboxContainer";
 
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from "@material-ui/core/Grid";
+// import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 const useStyles = makeStyles({
     root: {
@@ -27,6 +29,7 @@ function Dashboard(props) {
         <React.Fragment>
             <CssBaseline />
             <Container maxWidth="md" className={classes.root}>
+                <DashboardToolboxContainer />
                 <Grid container spacing={3}>
                     {lists.map((list, index) => (
                         <DashboardListContainer key={index} title={list.title} tasks={list.tasks} />

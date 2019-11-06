@@ -1,4 +1,5 @@
 import React from 'react';
+import DashboardTask from './DashboardTask';
 
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from '@material-ui/core/styles';
@@ -23,12 +24,24 @@ function DashboardList(props) {
         tasks
     } = props;
 
-    console.log(props);
+    console.log(props, 'DashboardList');
 
     return (
         <Grid item xs={12} sm={6}>
             <Paper className={classes.list}>
-                <Typography align="center" className={classes.title}>{title}</Typography>
+                <Typography align="center" className={classes.title} gutterBottom>{title}</Typography>
+                <Grid container spacing={3}>
+                    {tasks.map((task, index) => (
+                        <DashboardTask
+                            key={index}
+                            title={task.title}
+                            description={task.description}
+                            createdBy={task.createdBy}
+                            priority={task.priority}
+                            status={task.status}
+                        />
+                    ))}
+                </Grid>
             </Paper>
         </Grid>
     );
