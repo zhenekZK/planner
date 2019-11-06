@@ -1,10 +1,36 @@
 import React from 'react';
 
-function DashboardList() {
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Typography from "@material-ui/core/Typography";
+
+const useStyles = makeStyles(theme => ({
+    list: {
+        background: 'linear-gradient(45deg, #f3f1f1 30%, #f3efef 70%)',
+        border: 0,
+        borderRadius: 7,
+        padding: theme.spacing(2)
+    },
+    title: {}
+}));
+
+function DashboardList(props) {
+    const classes = useStyles();
+
+    const {
+        title,
+        tasks
+    } = props;
+
+    console.log(props);
+
     return (
-        <div>
-            test
-        </div>
+        <Grid item xs={12} sm={6}>
+            <Paper className={classes.list}>
+                <Typography align="center" className={classes.title}>{title}</Typography>
+            </Paper>
+        </Grid>
     );
 }
 

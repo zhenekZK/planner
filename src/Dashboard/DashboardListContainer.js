@@ -4,14 +4,21 @@ import DashboardList from './DashboardList';
 
 class DashboardListContainer extends Component {
     render() {
+        const {
+            title,
+            tasks
+        } = this.props;
+
+        console.log(this.props, 'DashboardListContainer');
+
         return (
-            <DashboardList />
+            <DashboardList title={title} tasks={tasks} />
         );
     }
 }
 
-const mapStateToProps = (state) => {
-
-};
+// const mapStateToProps = (state) => ({
+    // list: state.lists
+// });
 
 export default connect()(DashboardListContainer);

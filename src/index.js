@@ -61,10 +61,7 @@ const initialState = {
     ]
 };
 
-console.log(initialState);
-
 const store = configureStore(initialState);
-console.log(store);
 
 ReactDOM.render(
     <Provider store={store}>

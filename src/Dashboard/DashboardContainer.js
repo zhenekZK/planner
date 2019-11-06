@@ -4,17 +4,14 @@ import { connect } from 'react-redux';
 
 class DashboardContainer extends Component {
     render() {
-        // console.log(this.props);
         return (
-            <Dashboard />
+            <Dashboard lists={this.props.lists} />
         );
     }
 }
 
-const mapStateToProps = (state) => {
-    // debugger;
-    console.log(state);
-
-};
+const mapStateToProps = (state) => ({
+    lists: state.lists
+});
 
 export default connect(mapStateToProps)(DashboardContainer);
