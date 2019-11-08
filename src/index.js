@@ -10,21 +10,23 @@ const initialState = {
     lists: {
         byId: {
             '0': {
-                id: 0,
-                title: 'My First List'
+                id: '0',
+                title: 'My First List',
+                tasks: ['a', 'b', 'c']
             },
             '1': {
-                id: 1,
-                title: 'My Second List'
+                id: '1',
+                title: 'My Second List',
+                tasks: ['d', 'e']
             }
         },
         allIds : ['0', '1']
     },
     tasks: {
         byId : {
-            '0': {
-                id: 0,
-                list: 0,
+            'a': {
+                id: 'a',
+                list: '0',
                 title: 'Task 1',
                 priority: 2,
                 description: 'Small description',
@@ -32,9 +34,9 @@ const initialState = {
                 status: 'open',
                 assignedTo: []
             },
-            '1': {
-                id: 1,
-                list: 0,
+            'b': {
+                id: 'b',
+                list: '0',
                 title: 'Task 2',
                 priority: 0,
                 description: 'Small description',
@@ -42,9 +44,9 @@ const initialState = {
                 status: 'open',
                 assignedTo: []
             },
-            '2': {
-                id: 2,
-                list: 0,
+            'c': {
+                id: 'c',
+                list: '0',
                 title: 'Task3',
                 priority: 1,
                 description: 'Small description',
@@ -52,9 +54,9 @@ const initialState = {
                 status: 'open',
                 assignedTo: []
             },
-            '3': {
-                id: 3,
-                list: 1,
+            'd': {
+                id: 'd',
+                list: '1',
                 title: 'Title',
                 priority: 0,
                 description: 'Small description',
@@ -62,9 +64,9 @@ const initialState = {
                 status: 'open',
                 assignedTo: []
             },
-            '4': {
-                id: 4,
-                list: 1,
+            'e': {
+                id: 'e',
+                list: '1',
                 title: 'Title',
                 priority: 0,
                 description: 'Small description',
@@ -73,7 +75,7 @@ const initialState = {
                 assignedTo: []
             }
         },
-        allIds : ['0', '1', '2', '3', '4']
+        allIds : ['a', 'b', 'c', 'd', 'e']
     }
 };
 

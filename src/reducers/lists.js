@@ -1,13 +1,11 @@
 import {
     ADD_NEW_LIST,
-    DELETE_LIST
+    REMOVE_LIST
 } from '../Dashboard/redux/actions';
 
 export default (state = {}, action) => {
     switch (action.type) {
         case ADD_NEW_LIST:
-            console.log(ADD_NEW_LIST);
-            console.log(action);
             return {
                 ...state,
                 allIds: [
@@ -18,11 +16,12 @@ export default (state = {}, action) => {
                     ...state.byId,
                     ['' + state.allIds.length]: {
                         id: state.allIds.length,
-                        title: action.payload.title
+                        title: action.payload.title,
+                        tasks: []
                     }
                 }
             };
-        case DELETE_LIST:
+        case REMOVE_LIST:
             return state;
 
         default:

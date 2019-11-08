@@ -20,7 +20,6 @@ const useStyles = makeStyles({
 
 function Dashboard(props) {
     const classes = useStyles();
-    console.log(props, 'Dashboard');
 
     const {
         lists

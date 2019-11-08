@@ -1,5 +1,5 @@
 import React from 'react';
-import DashboardTask from './DashboardTask';
+import DashboardTaskContainer from './DashboardTaskContainer';
 
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,8 +30,9 @@ function DashboardList(props) {
                 <Typography align="center" className={classes.title} gutterBottom>{title}</Typography>
                 <Grid container spacing={3}>
                     {tasks ? tasks.map((task, index) => (
-                        <DashboardTask
+                        <DashboardTaskContainer
                             key={index}
+                            id={task.id}
                             title={task.title}
                             description={task.description}
                             createdBy={task.createdBy}
