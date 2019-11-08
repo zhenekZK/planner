@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import DashboardList from './DashboardList';
 
 class DashboardListContainer extends Component {
@@ -17,8 +17,19 @@ class DashboardListContainer extends Component {
     }
 }
 
-// const mapStateToProps = (state) => ({
-    // list: state.lists
-// });
+const getTasksByListId = (id, state) => {
+    const taskIds = state.tasks.allIds;
 
-export default connect()(DashboardListContainer);
+    const fitIds = taskIds.filter(taskId => {
+        const task = state.tasks.byId[taskId];
+        return task.list === id
+    });
+
+    return fitIds.map(taskId => state.tasks.byId[taskId]);
+};
+
+const mapStateToProps = (state, props) => ({
+    tasks: getTasksByListId(props.id, state)
+});
+
+export default connect(mapStateToProps)(DashboardListContainer);

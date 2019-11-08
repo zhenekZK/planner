@@ -31,7 +31,7 @@ function DashboardList(props) {
             <Paper className={classes.list}>
                 <Typography align="center" className={classes.title} gutterBottom>{title}</Typography>
                 <Grid container spacing={3}>
-                    {tasks.map((task, index) => (
+                    {tasks ? tasks.map((task, index) => (
                         <DashboardTask
                             key={index}
                             title={task.title}
@@ -40,7 +40,7 @@ function DashboardList(props) {
                             priority={task.priority}
                             status={task.status}
                         />
-                    ))}
+                    )) : null}
                 </Grid>
             </Paper>
         </Grid>

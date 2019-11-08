@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from "@material-ui/core/Grid";
-// import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 const useStyles = makeStyles({
     root: {
@@ -20,6 +19,7 @@ const useStyles = makeStyles({
 
 function Dashboard(props) {
     const classes = useStyles();
+    console.log(props, 'Dashboard');
 
     const {
         lists
@@ -32,7 +32,7 @@ function Dashboard(props) {
                 <DashboardToolboxContainer />
                 <Grid container spacing={3}>
                     {lists.map((list, index) => (
-                        <DashboardListContainer key={index} title={list.title} tasks={list.tasks} />
+                        <DashboardListContainer key={index} title={list.title} id={list.id} />
                     ))}
                 </Grid>
             </Container>

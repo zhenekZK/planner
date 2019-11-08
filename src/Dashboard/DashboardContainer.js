@@ -11,7 +11,7 @@ class DashboardContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    lists: state.lists
+    lists: state.lists.allIds.map(id => state.lists.byId[id])
 });
 
 export default connect(mapStateToProps)(DashboardContainer);
