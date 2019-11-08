@@ -1,6 +1,7 @@
 import React from 'react';
 import DashboardListContainer from "./DashboardListContainer";
 import DashboardToolboxContainer from "./DashboardToolboxContainer";
+import DashboardAddListPopupContainer from "./DashboardAddListPopupContainer";
 
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -35,6 +36,7 @@ function Dashboard(props) {
                         <DashboardListContainer key={index} title={list.title} id={list.id} />
                     ))}
                 </Grid>
+                <DashboardAddListPopupContainer />
             </Container>
         </React.Fragment>
     );

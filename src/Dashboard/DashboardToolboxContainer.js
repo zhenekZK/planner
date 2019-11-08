@@ -6,8 +6,6 @@ import { showAddListPopup } from './redux/actions'
 
 class DashboardToolboxContainer extends Component {
     render() {
-        console.log(this.props, 'DashboardToolboxContainer');
-
         return (
             <DashboardToolbox showAddListPopup={this.props.showAddListPopup} />
         );

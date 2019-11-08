@@ -5,7 +5,10 @@ import { connect } from 'react-redux';
 class DashboardContainer extends Component {
     render() {
         return (
-            <Dashboard lists={this.props.lists} />
+            <Dashboard
+                lists={this.props.lists}
+                showAddListPopup={this.props.showAddListPopup}
+            />
         );
     }
 }

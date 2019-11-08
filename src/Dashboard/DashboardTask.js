@@ -26,8 +26,6 @@ function DashboardTask(props) {
         status
     } = props;
 
-    console.log(props);
-
     return (
         <Grid item xs={12} sm={6}>
             <Paper className={classes.root}>
@@ -35,7 +33,7 @@ function DashboardTask(props) {
                 <Typography gutterBottom>{description}</Typography>
                 <div>{`Status: ${status}`}</div>
                 <div>{`Priority: ${priority}`}</div>
-                <div>{`createdBy: ${priority}`}</div>
+                <div>{`createdBy: ${createdBy}`}</div>
             </Paper>
         </Grid>
     );

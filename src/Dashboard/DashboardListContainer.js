@@ -9,8 +9,6 @@ class DashboardListContainer extends Component {
             tasks
         } = this.props;
 
-        console.log(this.props, 'DashboardListContainer');
-
         return (
             <DashboardList title={title} tasks={tasks} />
         );

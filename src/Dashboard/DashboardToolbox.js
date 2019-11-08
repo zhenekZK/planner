@@ -20,8 +20,6 @@ import IconButton from "@material-ui/core/IconButton";
 function DashboardToolbox(props) {
     // const classes = useStyles();
 
-    console.log(props, 'DashboardToolbox');
-
     return (
         <div>
             <IconButton onClick={props.showAddListPopup}>
