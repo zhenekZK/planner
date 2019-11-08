@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import DashboardTask from './DashboardTask';
-import { removeTask } from './redux/actions';
+import { markTaskEditable, removeTask, showEditTaskPopup } from './redux/actions';
 
 class DashboardTaskContainer extends Component {
     render() {
@@ -13,7 +13,11 @@ class DashboardTaskContainer extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    deleteTask: (id) => dispatch(removeTask(id))
+    deleteTask: (id) => dispatch(removeTask(id)),
+    editTask: (id) => {
+        dispatch(markTaskEditable(id));
+        dispatch(showEditTaskPopup());
+    }
 });
 
 export default connect(null, mapDispatchToProps)(DashboardTaskContainer);

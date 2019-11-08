@@ -5,15 +5,27 @@ import Grid from "@material-ui/core/Grid";
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from "@material-ui/core/Typography";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles(theme => ({
     list: {
+        position: 'relative',
         background: 'linear-gradient(45deg, #f3f1f1 30%, #f3efef 70%)',
         border: 0,
         borderRadius: 7,
         padding: theme.spacing(2)
     },
-    title: {}
+    title: {
+        margin: '0 0 25px'
+    },
+    delete: {
+        position: 'absolute',
+        top: '0',
+        right: '0',
+        // opacity: '0',
+        transition: 'opacity 0.3s linear'
+    }
 }));
 
 function DashboardList(props) {
@@ -41,6 +53,13 @@ function DashboardList(props) {
                         />
                     )) : null}
                 </Grid>
+                <IconButton
+                    className={classes.delete}
+                    disableRipple={true}
+                    disableFocusRipple={true}
+                >
+                    <DeleteIcon size='small' />
+                </IconButton>
             </Paper>
         </Grid>
     );

@@ -1,7 +1,15 @@
-import { REMOVE_TASK } from "../Dashboard/redux/actions";
+import {
+    ADD_NEW_TASK,
+    MARK_TASK_EDITABLE,
+    REMOVE_TASK
+} from "../Dashboard/redux/actions";
 
 export default (state = {}, action) => {
     switch (action.type) {
+        case ADD_NEW_TASK:
+            return state;
+        case MARK_TASK_EDITABLE:
+            return state;
         case REMOVE_TASK:
             // console.log(action.payload);
             // console.log(state, 'OLD STATE');
@@ -29,7 +37,7 @@ export default (state = {}, action) => {
                 ],
                 byId: {
                     ...Object.keys(state.byId)
-                        .filter(key => action.payload.id !==key)
+                        .filter(key => action.payload.id !== key)
                         .reduce((obj, key) => {
                             obj[key] = state.byId[key];
                             return obj;
