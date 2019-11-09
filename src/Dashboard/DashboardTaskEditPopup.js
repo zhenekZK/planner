@@ -16,13 +16,13 @@ function DashboardTaskEditPopup(props) {
         open,
         title,
         updateTitle,
-        createTask,
-        handleClose
+        editTask,
+        onClose
     } = props;
 
     return (
         <div>
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Edit Task</DialogTitle>
                 <DialogContent>
                     <TextField
@@ -51,12 +51,25 @@ function DashboardTaskEditPopup(props) {
                             <MenuItem value={6}>6</MenuItem>
                         </Select>
                     </FormControl>
+                    <FormControl>
+                        <InputLabel id="edit-popup-status">Status</InputLabel>
+                        <Select
+                            labelId="edit-popup-status"
+                            id="edit-popup-status-select"
+                            // value={}
+                            // onChange={handleChange}
+                        >
+                            <MenuItem value={1}>Open</MenuItem>
+                            <MenuItem value={2}>Processing</MenuItem>
+                            <MenuItem value={3}>Done</MenuItem>
+                        </Select>
+                    </FormControl>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={onClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={createTask} color="primary">
+                    <Button onClick={editTask} color="primary">
                         Add
                     </Button>
                 </DialogActions>

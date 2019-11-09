@@ -62,7 +62,7 @@ function DashboardTask(props) {
                 <div>{`Priority: ${priority}`}</div>
                 <div>{`createdBy: ${createdBy}`}</div>
                 <IconButton
-                    onClick={editTask}
+                    onClick={() => editTask(id)}
                     className={classes.edit}
                     disableRipple={true}
                     disableFocusRipple={true}

@@ -2,6 +2,7 @@ export const ADD_NEW_LIST = 'ADD_NEW_LIST';
 export const REMOVE_LIST = 'REMOVE_LIST';
 export const ADD_NEW_TASK = 'ADD_NEW_TASK';
 export const MARK_TASK_EDITABLE = 'MARK_TASK_EDITABLE';
+export const MARK_TASKS_NOT_EDITABLE = 'MARK_TASKS_NOT_EDITABLE';
 export const REMOVE_TASK = 'REMOVE_TASK';
 export const ADD_NEW_LIST_POPUP_SHOW = 'ADD_NEW_LIST_POPUP_SHOW';
 export const ADD_NEW_LIST_POPUP_HIDE = 'ADD_NEW_LIST_POPUP_HIDE';
@@ -41,6 +42,10 @@ export const markTaskEditable = (id) => ({
     payload: {
         id
     }
+});
+
+export const markTasksNotEditable = () => ({
+    type: MARK_TASKS_NOT_EDITABLE
 });
 
 export const showEditTaskPopup = () => ({

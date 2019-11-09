@@ -1,6 +1,7 @@
 import {
     ADD_NEW_TASK,
     MARK_TASK_EDITABLE,
+    MARK_TASKS_NOT_EDITABLE,
     REMOVE_TASK
 } from "../Dashboard/redux/actions";
 
@@ -9,7 +10,15 @@ export default (state = {}, action) => {
         case ADD_NEW_TASK:
             return state;
         case MARK_TASK_EDITABLE:
-            return state;
+            return {
+                ...state,
+                isEdited: action.payload.id
+            };
+        case MARK_TASKS_NOT_EDITABLE:
+            return {
+                ...state,
+                isEdited: null
+            };
         case REMOVE_TASK:
             // console.log(action.payload);
             // console.log(state, 'OLD STATE');

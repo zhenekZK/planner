@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DashboardTaskEditPopup from "./DashboardTaskEditPopup";
-import { hideEditTaskPopup, showEditTaskPopup} from './redux/actions';
-
+import {hideEditTaskPopup, markTasksNotEditable, showEditTaskPopup} from './redux/actions';
 
 class DashboardTaskEditPopupContainer extends Component {
     constructor(props) {
@@ -14,7 +13,7 @@ class DashboardTaskEditPopupContainer extends Component {
         }
     }
 
-    createTask = () => {
+    editTask = () => {
         const data = {
             title: this.state.title
         };
@@ -32,9 +31,9 @@ class DashboardTaskEditPopupContainer extends Component {
             <DashboardTaskEditPopup
                 open={this.props.open}
                 title={this.state.title}
-                createTask={this.createTask}
+                createTask={this.editTask}
                 updateTitle={this.updateTitle}
-                handleClose={this.props.closePopup}
+                onClose={this.props.onClose}
             />
         );
     }
@@ -46,7 +45,10 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     showTaskEditPopup: () => dispatch(showEditTaskPopup()),
-    closePopup: () => dispatch(hideEditTaskPopup())
+    onClose: () => {
+        dispatch(markTasksNotEditable());
+        dispatch(hideEditTaskPopup());
+    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardTaskEditPopupContainer);
