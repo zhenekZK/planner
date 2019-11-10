@@ -21,6 +21,7 @@ export default (state = {}, action) => {
                 isEdited: null
             };
         case EDIT_TASK:
+            debugger;
             return {
                 ...state,
                 byId: {
@@ -30,7 +31,8 @@ export default (state = {}, action) => {
                         title: action.payload.title,
                         priority: action.payload.priority,
                         description: action.payload.description,
-                        status: action.payload.status
+                        status: action.payload.status,
+                        list: action.payload.list
                     }
                 }
             };

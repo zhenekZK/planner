@@ -7,14 +7,13 @@ class DashboardTaskEditPopupContainer extends Component {
     constructor(props) {
         super(props);
 
-        console.log(props, 'PROPS');
-
         this.state = {
             id: props.taskInfo.id,
             title: props.taskInfo.title,
             priority: props.taskInfo.priority,
             description: props.taskInfo.description,
-            status: props.taskInfo.status
+            status: props.taskInfo.status,
+            list: props.taskInfo.list
         };
     }
 
@@ -25,7 +24,8 @@ class DashboardTaskEditPopupContainer extends Component {
                 title,
                 priority,
                 description,
-                status
+                status,
+                list
             } = props.taskInfo;
 
             return {
@@ -33,7 +33,8 @@ class DashboardTaskEditPopupContainer extends Component {
                 title,
                 priority,
                 description,
-                status
+                status,
+                list
             }
         }
 
@@ -49,10 +50,9 @@ class DashboardTaskEditPopupContainer extends Component {
             title: this.state.title,
             priority: this.state.priority,
             description: this.state.description,
-            status: this.state.status
+            status: this.state.status,
+            list: this.state.list
         };
-
-        console.log(data, 'DATAA');
 
         this.props.editTask(data);
         this.onClose();
@@ -70,6 +70,7 @@ class DashboardTaskEditPopupContainer extends Component {
             <DashboardTaskEditPopup
                 {...this.state}
                 open={this.props.open}
+                allLists={this.props.allLists}
                 createTask={this.editTask}
                 updateField={this.updateField}
                 onSave={this.onSave}
@@ -81,7 +82,10 @@ class DashboardTaskEditPopupContainer extends Component {
 
 const mapStateToProps = (state) => ({
     open: state.toolbox.showTaskEditPopup,
-    taskInfo: state.tasks.byId[state.tasks.isEdited]
+    taskInfo: state.tasks.byId[state.tasks.isEdited],
+    allLists: {
+        ...state.lists.byId
+    }
 });
 
 const mapDispatchToProps = (dispatch) => ({

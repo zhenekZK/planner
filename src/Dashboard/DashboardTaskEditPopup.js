@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -17,13 +18,14 @@ function DashboardTaskEditPopup(props) {
         title,
         status,
         priority,
+        list,
+        allLists,
         updateField,
-        editTask,
         onSave,
         onClose
     } = props;
 
-    console.log(props, "What the fuck man?");
+    console.log(props, 'LISTS');
 
     return (
         <div>
@@ -35,7 +37,7 @@ function DashboardTaskEditPopup(props) {
                         value={title}
                         onChange={(e) => updateField('title', e.target.value)}
                         margin="dense"
-                        // id="list-name"
+                        id="edit-popup-title-select"
                         label="Task Title"
                         type="text"
                         fullWidth
@@ -69,6 +71,21 @@ function DashboardTaskEditPopup(props) {
                             <MenuItem value='done'>Done</MenuItem>
                         </Select>
                     </FormControl>
+                    <FormControl>
+                        <InputLabel id="edit-popup-status">List</InputLabel>
+                        <Select
+                            labelId="edit-popup-list"
+                            id="edit-popup-list-select"
+                            value={list}
+                            onChange={(e) => updateField('list', e.target.value)}
+                        >
+                            {
+                                _.map(allLists, (l) => {
+                                    return <MenuItem value={l.id}>{l.title}</MenuItem>
+                                })
+                            }
+                        </Select>
+                    </FormControl>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={onClose} color="primary">
@@ -87,7 +104,8 @@ DashboardTaskEditPopup.defaultProps = {
     title: '',
     open: false,
     status: 'open',
-    priority: 1
+    priority: 1,
+    list: 0
 };
 
 export default DashboardTaskEditPopup;
