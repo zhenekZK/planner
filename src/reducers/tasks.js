@@ -1,5 +1,6 @@
 import {
     ADD_NEW_TASK,
+    EDIT_TASK,
     MARK_TASK_EDITABLE,
     MARK_TASKS_NOT_EDITABLE,
     REMOVE_TASK
@@ -19,26 +20,22 @@ export default (state = {}, action) => {
                 ...state,
                 isEdited: null
             };
+        case EDIT_TASK:
+            return {
+                ...state,
+                byId: {
+                    ...state.byId,
+                    [state.isEdited]: {
+                        ...state.byId[state.isEdited],
+                        title: action.payload.title,
+                        priority: action.payload.priority,
+                        description: action.payload.description,
+                        status: action.payload.status
+                    }
+                }
+            };
         case REMOVE_TASK:
-            // console.log(action.payload);
-            // console.log(state, 'OLD STATE');
             const newIds = [...state.allIds.filter((id) => action.payload.id !== id)];
-            // var newState = {
-            //     ...state,
-            //     allIds: [
-            //         ...newIds
-            //     ],
-            //     byId: {
-            //         ...Object.keys(state.byId)
-            //             .filter(key => newIds.includes(key))
-            //             .reduce((obj, key) => {
-            //                 obj[key] = state.byId[key];
-            //                 return obj;
-            //             }, {})
-            //     }
-            // };
-            //
-            // console.log(newState, 'NEW STATE');
             return {
                 ...state,
                 allIds: [

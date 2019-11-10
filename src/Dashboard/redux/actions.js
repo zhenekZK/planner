@@ -1,6 +1,7 @@
 export const ADD_NEW_LIST = 'ADD_NEW_LIST';
 export const REMOVE_LIST = 'REMOVE_LIST';
 export const ADD_NEW_TASK = 'ADD_NEW_TASK';
+export const EDIT_TASK = 'EDIT_TASK';
 export const MARK_TASK_EDITABLE = 'MARK_TASK_EDITABLE';
 export const MARK_TASKS_NOT_EDITABLE = 'MARK_TASKS_NOT_EDITABLE';
 export const REMOVE_TASK = 'REMOVE_TASK';
@@ -28,6 +29,11 @@ export const addTask = () => ({
     payload: {
 
     }
+});
+
+export const editTask = (data) => ({
+    type: 'EDIT_TASK',
+    payload: { ...data }
 });
 
 export const removeTask = (id) => ({

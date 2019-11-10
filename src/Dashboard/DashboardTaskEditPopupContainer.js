@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DashboardTaskEditPopup from "./DashboardTaskEditPopup";
-import {hideEditTaskPopup, markTasksNotEditable, showEditTaskPopup} from './redux/actions';
+import {editTask, hideEditTaskPopup, markTasksNotEditable, showEditTaskPopup} from './redux/actions';
 
 class DashboardTaskEditPopupContainer extends Component {
     constructor(props) {
@@ -40,22 +40,25 @@ class DashboardTaskEditPopupContainer extends Component {
         return null;
     }
 
-    editTask = () => {
-        const data = {
-            title: this.state.title
-        };
-
-        this.props.createList(data);
-        this.props.closePopup();
-    };
-
     updateField = (field, value) => {
         this.setState({ [field]: value }, () => console.log(this.state));
     };
 
-    onClose = () => {
-        // this.setState({setState}, () => console.log(this.state));
+    onSave = () => {
+        const data = {
+            title: this.state.title,
+            priority: this.state.priority,
+            description: this.state.description,
+            status: this.state.status
+        };
 
+        console.log(data, 'DATAA');
+
+        this.props.editTask(data);
+        this.onClose();
+    };
+
+    onClose = () => {
         this.props.onClose();
     };
 
@@ -69,7 +72,8 @@ class DashboardTaskEditPopupContainer extends Component {
                 open={this.props.open}
                 createTask={this.editTask}
                 updateField={this.updateField}
-                onClose={this.props.onClose}
+                onSave={this.onSave}
+                onClose={this.onClose}
             />
         );
     }
@@ -81,6 +85,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+    editTask: (data) => dispatch(editTask(data)),
     showTaskEditPopup: () => dispatch(showEditTaskPopup()),
     onClose: () => {
         dispatch(markTasksNotEditable());

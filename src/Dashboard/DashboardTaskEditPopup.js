@@ -19,6 +19,7 @@ function DashboardTaskEditPopup(props) {
         priority,
         updateField,
         editTask,
+        onSave,
         onClose
     } = props;
 
@@ -73,7 +74,7 @@ function DashboardTaskEditPopup(props) {
                     <Button onClick={onClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={editTask} color="primary">
+                    <Button onClick={onSave} color="primary">
                         Save
                     </Button>
                 </DialogActions>
