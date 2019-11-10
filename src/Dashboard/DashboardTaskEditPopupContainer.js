@@ -7,10 +7,37 @@ class DashboardTaskEditPopupContainer extends Component {
     constructor(props) {
         super(props);
 
+        console.log(props, 'PROPS');
+
         this.state = {
-            title: '',
-            priority: this.props.priority
+            id: props.taskInfo.id,
+            title: props.taskInfo.title,
+            priority: props.taskInfo.priority,
+            description: props.taskInfo.description,
+            status: props.taskInfo.status
+        };
+    }
+
+    static getDerivedStateFromProps(props, currentState) {
+        if (currentState.id !== props.taskInfo.id) {
+            const {
+                id,
+                title,
+                priority,
+                description,
+                status
+            } = props.taskInfo;
+
+            return {
+                id,
+                title,
+                priority,
+                description,
+                status
+            }
         }
+
+        return null;
     }
 
     editTask = () => {
@@ -22,17 +49,26 @@ class DashboardTaskEditPopupContainer extends Component {
         this.props.closePopup();
     };
 
-    updateTitle = (title) => {
-        this.setState({ title });
+    updateField = (field, value) => {
+        this.setState({ [field]: value }, () => console.log(this.state));
+    };
+
+    onClose = () => {
+        // this.setState({setState}, () => console.log(this.state));
+
+        this.props.onClose();
     };
 
     render() {
+        console.log(this.props, 'TASK INFO');
+        console.log(this.state, 'TASK INFO');
+
         return (
             <DashboardTaskEditPopup
+                {...this.state}
                 open={this.props.open}
-                title={this.state.title}
                 createTask={this.editTask}
-                updateTitle={this.updateTitle}
+                updateField={this.updateField}
                 onClose={this.props.onClose}
             />
         );
@@ -40,7 +76,8 @@ class DashboardTaskEditPopupContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    open: state.toolbox.showTaskEditPopup
+    open: state.toolbox.showTaskEditPopup,
+    taskInfo: state.tasks.byId[state.tasks.isEdited]
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -50,5 +87,9 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(hideEditTaskPopup());
     }
 });
+
+DashboardTaskEditPopupContainer.defaultProps = {
+    taskInfo: {}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardTaskEditPopupContainer);

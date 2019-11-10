@@ -5,7 +5,12 @@ import {
     TASK_EDIT_POPUP_HIDE
 } from '../Dashboard/redux/actions';
 
-export default (state = {}, action) => {
+const initialState = {
+    showAddListPopup: false,
+    showTaskEditPopup: false
+};
+
+export default (state = initialState, action) => {
     switch (action.type) {
         case ADD_NEW_LIST_POPUP_SHOW:
             return {

@@ -38,7 +38,7 @@ const initialState = {
                 id: 'b',
                 list: '0',
                 title: 'Task 2',
-                priority: 0,
+                priority: 1,
                 description: 'Small description',
                 createdBy: 'id of author',
                 status: 'open',
@@ -51,14 +51,14 @@ const initialState = {
                 priority: 1,
                 description: 'Small description',
                 createdBy: 'id of author',
-                status: 'open',
+                status: 'processing',
                 assignedTo: []
             },
             'd': {
                 id: 'd',
                 list: '1',
                 title: 'Title',
-                priority: 0,
+                priority: 4,
                 description: 'Small description',
                 createdBy: 'id of author',
                 status: 'open',
@@ -68,10 +68,10 @@ const initialState = {
                 id: 'e',
                 list: '1',
                 title: 'Title',
-                priority: 0,
+                priority: 5,
                 description: 'Small description',
                 createdBy: 'id of author',
-                status: 'open',
+                status: 'done',
                 assignedTo: []
             }
         },

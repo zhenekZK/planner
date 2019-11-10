@@ -15,10 +15,14 @@ function DashboardTaskEditPopup(props) {
     const {
         open,
         title,
-        updateTitle,
+        status,
+        priority,
+        updateField,
         editTask,
         onClose
     } = props;
+
+    console.log(props, "What the fuck man?");
 
     return (
         <div>
@@ -28,7 +32,7 @@ function DashboardTaskEditPopup(props) {
                     <TextField
                         autoFocus
                         value={title}
-                        onChange={(e) => updateTitle(e.target.value)}
+                        onChange={(e) => updateField('title', e.target.value)}
                         margin="dense"
                         // id="list-name"
                         label="Task Title"
@@ -40,8 +44,8 @@ function DashboardTaskEditPopup(props) {
                         <Select
                             labelId="edit-popup-priority"
                             id="edit-popup-priority-select"
-                            // value={}
-                            // onChange={handleChange}
+                            value={priority}
+                            onChange={(e) => updateField('priority', e.target.value)}
                         >
                             <MenuItem value={1}>1</MenuItem>
                             <MenuItem value={2}>2</MenuItem>
@@ -56,12 +60,12 @@ function DashboardTaskEditPopup(props) {
                         <Select
                             labelId="edit-popup-status"
                             id="edit-popup-status-select"
-                            // value={}
-                            // onChange={handleChange}
+                            value={status}
+                            onChange={(e) => updateField('status', e.target.value)}
                         >
-                            <MenuItem value={1}>Open</MenuItem>
-                            <MenuItem value={2}>Processing</MenuItem>
-                            <MenuItem value={3}>Done</MenuItem>
+                            <MenuItem value='open'>Open</MenuItem>
+                            <MenuItem value='processing'>Processing</MenuItem>
+                            <MenuItem value='done'>Done</MenuItem>
                         </Select>
                     </FormControl>
                 </DialogContent>
@@ -70,7 +74,7 @@ function DashboardTaskEditPopup(props) {
                         Cancel
                     </Button>
                     <Button onClick={editTask} color="primary">
-                        Add
+                        Save
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -79,7 +83,10 @@ function DashboardTaskEditPopup(props) {
 }
 
 DashboardTaskEditPopup.defaultProps = {
-    open: false
+    title: '',
+    open: false,
+    status: 'open',
+    priority: 1
 };
 
 export default DashboardTaskEditPopup;
