@@ -58,7 +58,7 @@ function RegisterPage(props) {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign up
+                    Registration
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>

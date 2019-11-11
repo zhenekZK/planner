@@ -3,19 +3,13 @@ import { connect } from 'react-redux';
 
 import LoginPage from "./LoginPage";
 
-// import { userActions } from '../_actions';
-
 class LoginPageContainer extends React.Component {
     constructor(props) {
         super(props);
 
-        // reset login status
-        // this.props.logout();
-
         this.state = {
-            username: '',
+            email: '',
             password: '',
-            submitted: false
         };
     }
 
@@ -37,10 +31,8 @@ class LoginPageContainer extends React.Component {
     render() {
         return (
             <LoginPage
-                loggingIn={this.props.loggingIn}
-                username={this.state.username}
+                email={this.state.email}
                 password={this.state.password}
-                submitted={this.state.submitted}
                 handleChange={this.handleChange}
                 handleSubmit={this.handleSubmit}
             />

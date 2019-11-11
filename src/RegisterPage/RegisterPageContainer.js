@@ -11,8 +11,7 @@ class RegisterPageContainer extends React.Component {
             firstname: '',
             lastname: '',
             email: '',
-            password: '',
-            submitted: false
+            password: ''
         };
     }
 
