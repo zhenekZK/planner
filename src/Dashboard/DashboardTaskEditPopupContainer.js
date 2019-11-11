@@ -63,9 +63,6 @@ class DashboardTaskEditPopupContainer extends Component {
     };
 
     render() {
-        console.log(this.props, 'TASK INFO');
-        console.log(this.state, 'TASK INFO');
-
         return (
             <DashboardTaskEditPopup
                 {...this.state}

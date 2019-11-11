@@ -7,6 +7,27 @@ import './index.css';
 import App from './App';
 
 const initialState = {
+    users: {
+        byId: {
+            '0': {
+                id: '0',
+                name: 'Vasya',
+                surname: 'Pupkin'
+            }
+            ,
+            '1': {
+                id: '1',
+                name: 'Oleg',
+                surname: 'Andersen'
+            },
+            '2': {
+                id: '2',
+                name: 'Sam',
+                surname: 'Vinchester'
+            }
+        },
+        allIds: ['0', '1', '2']
+    },
     lists: {
         byId: {
             '0': {
@@ -30,7 +51,7 @@ const initialState = {
                 title: 'Task 1',
                 priority: 2,
                 description: 'Small description',
-                createdBy: 'id of author',
+                createdBy: '2',
                 status: 'open',
                 assignedTo: []
             },
@@ -40,7 +61,7 @@ const initialState = {
                 title: 'Task 2',
                 priority: 1,
                 description: 'Small description',
-                createdBy: 'id of author',
+                createdBy: '1',
                 status: 'open',
                 assignedTo: []
             },
@@ -50,7 +71,7 @@ const initialState = {
                 title: 'Task3',
                 priority: 1,
                 description: 'Small description',
-                createdBy: 'id of author',
+                createdBy: '1',
                 status: 'processing',
                 assignedTo: []
             },
@@ -60,7 +81,7 @@ const initialState = {
                 title: 'Title',
                 priority: 4,
                 description: 'Small description',
-                createdBy: 'id of author',
+                createdBy: '0',
                 status: 'open',
                 assignedTo: []
             },
@@ -70,7 +91,7 @@ const initialState = {
                 title: 'Title',
                 priority: 5,
                 description: 'Small description',
-                createdBy: 'id of author',
+                createdBy: '2',
                 status: 'done',
                 assignedTo: []
             }

@@ -5,12 +5,15 @@ import { markTaskEditable, removeTask, showEditTaskPopup } from './redux/actions
 
 class DashboardTaskContainer extends Component {
     render() {
-        console.log(this.props, 'DashboardTaskContainer');
         return (
             <DashboardTask {...this.props} />
         );
     }
 }
+
+const mapStateToProps = (state, ownProps) => ({
+    createdBy: state.users.byId[ownProps.createdBy].name
+});
 
 const mapDispatchToProps = (dispatch) => ({
     deleteTask: (id) => dispatch(removeTask(id)),
@@ -20,4 +23,4 @@ const mapDispatchToProps = (dispatch) => ({
     }
 });
 
-export default connect(null, mapDispatchToProps)(DashboardTaskContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardTaskContainer);
