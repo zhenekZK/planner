@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import LoginPage from "./LoginPage";
+import LoginPage from './LoginPage';
+import axios from 'axios';
+import qs from 'qs';
 
 class LoginPageContainer extends React.Component {
     constructor(props) {
@@ -21,11 +23,12 @@ class LoginPageContainer extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        this.setState({ submitted: true });
-        const { username, password } = this.state;
-        if (username && password) {
-            this.props.login(username, password);
-        }
+        const username = this.state.email;
+        const password = this.state.password;
+        console.log(username, password);
+
+        const data = {username, password};
+        axios.post('http://localhost:4000/signin', qs.stringify(data)).then((response) => console.log(response));
     };
 
     render() {
@@ -33,8 +36,8 @@ class LoginPageContainer extends React.Component {
             <LoginPage
                 email={this.state.email}
                 password={this.state.password}
-                handleChange={this.handleChange}
-                handleSubmit={this.handleSubmit}
+                onChange={this.handleChange}
+                onSubmit={this.handleSubmit}
             />
         );
     }

@@ -41,8 +41,8 @@ function LoginPage(props) {
     const {
         email,
         password,
-        handleChange,
-        handleSubmit
+        onChange,
+        onSubmit
     } = props;
 
     return (
@@ -55,7 +55,7 @@ function LoginPage(props) {
                 <Typography component="h1" variant="h5">
                     Login
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} onSubmit={onSubmit} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
@@ -63,7 +63,7 @@ function LoginPage(props) {
                                 required
                                 fullWidth
                                 value={email}
-                                onChange={handleChange}
+                                onChange={onChange}
                                 id="email"
                                 label="Email Address"
                                 name="email"
@@ -75,7 +75,7 @@ function LoginPage(props) {
                                 required
                                 fullWidth
                                 value={password}
-                                onChange={handleChange}
+                                onChange={onChange}
                                 name="password"
                                 label="Password"
                                 type="password"
@@ -89,9 +89,8 @@ function LoginPage(props) {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onSubmit={handleSubmit}
                     >
-                        Sign Up
+                        Sign In
                     </Button>
                 </form>
             </div>

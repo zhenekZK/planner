@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-// const passport = require('passport');
 const app = express();
 const port = 4000;
 const db = require('./queries');
@@ -14,8 +13,6 @@ app.use(
 
 const LocalStrategy = require('passport-local').Strategy;
 
-// var currentAccountsData = [];
-
 app.get('/', (request, response) => {
     response.json({ info: 'Node.js, Express, and Postgres API' })
 });
@@ -24,7 +21,9 @@ app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 });
 
-app.post('/register', db.register);
+app.post('/signup', db.signup);
+
+app.post('/signin', db.signin);
 
 app.get('/lists', db.getLists);
 

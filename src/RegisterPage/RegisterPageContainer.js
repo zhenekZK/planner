@@ -26,7 +26,7 @@ class RegisterPageContainer extends React.Component {
         e.preventDefault();
 
         const data = this.state;
-        axios.post('http://localhost:4000/register', qs.stringify(data)).then((response) => console.log(response));
+        axios.post('http://localhost:4000/signup', qs.stringify(data)).then((response) => console.log(response));
     };
 
     render() {
