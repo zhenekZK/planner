@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import LoginPage from './LoginPage';
 import { userLoginFetch } from './redux/actions';
@@ -24,26 +25,33 @@ class LoginPageContainer extends React.Component {
 
         const username = this.state.email;
         const password = this.state.password;
-        console.log(username, password);
 
-        const data = {username, password};
+        const data = { username, password };
         this.props.loginUser(data);
     };
 
     render() {
         return (
-            <LoginPage
-                email={this.state.email}
-                password={this.state.password}
-                onChange={this.handleChange}
-                onSubmit={this.handleSubmit}
-            />
+            this.props.isLogged ?
+                <Redirect to='/dashboard' /> :
+                <LoginPage
+                    email={this.state.email}
+                    password={this.state.password}
+                    onChange={this.handleChange}
+                    onSubmit={this.handleSubmit}
+                />
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        isLogged: !!state.currentUser.token
+    }
+};
 
 const mapDispatchToProps = (dispatch) => ({
     loginUser: (user) => dispatch(userLoginFetch(user))
 });
 
-export default connect(null, mapDispatchToProps)(LoginPageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPageContainer);

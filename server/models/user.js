@@ -91,23 +91,38 @@ const updateUserToken = (token, user) => {
         .then((data) => data.rows[0])
 };
 
-const authenticate = (userReq) => {
-    findByToken(userReq.token)
+const authenticate = (token) => {
+    findByToken(token)
         .then((user) => {
-            if (user.username == userReq.username) {
-                return true
-            } else {
-                return false
-            }
+            return !!user;
         })
 };
 
 const findByToken = (token) => {
     return database.raw("SELECT * FROM users WHERE token = ?", [token])
-        .then((data) => data.rows[0])
+        .then((data) => {
+            return data.rows[0]
+        })
+        .catch(error => {
+            console.log(error);
+        })
+};
+
+const profile = (request, response) => {
+    const token = request.body.token || request.decoded;
+
+    if (authenticate(token)) {
+        findByToken(token)
+            .then((user) => {
+                response.status(200).json(user)
+            })
+    } else {
+        response.status(404);
+    }
 };
 
 module.exports = {
     signup,
-    signin
+    signin,
+    profile
 };
