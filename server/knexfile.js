@@ -12,10 +12,10 @@ module.exports = {
       charset: 'utf8'
     },
     migrations: {
-      tableName: __dirname + '/knex/migrations'
+      tableName: __dirname + '/db/knex/migrations'
     },
     seeds: {
-      directory: __dirname + '/knex/seeds'
+      directory: __dirname + '/db/knex/seeds'
     },
     useNullAsDefault: true
   },
@@ -23,9 +23,9 @@ module.exports = {
   staging: {
     client: 'postgresql',
     connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
+      database: 'planner_api',
+      user:     'me',
+      password: 'localbear'
     },
     pool: {
       min: 2,
@@ -39,9 +39,9 @@ module.exports = {
   production: {
     client: 'postgresql',
     connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
+      database: 'planner_api',
+      user:     'me',
+      password: 'localbear'
     },
     pool: {
       min: 2,

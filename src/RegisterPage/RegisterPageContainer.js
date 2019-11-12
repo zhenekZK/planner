@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
-import qs from 'qs';
 
 import RegisterPage from "./RegisterPage";
+import { userPostFetch } from "./redux/actions";
 
 class RegisterPageContainer extends React.Component {
     constructor(props) {
@@ -26,7 +25,7 @@ class RegisterPageContainer extends React.Component {
         e.preventDefault();
 
         const data = this.state;
-        axios.post('http://localhost:4000/signup', qs.stringify(data)).then((response) => console.log(response));
+        this.props.createUser(data);
     };
 
     render() {
@@ -43,4 +42,8 @@ class RegisterPageContainer extends React.Component {
     }
 }
 
-export default connect(null, null)(RegisterPageContainer);
+const mapDispatchToProps = (dispatch) => ({
+    createUser: (data) => dispatch(userPostFetch(data))
+});
+
+export default connect(null, mapDispatchToProps)(RegisterPageContainer);

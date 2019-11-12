@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoginPage from './LoginPage';
-import axios from 'axios';
-import qs from 'qs';
+import { userLoginFetch } from './redux/actions';
 
 class LoginPageContainer extends React.Component {
     constructor(props) {
@@ -28,7 +27,7 @@ class LoginPageContainer extends React.Component {
         console.log(username, password);
 
         const data = {username, password};
-        axios.post('http://localhost:4000/signin', qs.stringify(data)).then((response) => console.log(response));
+        this.props.loginUser(data);
     };
 
     render() {
@@ -43,4 +42,8 @@ class LoginPageContainer extends React.Component {
     }
 }
 
-export default connect(null, null)(LoginPageContainer);
+const mapDispatchToProps = (dispatch) => ({
+    loginUser: (user) => dispatch(userLoginFetch(user))
+});
+
+export default connect(null, mapDispatchToProps)(LoginPageContainer);

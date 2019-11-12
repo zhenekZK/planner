@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 4000;
 const db = require('./queries');
+const user = require('./models/user');
 
 app.use(bodyParser.json());
 app.use(
@@ -10,8 +11,6 @@ app.use(
         extended: true,
     })
 );
-
-const LocalStrategy = require('passport-local').Strategy;
 
 app.get('/', (request, response) => {
     response.json({ info: 'Node.js, Express, and Postgres API' })
@@ -21,9 +20,9 @@ app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 });
 
-app.post('/signup', db.signup);
+app.post('/signup', user.signup);
 
-app.post('/signin', db.signin);
+app.post('/signin', user.signin);
 
 app.get('/lists', db.getLists);
 

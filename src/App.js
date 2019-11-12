@@ -15,7 +15,7 @@ function App() {
                 <Route path="/login" component={LoginPageContainer} />
                 <Route path="/signup" component={RegisterPageContainer} />
                 <PrivateRoute exact path='/dashboard' component={DashboardContainer} />
-                {/*<Redirect from="*" to="/dashboard" />*/}
+                <Redirect from="*" to="/dashboard" />
             </Switch>
         </Router>
     );
