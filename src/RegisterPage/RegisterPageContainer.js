@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
+import qs from 'qs';
 
 import RegisterPage from "./RegisterPage";
 
@@ -8,7 +10,7 @@ class RegisterPageContainer extends React.Component {
         super(props);
 
         this.state = {
-            firstname: '',
+            username: '',
             lastname: '',
             email: '',
             password: ''
@@ -17,24 +19,25 @@ class RegisterPageContainer extends React.Component {
 
     handleChange = (e) => {
         const { name, value } = e.target;
-        this.setState({ [name]: value });
+        this.setState({ [name]: value }, () => console.log(this.state));
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
 
-        // logic to submit
+        const data = this.state;
+        axios.post('http://localhost:4000/register', qs.stringify(data)).then((response) => console.log(response));
     };
 
     render() {
         return (
             <RegisterPage
-                firstname={this.state.firstname}
+                username={this.state.username}
                 lastname={this.state.lastname}
                 email={this.state.email}
                 password={this.state.password}
-                handleChange={this.handleChange}
-                handleSubmit={this.handleSubmit}
+                onChange={this.handleChange}
+                onSubmit={this.handleSubmit}
             />
         );
     }

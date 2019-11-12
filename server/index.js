@@ -24,7 +24,7 @@ app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 });
 
-app.get('/register', db.register);
+app.post('/register', db.register);
 
 app.get('/lists', db.getLists);
 

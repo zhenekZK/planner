@@ -12,7 +12,7 @@ function App() {
         <Router history={history}>
             <Switch>
                 <Route path="/login" component={LoginPageContainer} />
-                <Route path="/register" component={RegisterPageContainer} />
+                <Route path="/signup" component={RegisterPageContainer} />
                 <Redirect from="*" to="/" />
             </Switch>
         </Router>

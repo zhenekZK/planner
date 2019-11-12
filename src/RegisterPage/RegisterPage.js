@@ -40,15 +40,13 @@ function RegisterPage(props) {
     const classes = useStyles();
 
     const {
-        firstname,
+        username,
         lastname,
         email,
         password,
-        handleChange,
-        handleSubmit
+        onChange,
+        onSubmit
     } = props;
-
-    console.log(props);
 
     return (
         <Container component="main" maxWidth="xs">
@@ -60,14 +58,14 @@ function RegisterPage(props) {
                 <Typography component="h1" variant="h5">
                     Registration
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} onSubmit={onSubmit} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 required
-                                name="firstname"
-                                value={firstname}
-                                onChange={handleChange}
+                                name="username"
+                                value={username}
+                                onChange={onChange}
                                 variant="outlined"
                                 fullWidth
                                 id="firstName"
@@ -81,7 +79,7 @@ function RegisterPage(props) {
                                 required
                                 fullWidth
                                 value={lastname}
-                                onChange={handleChange}
+                                onChange={onChange}
                                 id="lastName"
                                 label="Last Name"
                                 name="lastname"
@@ -93,7 +91,7 @@ function RegisterPage(props) {
                                 required
                                 fullWidth
                                 value={email}
-                                onChange={handleChange}
+                                onChange={onChange}
                                 id="email"
                                 label="Email Address"
                                 name="email"
@@ -105,7 +103,7 @@ function RegisterPage(props) {
                                 required
                                 fullWidth
                                 value={password}
-                                onChange={handleChange}
+                                onChange={onChange}
                                 name="password"
                                 label="Password"
                                 type="password"
@@ -119,13 +117,12 @@ function RegisterPage(props) {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onSubmit={handleSubmit}
                     >
                         Sign Up
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link href="/login" variant="body2">
                                 Already have an account? Sign in
                             </Link>
                         </Grid>

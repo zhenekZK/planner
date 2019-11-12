@@ -6,13 +6,13 @@ const database        = require('knex')(configuration);           // define data
 const bcrypt          = require('bcrypt');                        // bcrypt will encrypt passwords to be saved in db
 const crypto          = require('crypto');
 
-// const pool = new Pool({
-//     user: 'me',
-//     host: 'localhost',
-//     database: 'planner_api',
-//     password: 'localbear',
-//     port: 5432,
-// });
+const pool = new Pool({
+    user: 'me',
+    host: 'localhost',
+    database: 'planner_api',
+    password: 'localbear',
+    port: 5432,
+});
 
 const getLists = (request, response) => {
     pool.query('SELECT * FROM status', (error, results) => {
