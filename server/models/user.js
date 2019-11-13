@@ -92,10 +92,12 @@ const updateUserToken = (token, user) => {
 };
 
 const authenticate = (token) => {
-    findByToken(token)
-        .then((user) => {
-            return !!user;
-        })
+    return new Promise((resolve, reject) => {
+        findByToken(token)
+            .then((user) => {
+                resolve(!!user);
+            })
+    });
 };
 
 const findByToken = (token) => {
@@ -111,14 +113,18 @@ const findByToken = (token) => {
 const profile = (request, response) => {
     const token = request.body.token || request.decoded;
 
-    if (authenticate(token)) {
-        findByToken(token)
-            .then((user) => {
-                response.status(200).json(user)
-            })
-    } else {
-        response.status(404);
-    }
+    authenticate(token)
+        .then(result => {
+            if (result) {
+                findByToken(token)
+                    .then((user) => {
+                        response.status(200).json(user)
+                    })
+            }            else {
+                console.log('ERROR!');
+                response.status(404).json({error: 'HAHa!'});
+            }
+        })
 };
 
 module.exports = {

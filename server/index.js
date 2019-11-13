@@ -7,7 +7,7 @@ const db = require('./queries');
 const user = require('./models/user');
 const { checkToken } = require('./middlewares/checkToken');
 
-app.use(cors())
+app.use(cors());
 app.use(bodyParser.json());
 app.use(
     bodyParser.urlencoded({
@@ -30,14 +30,6 @@ app.post('/signin', user.signin);
 app.get('/profile', checkToken, user.profile);
 
 app.get('/lists', db.getLists);
-
-
-
-
-
-
-
-
 
 
 

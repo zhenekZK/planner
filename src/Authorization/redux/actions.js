@@ -10,7 +10,6 @@ export const userPostFetch = data => dispatch => {
     return axios.post('http://localhost:4000/signup', qs.stringify(data))
         .then((response) => response.data.user)
         .then(user => {
-            // debugger;
             if (user.token) {
                 localStorage.setItem("token", user.token);
                 dispatch(loginUser(user))
@@ -23,12 +22,10 @@ export const userPostFetch = data => dispatch => {
 export const userLoginFetch  = user => dispatch => {
     axios.post('http://localhost:4000/signin', qs.stringify(user))
         .then((response) => {
-                // debugger;
                 return response.data
             }
         )
         .then(user => {
-            // debugger;
             if (user.token) {
                 localStorage.setItem("token", user.token);
                 dispatch(loginUser(user))
@@ -39,36 +36,24 @@ export const userLoginFetch  = user => dispatch => {
 };
 
 export const getProfileFetch = () => dispatch => {
-    // const token = localStorage.token;
-    // debugger;
-    // if (token) {
-    //     axios.get('http://localhost:4000/profile', {
-    //         headers: {
-    //             Authorization: 'Bearer ' + token
-    //         }
-    //     }).then((response) => {
-    //             debugger;
-    //             return response.data
-    //         }
-    //     )
-        // return fetch("http://localhost:4000/profile", {
-        //     method: "GET",
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         Accept: 'application/json',
-        //         'Authorization': `Bearer ${token}`
-        //     }
-        // }).then(resp => resp.json())
-        //     .then(data => {
-        //         if (data.message) {
-        //             // An error will occur if the token is invalid.
-        //             // If this happens, you may want to remove the invalid token.
-        //             localStorage.removeItem("token")
-        //         } else {
-        //             dispatch(loginUser(data.user))
-        //         }
-        //     })
-    // }
+    const token = localStorage.token;
+    if (token) {
+        axios.get('http://localhost:4000/profile', {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
+            .then((response) => response.data)
+            .then((data) => {
+                if (data.message) {
+                    localStorage.removeItem("token");
+                    console.error(data.message, '!!!!');
+                } else {
+                    dispatch(loginUser(data));
+                }
+            }
+        )
+    }
 };
 
 export const loginUser = user => ({
