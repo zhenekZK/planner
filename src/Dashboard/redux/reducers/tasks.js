@@ -4,7 +4,7 @@ import {
     MARK_TASK_EDITABLE,
     MARK_TASKS_NOT_EDITABLE,
     REMOVE_TASK
-} from "../Dashboard/redux/actions";
+} from '../constants';
 
 export default (state = {}, action) => {
     switch (action.type) {
@@ -21,7 +21,6 @@ export default (state = {}, action) => {
                 isEdited: null
             };
         case EDIT_TASK:
-            debugger;
             return {
                 ...state,
                 byId: {

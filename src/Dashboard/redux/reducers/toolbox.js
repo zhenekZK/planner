@@ -3,7 +3,7 @@ import {
     ADD_NEW_LIST_POPUP_HIDE,
     TASK_EDIT_POPUP_SHOW,
     TASK_EDIT_POPUP_HIDE
-} from '../Dashboard/redux/actions';
+} from '../constants';
 
 const initialState = {
     showAddListPopup: false,

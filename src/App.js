@@ -6,7 +6,7 @@ import DashboardContainer from './Dashboard/DashboardContainer';
 import LoginPageContainer from './LoginPage/LoginPageContainer';
 import RegisterPageContainer from './RegisterPage/RegisterPageContainer';
 import { PrivateRoute } from './helpers/PrivateRoute';
-import { getProfileFetch } from './LoginPage/redux/actions'
+import { getProfileFetch } from './Authorization/redux/actions'
 
 export const history = createBrowserHistory();
 

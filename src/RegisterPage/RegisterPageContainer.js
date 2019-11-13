@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import RegisterPage from "./RegisterPage";
-import { userPostFetch } from "./redux/actions";
+import { userPostFetch } from "../Authorization/redux/actions";
 
 class RegisterPageContainer extends React.Component {
     constructor(props) {

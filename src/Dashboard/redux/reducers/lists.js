@@ -1,7 +1,7 @@
 import {
     ADD_NEW_LIST,
     REMOVE_LIST
-} from '../Dashboard/redux/actions';
+} from '../constants';
 
 export default (state = {}, action) => {
     switch (action.type) {
@@ -22,7 +22,7 @@ export default (state = {}, action) => {
                 }
             };
         case REMOVE_LIST:
-            return state;
+            return state; // will implement later
 
         default:
             return state

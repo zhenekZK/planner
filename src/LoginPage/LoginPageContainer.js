@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import LoginPage from './LoginPage';
-import { userLoginFetch } from './redux/actions';
+import { userLoginFetch } from '../Authorization/redux/actions';
 
 class LoginPageContainer extends React.Component {
     constructor(props) {
