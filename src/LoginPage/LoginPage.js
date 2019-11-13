@@ -67,6 +67,7 @@ function LoginPage(props) {
                                 id="email"
                                 label="Email Address"
                                 name="email"
+                                autoFocus
                             />
                         </Grid>
                         <Grid item xs={12}>

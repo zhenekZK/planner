@@ -31,12 +31,8 @@ class DashboardAddListPopupContainer extends Component {
             <DashboardAddListPopup
                 open={this.props.open}
                 title={this.state.title}
-                // name={name}
-                // surname={surname}
                 createList={this.createList}
                 updateTitle={this.updateTitle}
-                // setSurname={setSurname}
-                // handleAddTodo={handleAddTodo}
                 handleClose={this.props.closePopup}
             />
         );

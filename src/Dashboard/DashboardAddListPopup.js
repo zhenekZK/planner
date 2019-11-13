@@ -26,20 +26,10 @@ function DashboardAddListPopup(props) {
                         value={title}
                         onChange={(e) => updateTitle(e.target.value)}
                         margin="dense"
-                        // id="list-name"
                         label="List Title"
                         type="text"
                         fullWidth
                     />
-                    {/*<TextField*/}
-                    {/*    value={surname}*/}
-                    {/*    onChange={(e) => setSurname(e.target.value)}*/}
-                    {/*    margin="dense"*/}
-                    {/*    id="surname"*/}
-                    {/*    label="Surname"*/}
-                    {/*    type="text"*/}
-                    {/*    fullWidth*/}
-                    {/*/>*/}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">

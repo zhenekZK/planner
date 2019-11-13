@@ -1,3 +1,8 @@
+import {
+    LOGIN_USER_SUCCESS,
+    LOGOUT_USER
+} from './constants';
+
 import axios from "axios";
 import qs from "qs";
 
@@ -5,7 +10,7 @@ export const userPostFetch = data => dispatch => {
     return axios.post('http://localhost:4000/signup', qs.stringify(data))
         .then((response) => response.data.user)
         .then(user => {
-            debugger;
+            // debugger;
             if (user.token) {
                 localStorage.setItem("token", user.token);
                 dispatch(loginUser(user))
@@ -18,12 +23,12 @@ export const userPostFetch = data => dispatch => {
 export const userLoginFetch  = user => dispatch => {
     axios.post('http://localhost:4000/signin', qs.stringify(user))
         .then((response) => {
-                debugger;
+                // debugger;
                 return response.data
             }
         )
         .then(user => {
-            debugger;
+            // debugger;
             if (user.token) {
                 localStorage.setItem("token", user.token);
                 dispatch(loginUser(user))
@@ -67,6 +72,14 @@ export const getProfileFetch = () => dispatch => {
 };
 
 export const loginUser = user => ({
-    type: 'LOGIN_USER_SUCCESS',
+    type: LOGIN_USER_SUCCESS,
     payload: user
 });
+
+export const logoutUser = () => {
+    localStorage.removeItem("token");
+
+    return {
+        type: LOGOUT_USER
+    };
+};

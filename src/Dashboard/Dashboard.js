@@ -1,5 +1,6 @@
 import React from 'react';
 import DashboardListContainer from "./DashboardListContainer";
+import DashboardUserPanelContainer from "./DashboardUserPanelContainer";
 import DashboardToolboxContainer from "./DashboardToolboxContainer";
 import DashboardAddListPopupContainer from "./DashboardAddListPopupContainer";
 import DashboardTaskEditPopupContainer from "./DashboardTaskEditPopupContainer";
@@ -30,6 +31,7 @@ function Dashboard(props) {
         <React.Fragment>
             <CssBaseline />
             <Container maxWidth="md" className={classes.root}>
+                <DashboardUserPanelContainer />
                 <DashboardToolboxContainer />
                 <Grid container spacing={3}>
                     {lists.map((list, index) => (
