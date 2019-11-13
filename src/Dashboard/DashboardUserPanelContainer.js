@@ -8,7 +8,7 @@ class DashboardUserPanelContainer extends Component {
     render() {
         return (
             <DashboardUserPanel
-                name={this.props.user.username}
+                name={this.props.user.name}
                 logOut = {this.props.logOut}
             />
         );

@@ -31,8 +31,6 @@ app.get('/profile', checkToken, user.profile);
 
 app.get('/lists', db.getLists);
 
-
-
 // app.get('/', function (req, res, next) {
 //     res.render('index', {title: "Home", userData: req.user, messages: {danger: req.flash('danger'), warning: req.flash('warning'), success: req.flash('success')}});
 //

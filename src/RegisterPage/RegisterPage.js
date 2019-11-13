@@ -40,8 +40,8 @@ function RegisterPage(props) {
     const classes = useStyles();
 
     const {
-        username,
-        lastname,
+        name,
+        surname,
         email,
         password,
         onChange,
@@ -63,8 +63,8 @@ function RegisterPage(props) {
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 required
-                                name="username"
-                                value={username}
+                                name="name"
+                                value={name}
                                 onChange={onChange}
                                 variant="outlined"
                                 fullWidth
@@ -78,11 +78,11 @@ function RegisterPage(props) {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                value={lastname}
+                                value={surname}
+                                name="surname"
                                 onChange={onChange}
                                 id="lastName"
                                 label="Last Name"
-                                name="lastname"
                             />
                         </Grid>
                         <Grid item xs={12}>

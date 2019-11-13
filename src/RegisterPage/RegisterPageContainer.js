@@ -9,8 +9,8 @@ class RegisterPageContainer extends React.Component {
         super(props);
 
         this.state = {
-            username: '',
-            lastname: '',
+            name: '',
+            surname: '',
             email: '',
             password: ''
         };
@@ -26,13 +26,19 @@ class RegisterPageContainer extends React.Component {
 
         const data = this.state;
         this.props.createUser(data);
+        this.setState({
+            name: '',
+            surname: '',
+            email: '',
+            password: ''
+        });
     };
 
     render() {
         return (
             <RegisterPage
-                username={this.state.username}
-                lastname={this.state.lastname}
+                name={this.state.name}
+                surname={this.state.surname}
                 email={this.state.email}
                 password={this.state.password}
                 onChange={this.handleChange}

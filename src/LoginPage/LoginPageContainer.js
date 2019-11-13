@@ -12,7 +12,7 @@ class LoginPageContainer extends React.Component {
 
         this.state = {
             email: '',
-            password: '',
+            password: ''
         };
     }
 
@@ -24,11 +24,12 @@ class LoginPageContainer extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const username = this.state.email;
-        const password = this.state.password;
-
-        const data = { username, password };
+        const data = this.state;
         this.props.loginUser(data);
+        this.setState({
+            email: '',
+            password: ''
+        });
     };
 
     render() {

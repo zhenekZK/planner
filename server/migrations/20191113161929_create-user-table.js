@@ -1,16 +1,13 @@
 
 exports.up = function(knex) {
-    let createQuery = `CREATE TABLE users(
+    let createQuery = `CREATE TABLE user(
     id SERIAL PRIMARY KEY NOT NULL,
-    username TEXT,
-    token TEXT,
-    password_digest TEXT,
-    created_at TIMESTAMP
+    title TEXT
   )`;
     return knex.raw(createQuery);
 };
 
 exports.down = function(knex) {
-    let dropQuery = `DROP TABLE users`;
+    let dropQuery = `DROP TABLE user`;
     return knex.raw(dropQuery);
 };

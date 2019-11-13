@@ -33,8 +33,8 @@ const hashPassword = (password) => {
 
 const createUser = (user) => {
     return database.raw(
-        "INSERT INTO users (username, password_digest, token, created_at) VALUES (?, ?, ?, ?) RETURNING id, username, created_at, token",
-        [user.username, user.password_digest, user.token, new Date()]
+        "INSERT INTO users (name, surname, email, password_digest, token, created_at) VALUES (?, ?, ?, ?, ?, ?) RETURNING id, name, surname, email, created_at, token",
+        [user.name, user.surname, user.email, user.password_digest, user.token, new Date()]
     )
         .then((data) => data.rows[0]);
 };
@@ -67,7 +67,7 @@ const signin = (request, response) => {
 };
 
 const findUser = (userReq) => {
-    return database.raw("SELECT * FROM users WHERE username = ?", [userReq.username])
+    return database.raw("SELECT * FROM users WHERE email = ?", [userReq.email])
         .then((data) => data.rows[0])
 };
 
@@ -87,7 +87,7 @@ const checkPassword = (reqPassword, foundUser) => {
 };
 
 const updateUserToken = (token, user) => {
-    return database.raw("UPDATE users SET token = ? WHERE id = ? RETURNING id, username, token", [token, user.id])
+    return database.raw("UPDATE users SET token = ? WHERE id = ? RETURNING id, name, surname, email, token", [token, user.id])
         .then((data) => data.rows[0])
 };
 
