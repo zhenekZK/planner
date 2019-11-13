@@ -20,6 +20,8 @@ class DashboardAddListPopupContainer extends Component {
 
         this.props.createList(data);
         this.props.closePopup();
+
+        this.setState({ title: '' });
     };
 
     updateTitle = (title) => {

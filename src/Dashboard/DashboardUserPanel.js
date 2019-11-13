@@ -17,9 +17,6 @@ const useStyles = makeStyles(theme => ({
         border: 0,
         borderRadius: 7,
         padding: theme.spacing(2)
-    },
-    title: {
-        margin: '0 0 25px'
     }
 }));
 

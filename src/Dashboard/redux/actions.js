@@ -12,12 +12,31 @@ import {
     ADD_NEW_LIST_POPUP_HIDE
 } from './constants';
 
-export const addList = ({ title }) => ({
-    type: ADD_NEW_LIST,
-    payload: {
-        title
-    }
-});
+import axios from "axios";
+import qs from "qs";
+
+export const addList = (title) => dispatch => {
+    const token = localStorage.token;
+    return axios.post('http://localhost:4000/createlist', qs.stringify(title), {
+        headers: {
+            Authorization: 'Bearer ' + token
+        }
+    })
+        .then((response) => response.data)
+        .then(({message, ...data}) => {
+            debugger
+            if (message) {
+                throw new Error('Problem with list adding');
+            } else {
+                dispatch({
+                    type: ADD_NEW_LIST,
+                    payload: {
+                        ...data
+                    }
+                });
+            }
+        })
+};
 
 export const removeList = (id) => ({
     type: REMOVE_LIST,

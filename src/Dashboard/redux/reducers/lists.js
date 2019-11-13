@@ -6,17 +6,19 @@ import {
 export default (state = {}, action) => {
     switch (action.type) {
         case ADD_NEW_LIST:
+            const { id, title } = action.payload;
+
             return {
                 ...state,
                 allIds: [
                     ...state.allIds,
-                    '' + state.allIds.length
+                    id
                 ],
                 byId: {
                     ...state.byId,
-                    ['' + state.allIds.length]: {
-                        id: state.allIds.length,
-                        title: action.payload.title,
+                    [id]: {
+                        id: id,
+                        title: title,
                         tasks: []
                     }
                 }

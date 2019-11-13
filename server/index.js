@@ -5,6 +5,7 @@ const app = express();
 const port = 4000;
 const db = require('./queries');
 const user = require('./models/user');
+const list = require('./models/list');
 const { checkToken } = require('./middlewares/checkToken');
 
 app.use(cors());
@@ -24,12 +25,9 @@ app.listen(port, () => {
 });
 
 app.post('/signup', user.signup);
-
 app.post('/signin', user.signin);
-
 app.get('/profile', checkToken, user.profile);
-
-app.get('/lists', db.getLists);
+app.post('/createlist', checkToken, list.addList);
 
 // app.get('/', function (req, res, next) {
 //     res.render('index', {title: "Home", userData: req.user, messages: {danger: req.flash('danger'), warning: req.flash('warning'), success: req.flash('success')}});

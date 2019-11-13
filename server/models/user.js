@@ -120,9 +120,9 @@ const profile = (request, response) => {
                     .then((user) => {
                         response.status(200).json(user)
                     })
-            }            else {
+            } else {
                 console.log('ERROR!');
-                response.status(404).json({error: 'HAHa!'});
+                response.status(404).json({message: 'HAHA!', type: 'error'});
             }
         })
 };
@@ -130,5 +130,6 @@ const profile = (request, response) => {
 module.exports = {
     signup,
     signin,
-    profile
+    profile,
+    authenticate
 };
