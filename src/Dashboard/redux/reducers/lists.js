@@ -28,3 +28,17 @@ export default (state = {}, action) => {
             return state
     }
 }
+
+export const selectListIds = (state) => state.lists.allIds;
+
+export const selectListById = (state, id) => state.lists.byId[id];
+
+export const selectAllLists = (state) => {
+    return {
+        ...state.lists.byId
+    }
+};
+
+export const selectAllListsAsArray = (state) => {
+    return selectListIds(state).map(id => selectListById(state, id))
+};

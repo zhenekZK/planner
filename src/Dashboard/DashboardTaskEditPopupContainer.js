@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DashboardTaskEditPopup from "./DashboardTaskEditPopup";
-import {editTask, hideEditTaskPopup, markTasksNotEditable, showEditTaskPopup} from './redux/actions';
+import {
+    editTask,
+    hideEditTaskPopup,
+    markTasksNotEditable,
+    showEditTaskPopup
+} from './redux/actions';
+import { selectTaskById, selectEditableTaskId } from './redux/reducers/tasks';
+import { selectAllLists } from './redux/reducers/lists';
+import { selectTaskEditPopupIsShowing } from './redux/reducers/toolbox';
 
 class DashboardTaskEditPopupContainer extends Component {
     constructor(props) {
@@ -78,11 +86,9 @@ class DashboardTaskEditPopupContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    open: state.toolbox.showTaskEditPopup,
-    taskInfo: state.tasks.byId[state.tasks.isEdited],
-    allLists: {
-        ...state.lists.byId
-    }
+    open: selectTaskEditPopupIsShowing(state),
+    taskInfo: selectTaskById(state, selectEditableTaskId(state)),
+    allLists: selectAllLists(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

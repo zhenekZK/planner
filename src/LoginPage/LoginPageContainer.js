@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 
 import LoginPage from './LoginPage';
 import { userLoginFetch } from '../Authorization/redux/actions';
+import { selectCurrentUserToken } from '../Authorization/redux/reducers/authentication';
 
 class LoginPageContainer extends React.Component {
     constructor(props) {
@@ -46,7 +47,7 @@ class LoginPageContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        isLogged: !!state.currentUser.token
+        isLogged: !!selectCurrentUserToken(state)
     }
 };
 

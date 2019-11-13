@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect';
+
 import {
     ADD_NEW_TASK,
     EDIT_TASK,
@@ -13,20 +15,20 @@ export default (state = {}, action) => {
         case MARK_TASK_EDITABLE:
             return {
                 ...state,
-                isEdited: action.payload.id
+                isEditable: action.payload.id
             };
         case MARK_TASKS_NOT_EDITABLE:
             return {
                 ...state,
-                isEdited: null
+                isEditable: null
             };
         case EDIT_TASK:
             return {
                 ...state,
                 byId: {
                     ...state.byId,
-                    [state.isEdited]: {
-                        ...state.byId[state.isEdited],
+                    [state.isEditable]: {
+                        ...state.byId[state.isEditable],
                         title: action.payload.title,
                         priority: action.payload.priority,
                         description: action.payload.description,
@@ -55,3 +57,23 @@ export default (state = {}, action) => {
             return state;
     }
 }
+
+export const selectTaskIds = (state) => {
+    return state.tasks.allIds;
+};
+
+export const selectTaskById = (state, id) => {
+    return state.tasks.byId[id];
+};
+
+export const selectTasksByListId = (state, id) => {
+    const ids = selectTaskIds(state);
+
+    const fitIds = ids.filter(taskId => {
+        return selectTaskById(state, taskId).list === id
+    });
+
+    return fitIds.map(taskId => selectTaskById(state, taskId));
+};
+
+export const selectEditableTaskId = (state) => state.tasks.isEditable;

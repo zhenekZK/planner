@@ -36,3 +36,7 @@ export default (state = initialState, action) => {
             return state
     }
 }
+
+export const selectAddListPopupIsShowing = (state) => state.toolbox.showAddListPopup;
+
+export const selectTaskEditPopupIsShowing = (state) => state.toolbox.showTaskEditPopup;

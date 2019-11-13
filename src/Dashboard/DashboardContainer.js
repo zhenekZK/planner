@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Dashboard from "./Dashboard";
 import { connect } from 'react-redux';
+import { selectAllListsAsArray } from './redux/reducers/lists';
 
 class DashboardContainer extends Component {
     render() {
@@ -14,7 +15,7 @@ class DashboardContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    lists: state.lists.allIds.map(id => state.lists.byId[id])
+    lists: selectAllListsAsArray(state)
 });
 
 export default connect(mapStateToProps)(DashboardContainer);

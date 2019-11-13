@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import DashboardList from './DashboardList';
 
+import { selectTasksByListId } from './redux/reducers/tasks';
+
 class DashboardListContainer extends Component {
     render() {
         const {
@@ -15,19 +17,8 @@ class DashboardListContainer extends Component {
     }
 }
 
-const getTasksByListId = (id, state) => {
-    const taskIds = state.tasks.allIds;
-
-    const fitIds = taskIds.filter(taskId => {
-        const task = state.tasks.byId[taskId];
-        return task.list === id
-    });
-
-    return fitIds.map(taskId => state.tasks.byId[taskId]);
-};
-
 const mapStateToProps = (state, props) => ({
-    tasks: getTasksByListId(props.id, state)
+    tasks: selectTasksByListId(state, props.id)
 });
 
 export default connect(mapStateToProps)(DashboardListContainer);

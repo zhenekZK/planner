@@ -20,3 +20,7 @@ export default function authentication(state = {}, action) {
             return state;
     }
 }
+
+export const selectCurrentUser = (state) => state.currentUser;
+
+export const selectCurrentUserToken = (state) => state.currentUser.token;

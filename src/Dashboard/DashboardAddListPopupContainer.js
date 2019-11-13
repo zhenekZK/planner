@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DashboardAddListPopup from "./DashboardAddListPopup";
 import { addList, hideAddListPopup } from './redux/actions';
-
+import { selectAddListPopupIsShowing } from './redux/reducers/toolbox';
 
 class DashboardAddListPopupContainer extends Component {
     constructor(props) {
@@ -40,7 +40,7 @@ class DashboardAddListPopupContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    open: state.toolbox.showAddListPopup
+    open: selectAddListPopupIsShowing(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
