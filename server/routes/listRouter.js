@@ -1,9 +1,9 @@
 const express = require("express");
 const listController = require("../controllers/listController");
 const listRouter = express.Router();
-const { checkToken } = require('../middlewares/checkToken');
+const { authenticate } = require('../middlewares/authenticate');
 
-listRouter.post("/create", checkToken, listController.addList);
-listRouter.get("/", checkToken, listController.getLists);
+listRouter.post("/create", authenticate, listController.addList);
+listRouter.get("/", authenticate, listController.getLists);
 
 module.exports = listRouter;

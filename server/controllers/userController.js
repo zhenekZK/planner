@@ -101,15 +101,6 @@ const updateUserToken = (token, user) => {
         .then((data) => data[0]);
 };
 
-const authenticate = (token) => {
-    return new Promise((resolve, reject) => {
-        findByToken(token)
-            .then((user) => {
-                resolve(!!user);
-            })
-    });
-};
-
 const findByToken = (token) => {
     return database.from('users')
         .select()
@@ -121,19 +112,11 @@ const findByToken = (token) => {
 };
 
 const profile = (request, response) => {
-    const token = request.body.token || request.decoded;
+    const token = request.body.token || request.decodedToken;
 
-    authenticate(token)
-        .then(result => {
-            if (result) {
-                findByToken(token)
-                    .then((user) => {
-                        response.status(200).json(user)
-                    })
-            } else {
-                console.log('ERROR!');
-                response.status(404).json({message: 'HAHA!', type: 'error'});
-            }
+    findByToken(token)
+        .then((user) => {
+            response.status(200).json(user)
         })
 };
 
@@ -141,5 +124,5 @@ module.exports = {
     signup,
     signin,
     profile,
-    authenticate
+    findByToken
 };
