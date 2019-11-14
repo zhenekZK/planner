@@ -7,7 +7,7 @@ import axios from "axios";
 import qs from "qs";
 
 export const userPostFetch = data => dispatch => {
-    return axios.post('http://localhost:4000/signup', qs.stringify(data))
+    return axios.post('http://localhost:4000/user/create', qs.stringify(data))
         .then((response) => response.data.user)
         .then(user => {
             if (user.token) {
@@ -20,7 +20,7 @@ export const userPostFetch = data => dispatch => {
 };
 
 export const userLoginFetch  = user => dispatch => {
-    axios.post('http://localhost:4000/signin', qs.stringify(user))
+    axios.post('http://localhost:4000/user/login', qs.stringify(user))
         .then((response) => {
                 return response.data
             }
@@ -38,7 +38,7 @@ export const userLoginFetch  = user => dispatch => {
 export const getProfileFetch = () => dispatch => {
     const token = localStorage.token;
     if (token) {
-        axios.get('http://localhost:4000/profile', {
+        axios.get('http://localhost:4000/user/profile', {
             headers: {
                 Authorization: 'Bearer ' + token
             }

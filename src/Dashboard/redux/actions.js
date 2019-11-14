@@ -17,7 +17,7 @@ import qs from "qs";
 
 export const addList = (title) => dispatch => {
     const token = localStorage.token;
-    return axios.post('http://localhost:4000/createlist', qs.stringify(title), {
+    return axios.post('http://localhost:4000/lists/create', qs.stringify(title), {
         headers: {
             Authorization: 'Bearer ' + token
         }
