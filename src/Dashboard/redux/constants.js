@@ -1,3 +1,6 @@
+export const TASK_FETCH_START = 'TASK_FETCH_START';
+export const TASK_FETCH_SUCCESS = 'TASK_FETCH_SUCCESS';
+export const TASK_FETCH_FAILED = 'TASK_FETCH_FAILED';
 export const ADD_NEW_LIST = 'ADD_NEW_LIST';
 export const REMOVE_LIST = 'REMOVE_LIST';
 export const ADD_NEW_TASK = 'ADD_NEW_TASK';

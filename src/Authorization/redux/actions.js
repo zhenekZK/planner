@@ -1,5 +1,7 @@
 import {
+    LOGIN_USER_STARTED,
     LOGIN_USER_SUCCESS,
+    LOGIN_USER_FAILED,
     LOGOUT_USER
 } from './constants';
 
@@ -20,6 +22,8 @@ export const userPostFetch = data => dispatch => {
 };
 
 export const userLoginFetch  = user => dispatch => {
+    dispatch({ type: LOGIN_USER_STARTED });
+
     axios.post('http://localhost:4000/user/login', qs.stringify(user))
         .then((response) => {
                 return response.data
@@ -47,6 +51,10 @@ export const getProfileFetch = () => dispatch => {
             .then((data) => {
                 if (data.message) {
                     localStorage.removeItem("token");
+                    dispatch({
+                        type: LOGIN_USER_FAILED,
+                        payload: { message: data.message }
+                    });
                     console.error(data.message, '!!!!');
                 } else {
                     dispatch(loginUser(data));

@@ -21,7 +21,40 @@ const createList = (data) => {
 const getLists = function (request, response) {
     return database.from('list')
         .select()
-        .then((data) => response.status(200).json(data));
+        .then((data) => {
+            console.log(data);
+            const listWithTasks = data.map(async (list) => findTasksById(list.id).then(tasks => {
+                console.log(list);
+                let test = { ...list, tasks: [ ...tasks ] };
+                console.log(test, 'TEST OF RESULT LIST');
+                return { ...list, tasks: [...tasks] }
+            }));
+            console.log(listWithTasks);
+            Promise.all(listWithTasks).then((result) => {
+                console.log(result, 'RESULT ALLO');
+                response.status(200).json(result);
+            });
+        }
+        );
+};
+
+const findTasksById = function (id) {
+    return database.select({
+        id: 'task.id',
+        title: 'task.title',
+        description: 'task.description',
+        status: 'status.title',
+        priority: 'priority.title',
+        list: 'task.list_id',
+        owner: 'task.owner_id'
+    }).from('task')
+        .where({ list_id: id })
+        .innerJoin('status', 'task.status_id', 'status.id')
+        .innerJoin('priority', 'task.priority_id', 'priority.id')
+        .then((data) => {
+            console.log(data);
+            return data;
+        });
 };
 
 module.exports = {

@@ -1,4 +1,7 @@
 import {
+    TASK_FETCH_START,
+    TASK_FETCH_SUCCESS,
+    TASK_FETCH_FAILED,
     ADD_NEW_LIST,
     REMOVE_LIST,
     ADD_NEW_TASK,
@@ -12,8 +15,33 @@ import {
     ADD_NEW_LIST_POPUP_HIDE
 } from './constants';
 
+import { normalize, schema } from 'normalizr';
+
+const task = new schema.Entity('tasks');
+const list = new chema.Entity('lists', {
+    tasks: [task]
+});
+
 import axios from "axios";
 import qs from "qs";
+
+export const getTasksFetch = () => dispatch => {
+    dispatch({ type: TASK_FETCH_START });
+    const token = localStorage.token;
+    axios.get('http://localhost:4000/lists/', {
+        headers: {
+            Authorization: 'Bearer ' + token
+        }
+    }).then((response) => response.data)
+        .then(({ message, ...data }) => {
+            debugger;
+            if (message) {
+                throw new Error('Problem with list adding');
+            } else {
+                dispatch({ type: TASK_FETCH_SUCCESS, payload: data})
+            }
+        })
+};
 
 export const addList = (title) => dispatch => {
     const token = localStorage.token;
@@ -23,8 +51,7 @@ export const addList = (title) => dispatch => {
         }
     })
         .then((response) => response.data)
-        .then(({message, ...data}) => {
-            debugger
+        .then(({ message, ...data }) => {
             if (message) {
                 throw new Error('Problem with list adding');
             } else {
@@ -90,4 +117,3 @@ export const showAddListPopup = () => ({
 export const hideAddListPopup = () => ({
     type: ADD_NEW_LIST_POPUP_HIDE
 });
-

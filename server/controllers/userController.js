@@ -78,6 +78,13 @@ const findUser = (userReq) => {
         .then((data) => data[0]);
 };
 
+const findUserById = (id) => {
+    return database.from('users')
+        .select()
+        .where({ id })
+        .then((data) => data[0]);
+};
+
 const checkPassword = (reqPassword, foundUser) => {
     return new Promise((resolve, reject) =>
         bcrypt.compare(reqPassword, foundUser.password_digest, (err, response) => {
@@ -124,5 +131,6 @@ module.exports = {
     signup,
     signin,
     profile,
-    findByToken
+    findByToken,
+    findUserById
 };

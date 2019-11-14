@@ -10,7 +10,6 @@ export default function authentication(state = {}, action) {
         case LOGIN_USER_STARTED:
             return state; // will be implemented later
         case LOGIN_USER_SUCCESS:
-            // debugger;
             return action.payload;
         case LOGIN_USER_FAILED:
             return state; // will be implemented later

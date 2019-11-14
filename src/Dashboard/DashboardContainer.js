@@ -2,8 +2,13 @@ import React, { Component } from 'react';
 import Dashboard from "./Dashboard";
 import { connect } from 'react-redux';
 import { selectAllListsAsArray } from './redux/reducers/lists';
+import { getTasksFetch } from './redux/actions';
 
 class DashboardContainer extends Component {
+    componentDidMount() {
+        this.props.loadTasks();
+    }
+
     render() {
         return (
             <Dashboard
@@ -18,4 +23,8 @@ const mapStateToProps = (state) => ({
     lists: selectAllListsAsArray(state)
 });
 
-export default connect(mapStateToProps)(DashboardContainer);
+const mapDispatchToProps = (dispatch) => ({
+    loadTasks: () => dispatch(getTasksFetch())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardContainer);
