@@ -45,11 +45,14 @@ function DashboardTask(props) {
         title,
         description,
         // createdBy,
+        assigns,
         priority,
         status,
         editTask,
         deleteTask
     } = props;
+
+    console.log(props, 'task');
 
     return (
         <Grid item xs={12} sm={6}>
@@ -58,6 +61,7 @@ function DashboardTask(props) {
                 <Typography gutterBottom>{description}</Typography>
                 <div>{`Status: ${status}`}</div>
                 <div>{`Priority: ${priority}`}</div>
+                <div>{`Assigns: ${assigns.join(', ')}`}</div>
                 {/*<div>{`createdBy: ${createdBy}`}</div>*/}
                 <IconButton
                     onClick={() => editTask(id)}

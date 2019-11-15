@@ -3,16 +3,14 @@ import {connect} from 'react-redux';
 import DashboardList from './DashboardList';
 
 import { selectTasksByListId } from './redux/reducers/tasks';
+import { removeList } from "./redux/actions";
 
 class DashboardListContainer extends Component {
     render() {
-        const {
-            title,
-            tasks
-        } = this.props;
+        console.log(this.props, 'lists');
 
         return (
-            <DashboardList title={title} tasks={tasks} />
+            <DashboardList { ...this.props } />
         );
     }
 }
@@ -21,4 +19,8 @@ const mapStateToProps = (state, props) => ({
     tasks: selectTasksByListId(state, props.id)
 });
 
-export default connect(mapStateToProps)(DashboardListContainer);
+const mapDispatchToProps = (dispatch) => ({
+    deleteList: (id) => dispatch(removeList(id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardListContainer);

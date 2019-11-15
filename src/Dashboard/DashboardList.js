@@ -32,31 +32,27 @@ function DashboardList(props) {
     const classes = useStyles();
 
     const {
+        id,
         title,
-        tasks
+        tasks,
+        deleteList
     } = props;
 
+    console.log(props);
     return (
         <Grid item xs={12} sm={6}>
             <Paper className={classes.list}>
                 <Typography align="center" className={classes.title} gutterBottom>{title}</Typography>
                 <Grid container spacing={3}>
                     {tasks ? tasks.map((task, index) => (
-                        <DashboardTaskContainer
-                            key={index}
-                            id={task.id}
-                            title={task.title}
-                            description={task.description}
-                            createdBy={task.createdBy}
-                            priority={task.priority}
-                            status={task.status}
-                        />
+                        <DashboardTaskContainer key={index} { ...task } />
                     )) : null}
                 </Grid>
                 <IconButton
                     className={classes.delete}
                     disableRipple={true}
                     disableFocusRipple={true}
+                    onClick={(e) => deleteList(id)}
                 >
                     <DeleteIcon size='small' />
                 </IconButton>

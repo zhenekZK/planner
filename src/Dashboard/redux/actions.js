@@ -39,7 +39,7 @@ export const getTasksFetch = () => dispatch => {
                     tasks: [task]
                 });
                 const normalizedData = normalize(data, { lists: [list] });
-                debugger;
+                // debugger;
                 dispatch({
                     type: DATA_FETCH_SUCCESS,
                     payload: normalizedData.entities
@@ -70,7 +70,23 @@ export const addList = (title) => dispatch => {
         })
 };
 
-export const removeList = (id) => ({
+export const removeList = (id) => dispatch => {
+    const token = localStorage.token;
+    debugger;
+    return axios.post('http://localhost:4000/lists/delete', qs.stringify({id}), {
+        headers: {
+            Authorization: 'Bearer ' + token
+        }
+    }).then(({ message }) => {
+        if (message) {
+            throw new Error('Problem with list deleting');
+        } else {
+            dispatch(deleteList(id));
+        }
+    });
+};
+
+const deleteList = (id) => ({
     type: REMOVE_LIST,
     payload: {
         id

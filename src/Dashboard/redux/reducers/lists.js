@@ -22,7 +22,12 @@ const listsById = (state = {}, action) => {
                 }
             };
         case REMOVE_LIST:
-            return state; // will implement later
+            debugger;
+            const data = {...state.filter((list => list.id !== action.payload.id))};
+            console.log(data);
+            return {
+                ...state.filter((list => list.id !== action.payload.id))
+            };
 
         default:
             return state
@@ -40,6 +45,10 @@ const allLists = (state = [], action) => {
             return [
                 ...state,
                 id
+            ];
+        case REMOVE_LIST:
+            return [
+                ...state.filter(listId => listId !== action.payload.id)
             ];
         default:
             return state;

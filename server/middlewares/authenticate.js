@@ -1,10 +1,10 @@
 const { findByToken } = require('../controllers/userController');
 
 const authenticate = (request, response, next) => {
-    let token = request.headers['x-access-token'] || request.headers['authorization']; // Express headers are auto converted to lowercase
+    let token = prepareToken(request.headers['x-access-token'] || request.headers['authorization']); // Express headers are auto converted to lowercase
 
     if (token) {
-        findByToken(prepareToken(token))
+        findByToken(token)
             .then((user) => {
                 if (user) {
                     request.decodedToken = token;
