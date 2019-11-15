@@ -23,16 +23,16 @@ const getLists = function (request, response) {
         .select()
         .then((data) => {
             console.log(data);
-            const listWithTasks = data.map(async (list) => findTasksById(list.id).then(tasks => {
-                console.log(list);
-                let test = { ...list, tasks: [ ...tasks ] };
-                console.log(test, 'TEST OF RESULT LIST');
-                return { ...list, tasks: [...tasks] }
-            }));
+            const listWithTasks = data.map(async (list) => findTasksById(list.id)
+                .then(tasks => {
+                    console.log(list);
+                    return { ...list, tasks: [...tasks] }
+                })
+            );
             console.log(listWithTasks);
             Promise.all(listWithTasks).then((result) => {
                 console.log(result, 'RESULT ALLO');
-                response.status(200).json(result);
+                response.status(200).json({ lists: result });
             });
         }
         );
@@ -46,7 +46,8 @@ const findTasksById = function (id) {
         status: 'status.title',
         priority: 'priority.title',
         list: 'task.list_id',
-        owner: 'task.owner_id'
+        owner: 'task.owner_id',
+        updatedBy: 'task.updatedby_id'
     }).from('task')
         .where({ list_id: id })
         .innerJoin('status', 'task.status_id', 'status.id')

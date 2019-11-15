@@ -1,15 +1,16 @@
-import { createSelector } from 'reselect';
-
 import {
-    ADD_NEW_TASK,
+    ADD_NEW_TASK, DATA_FETCH_SUCCESS,
     EDIT_TASK,
     MARK_TASK_EDITABLE,
     MARK_TASKS_NOT_EDITABLE,
     REMOVE_TASK
 } from '../constants';
+import {combineReducers} from "redux";
 
-export default (state = {}, action) => {
+const tasksById = (state = {}, action) => {
     switch (action.type) {
+        case DATA_FETCH_SUCCESS:
+            return {...state, ...action.payload.tasks};
         case ADD_NEW_TASK:
             return state;
         case MARK_TASK_EDITABLE:
@@ -38,25 +39,42 @@ export default (state = {}, action) => {
                 }
             };
         case REMOVE_TASK:
-            const newIds = [...state.allIds.filter((id) => action.payload.id !== id)];
             return {
                 ...state,
-                allIds: [
-                    ...newIds
-                ],
-                byId: {
-                    ...Object.keys(state.byId)
-                        .filter(key => action.payload.id !== key)
-                        .reduce((obj, key) => {
-                            obj[key] = state.byId[key];
-                            return obj;
-                        }, {})
-                }
+                ...Object.keys(state)
+                    .filter(key => action.payload.id !== parseInt(key))
+                    .reduce((obj, key) => {
+                        obj[key] = state[key];
+                        return obj;
+                    }, {})
             };
         default:
             return state;
     }
-}
+};
+
+const allTasks =  (state = [], action) => {
+    switch (action.type) {
+        case DATA_FETCH_SUCCESS:
+            return [...Object.keys(action.payload.tasks).map((key) => parseInt(key))];
+        case ADD_NEW_TASK:
+            return state;
+        case REMOVE_TASK:
+            const newIds = [...state.filter((id) => {
+                return action.payload.id !== id
+            })];
+            return [
+                ...newIds
+            ];
+        default:
+            return state;
+    }
+};
+
+export default combineReducers({
+    byId: tasksById,
+    allIds: allTasks
+});
 
 export const selectTaskIds = (state) => {
     return state.tasks.allIds;

@@ -1,7 +1,7 @@
 import {
-    TASK_FETCH_START,
-    TASK_FETCH_SUCCESS,
-    TASK_FETCH_FAILED,
+    DATA_FETCH_START,
+    DATA_FETCH_SUCCESS,
+    DATA_FETCH_FAILED,
     ADD_NEW_LIST,
     REMOVE_LIST,
     ADD_NEW_TASK,
@@ -15,18 +15,12 @@ import {
     ADD_NEW_LIST_POPUP_HIDE
 } from './constants';
 
-import { normalize, schema } from 'normalizr';
-
-const task = new schema.Entity('tasks');
-const list = new chema.Entity('lists', {
-    tasks: [task]
-});
-
 import axios from "axios";
 import qs from "qs";
+import {normalize, schema} from "normalizr";
 
 export const getTasksFetch = () => dispatch => {
-    dispatch({ type: TASK_FETCH_START });
+    dispatch({ type: DATA_FETCH_START });
     const token = localStorage.token;
     axios.get('http://localhost:4000/lists/', {
         headers: {
@@ -34,11 +28,19 @@ export const getTasksFetch = () => dispatch => {
         }
     }).then((response) => response.data)
         .then(({ message, ...data }) => {
-            debugger;
             if (message) {
                 throw new Error('Problem with list adding');
             } else {
-                dispatch({ type: TASK_FETCH_SUCCESS, payload: data})
+                const task = new schema.Entity('tasks');
+                const list = new schema.Entity('lists', {
+                    tasks: [task]
+                });
+                const normalizedData = normalize(data, { lists: [list] });
+
+                dispatch({
+                    type: DATA_FETCH_SUCCESS,
+                    payload: normalizedData.entities
+                });
             }
         })
 };

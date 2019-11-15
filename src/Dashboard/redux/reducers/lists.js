@@ -1,26 +1,24 @@
 import {
-    ADD_NEW_LIST,
+    ADD_NEW_LIST, DATA_FETCH_SUCCESS,
     REMOVE_LIST
 } from '../constants';
 
-export default (state = {}, action) => {
+import { combineReducers } from 'redux';
+
+const listsById = (state = {}, action) => {
     switch (action.type) {
+        case DATA_FETCH_SUCCESS:
+            console.log(action.payload);
+            return {...state, ...action.payload.lists};
         case ADD_NEW_LIST:
             const { id, title } = action.payload;
 
             return {
                 ...state,
-                allIds: [
-                    ...state.allIds,
-                    id
-                ],
-                byId: {
-                    ...state.byId,
-                    [id]: {
-                        id: id,
-                        title: title,
-                        tasks: []
-                    }
+                [id]: {
+                    id: id,
+                    title: title,
+                    tasks: []
                 }
             };
         case REMOVE_LIST:
@@ -29,7 +27,29 @@ export default (state = {}, action) => {
         default:
             return state
     }
-}
+};
+
+const allLists = (state = [], action) => {
+    switch (action.type) {
+        case DATA_FETCH_SUCCESS:
+            console.log(action.payload);
+            return [...Object.keys(action.payload.lists).map((key) => parseInt(key))];
+        case ADD_NEW_LIST:
+            const { id } = action.payload;
+
+            return [
+                ...state,
+                id
+            ];
+        default:
+            return state;
+    }
+};
+
+export default combineReducers({
+    byId: listsById,
+    allIds: allLists
+});
 
 export const selectListIds = (state) => state.lists.allIds;
 

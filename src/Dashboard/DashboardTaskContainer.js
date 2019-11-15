@@ -13,7 +13,7 @@ class DashboardTaskContainer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    createdBy: selectUserNameById(state, ownProps.createdBy)
+    // createdBy: selectUserNameById(state, ownProps.createdBy)
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -24,4 +24,4 @@ const mapDispatchToProps = (dispatch) => ({
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardTaskContainer);
+export default connect(null, mapDispatchToProps)(DashboardTaskContainer);
