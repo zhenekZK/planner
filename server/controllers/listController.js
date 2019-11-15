@@ -18,28 +18,45 @@ const createList = (data) => {
             .insert({ title: data.title }).then((data) => data[0]);
 };
 
-const getLists = function (request, response) {
+const getLists = async function (request, response) {
     return database.from('list')
         .select()
         .then((data) => {
             console.log(data);
             const listWithTasks = data.map(async (list) => findTasksById(list.id)
-                .then(tasks => {
-                    console.log(list);
-                    return { ...list, tasks: [...tasks] }
-                })
+                .then((tasks) => fillTasksWithAssigns(tasks))
+                .then((tasks) =>  Promise.all(tasks)
+                    .then((tasks) => ({ ...list, tasks: [...tasks] })))
             );
-            console.log(listWithTasks);
             Promise.all(listWithTasks).then((result) => {
-                console.log(result, 'RESULT ALLO');
-                response.status(200).json({ lists: result });
+                console.log(result, 'RESULT!!!!!!!!!!');
+                response.status(200).json({ lists: result })
             });
         }
         );
 };
 
-const findTasksById = function (id) {
+const fillTasksWithAssigns = function (tasks) {
+    return tasks.map(async (task) => selectTaskAssigns(task));
+};
+
+const selectTaskAssigns = function (task) {
     return database.select({
+        id: 'users.id',
+        name: 'users.name',
+        surname: 'users.surname',
+        email: 'users.email'
+    }).from('users_in_tasks')
+        .where({ task_id: task.id })
+        .innerJoin('users', 'users_in_tasks.user_id', 'users.id')
+        .then((data) => {
+            console.log(data, 'USERSINTASKS');
+            return { ...task, assigns: [...data] };
+        });
+};
+
+const findTasksById = function (id) {
+    return Promise.resolve(database.select({
         id: 'task.id',
         title: 'task.title',
         description: 'task.description',
@@ -53,9 +70,9 @@ const findTasksById = function (id) {
         .innerJoin('status', 'task.status_id', 'status.id')
         .innerJoin('priority', 'task.priority_id', 'priority.id')
         .then((data) => {
-            console.log(data);
+            console.log(data, 'TASKS BY ID');
             return data;
-        });
+        }));
 };
 
 module.exports = {

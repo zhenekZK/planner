@@ -8,25 +8,25 @@ import App from './App';
 
 const initialState = {
     users: {
-        byId: {
-            '0': {
-                id: '0',
-                name: 'Vasya',
-                surname: 'Pupkin'
-            }
-            ,
-            '1': {
-                id: '1',
-                name: 'Oleg',
-                surname: 'Andersen'
-            },
-            '2': {
-                id: '2',
-                name: 'Sam',
-                surname: 'Vinchester'
-            }
-        },
-        allIds: ['0', '1', '2']
+        // byId: {
+        //     '0': {
+        //         id: '0',
+        //         name: 'Vasya',
+        //         surname: 'Pupkin'
+        //     }
+        //     ,
+        //     '1': {
+        //         id: '1',
+        //         name: 'Oleg',
+        //         surname: 'Andersen'
+        //     },
+        //     '2': {
+        //         id: '2',
+        //         name: 'Sam',
+        //         surname: 'Vinchester'
+        //     }
+        // },
+        // allIds: ['0', '1', '2']
     }
     // lists: {
     //     byId: {

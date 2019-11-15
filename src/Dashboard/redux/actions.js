@@ -31,12 +31,15 @@ export const getTasksFetch = () => dispatch => {
             if (message) {
                 throw new Error('Problem with list adding');
             } else {
-                const task = new schema.Entity('tasks');
+                const user = new schema.Entity('users');
+                const task = new schema.Entity('tasks', {
+                    assigns: [user]
+                });
                 const list = new schema.Entity('lists', {
                     tasks: [task]
                 });
                 const normalizedData = normalize(data, { lists: [list] });
-
+                debugger;
                 dispatch({
                     type: DATA_FETCH_SUCCESS,
                     payload: normalizedData.entities
