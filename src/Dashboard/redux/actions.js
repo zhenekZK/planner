@@ -70,9 +70,24 @@ export const addList = (title) => dispatch => {
         })
 };
 
-export const removeList = (id) => dispatch => {
+export const deleteListRequest = (id) => dispatch => {
     const token = localStorage.token;
     return axios.post('http://localhost:4000/lists/delete', qs.stringify({id}), {
+        headers: {
+            Authorization: 'Bearer ' + token
+        }
+    }).then(({ message }) => {
+        if (message) {
+            throw new Error('Problem with list deleting');
+        } else {
+            dispatch(deleteList(id));
+        }
+    });
+};
+
+export const addTaskRequest = (id) => dispatch => {
+    const token = localStorage.token;
+    return axios.post('http://localhost:4000/tasks/add', qs.stringify({id}), {
         headers: {
             Authorization: 'Bearer ' + token
         }

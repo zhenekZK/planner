@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/icons/Delete";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles(theme => ({
@@ -22,9 +23,12 @@ const useStyles = makeStyles(theme => ({
     delete: {
         position: 'absolute',
         top: '0',
-        right: '0',
-        // opacity: '0',
-        transition: 'opacity 0.3s linear'
+        right: '0'
+    },
+    add: {
+        position: 'absolute',
+        top: '0',
+        left: '0'
     }
 }));
 
@@ -48,6 +52,14 @@ function DashboardList(props) {
                         <DashboardTaskContainer key={index} { ...task } />
                     )) : null}
                 </Grid>
+                <IconButton
+                    className={classes.add}
+                    disableRipple={true}
+                    disableFocusRipple={true}
+                    onClick={(e) => deleteList(id)}
+                >
+                    <AddCircleIcon size='small' />
+                </IconButton>
                 <IconButton
                     className={classes.delete}
                     disableRipple={true}

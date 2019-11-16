@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import DashboardList from './DashboardList';
 
 import { selectTasksByListId } from './redux/reducers/tasks';
-import { removeList } from "./redux/actions";
+import { deleteListRequest } from "./redux/actions";
 
 class DashboardListContainer extends Component {
     render() {
@@ -20,7 +20,7 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    deleteList: (id) => dispatch(removeList(id))
+    deleteList: (id) => dispatch(deleteListRequest(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardListContainer);

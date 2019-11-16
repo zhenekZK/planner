@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
             '& $delete, & $edit': {
                 opacity: '1'
             }
-        },
+        }
     },
     title: {},
     edit: {
