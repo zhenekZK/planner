@@ -1,7 +1,4 @@
-const environment       = process.env.NODE_ENV || 'development';    // set environment
-const configuration     = require('../knexfile')[environment];       // pull in correct db with env configs
-const database          = require('knex')(configuration);
-
+const database = require('../db/config');
 const { findUserById } = require('./userController');
 
 const getTasks = function (request, response) {

@@ -22,11 +22,9 @@ const listsById = (state = {}, action) => {
                 }
             };
         case REMOVE_LIST:
-            debugger;
-            const data = {...state.filter((list => list.id !== action.payload.id))};
-            console.log(data);
+            const { [action.payload.id]: value, ...result } = state;
             return {
-                ...state.filter((list => list.id !== action.payload.id))
+                ...result
             };
 
         default:

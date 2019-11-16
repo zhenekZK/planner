@@ -72,7 +72,6 @@ export const addList = (title) => dispatch => {
 
 export const removeList = (id) => dispatch => {
     const token = localStorage.token;
-    debugger;
     return axios.post('http://localhost:4000/lists/delete', qs.stringify({id}), {
         headers: {
             Authorization: 'Bearer ' + token

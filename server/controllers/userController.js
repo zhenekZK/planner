@@ -1,8 +1,6 @@
-const environment       = process.env.NODE_ENV || 'development';    // set environment
-const configuration     = require('../knexfile')[environment];       // pull in correct db with env configs
-const database          = require('knex')(configuration);
-const bcrypt          = require('bcrypt');                        // bcrypt will encrypt passwords to be saved in db
-const crypto          = require('crypto');
+const database = require('../db/config');
+const bcrypt = require('bcrypt');                        // bcrypt will encrypt passwords to be saved in db
+const crypto = require('crypto');
 
 const signup = (request, response) => {
     const user = request.body;
