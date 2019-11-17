@@ -10,32 +10,35 @@ import {combineReducers} from "redux";
 const tasksById = (state = {}, action) => {
     switch (action.type) {
         case DATA_FETCH_SUCCESS:
-            return {...state, ...action.payload.tasks};
+            return { ...action.payload.tasks };
         case ADD_NEW_TASK:
             return state;
         case MARK_TASK_EDITABLE:
             return {
                 ...state,
-                isEditable: action.payload.id
+                [action.payload.id]: {
+                    ...state[action.payload.id],
+                    isEditable: true
+                }
             };
         case MARK_TASKS_NOT_EDITABLE:
             return {
-                ...state,
-                isEditable: null
+                ...Object.keys(state).map(key => ({
+                    ...state[key],
+                    isEditable: false
+                }))
             };
         case EDIT_TASK:
+            debugger;
             return {
                 ...state,
-                byId: {
-                    ...state.byId,
-                    [state.isEditable]: {
-                        ...state.byId[state.isEditable],
-                        title: action.payload.title,
-                        priority: action.payload.priority,
-                        description: action.payload.description,
-                        status: action.payload.status,
-                        list: action.payload.list
-                    }
+                [action.payload.id]: {
+                    ...state[action.payload.id],
+                    title: action.payload.title,
+                    priority: action.payload.priority,
+                    description: action.payload.description,
+                    status: action.payload.status,
+                    list: action.payload.list
                 }
             };
         case REMOVE_TASK:
@@ -53,7 +56,7 @@ const tasksById = (state = {}, action) => {
     }
 };
 
-const allTasks =  (state = [], action) => {
+const allTasks = (state = [], action) => {
     switch (action.type) {
         case DATA_FETCH_SUCCESS:
             return [...Object.keys(action.payload.tasks).map((key) => parseInt(key))];
@@ -94,4 +97,18 @@ export const selectTasksByListId = (state, id) => {
     return fitIds.map(taskId => selectTaskById(state, taskId));
 };
 
-export const selectEditableTaskId = (state) => state.tasks.isEditable;
+export const selectEditableTaskId = (state) => {
+    let editableTaskId = null,
+        taskIds = selectTaskIds(state);
+
+    for (let i = 0, length = taskIds.length; i < length; i++){
+        let taskInfo = selectTaskById(state, taskIds[i]);
+
+        if (taskInfo.isEditable) {
+            editableTaskId = taskInfo.id;
+            break;
+        }
+    }
+
+    return editableTaskId;
+};

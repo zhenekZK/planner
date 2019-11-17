@@ -25,6 +25,8 @@ function DashboardTaskEditPopup(props) {
         onClose
     } = props;
 
+    console.log(props, '');
+
     return (
         <div>
             <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
@@ -40,7 +42,7 @@ function DashboardTaskEditPopup(props) {
                         type="text"
                         fullWidth
                     />
-                    <FormControl>
+                    <FormControl fullWidth margin='normal'>
                         <InputLabel id="edit-popup-priority">Priority</InputLabel>
                         <Select
                             labelId="edit-popup-priority"
@@ -48,15 +50,12 @@ function DashboardTaskEditPopup(props) {
                             value={priority}
                             onChange={(e) => updateField('priority', e.target.value)}
                         >
-                            <MenuItem value={1}>1</MenuItem>
-                            <MenuItem value={2}>2</MenuItem>
-                            <MenuItem value={3}>3</MenuItem>
-                            <MenuItem value={4}>4</MenuItem>
-                            <MenuItem value={5}>5</MenuItem>
-                            <MenuItem value={6}>6</MenuItem>
+                            <MenuItem value='low'>low</MenuItem>
+                            <MenuItem value='middle'>middle</MenuItem>
+                            <MenuItem value='high'>high</MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl>
+                    <FormControl fullWidth margin='normal'>
                         <InputLabel id="edit-popup-status">Status</InputLabel>
                         <Select
                             labelId="edit-popup-status"
@@ -69,7 +68,7 @@ function DashboardTaskEditPopup(props) {
                             <MenuItem value='done'>Done</MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl>
+                    <FormControl fullWidth margin='normal'>
                         <InputLabel id="edit-popup-status">List</InputLabel>
                         <Select
                             labelId="edit-popup-list"
@@ -101,9 +100,9 @@ function DashboardTaskEditPopup(props) {
 DashboardTaskEditPopup.defaultProps = {
     title: '',
     open: false,
-    status: 'open',
-    priority: 1,
-    list: 0
+    status: '',
+    priority: '',
+    list: ''
 };
 
 export default DashboardTaskEditPopup;

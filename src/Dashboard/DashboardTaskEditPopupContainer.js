@@ -55,6 +55,7 @@ class DashboardTaskEditPopupContainer extends Component {
 
     onSave = () => {
         const data = {
+            id: this.state.id,
             title: this.state.title,
             priority: this.state.priority,
             description: this.state.description,

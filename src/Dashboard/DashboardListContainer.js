@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import DashboardList from './DashboardList';
 
 import { selectTasksByListId } from './redux/reducers/tasks';
-import { deleteListRequest } from "./redux/actions";
+import { deleteListRequest, addTaskRequest } from "./redux/actions";
 
 class DashboardListContainer extends Component {
     render() {

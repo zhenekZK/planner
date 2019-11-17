@@ -2,6 +2,4 @@ const environment       = process.env.NODE_ENV || 'development';    // set envir
 const configuration     = require('../knexfile')[environment];       // pull in correct db with env configs
 const database          = require('knex')(configuration);
 
-module.exports = {
-    database
-};
+module.exports = database;
