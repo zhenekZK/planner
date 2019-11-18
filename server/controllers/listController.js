@@ -1,43 +1,29 @@
 const database = require('../db/config');
+const { createListDB, deleteListByIdDB } = require('../repositories/list');
 
 const addList = function (request, response) {
     const data = request.body;
 
-    createList(data)
-        .then((result) => {
-            console.log(result);
-            response.status(200).json(result)
-        });
+    createListDB(data)
+        .then((data) => response.status(200).json(data[0]));
 };
 
 const removeList = function (request, response) {
     const id = request.body.id;
-    return database('list')
-        .where('id', id)
-        .returning('id')
-        .del()
+    deleteListByIdDB(id)
         .then((result) => response.status(200).json(result));
-};
-
-const createList = (data) => {
-    return database('list')
-            .returning(['id', 'title'])
-            .insert({ title: data.title })
-            .then((data) => response.status(200).json(data[0]));
 };
 
 const getLists = async function (request, response) {
     return database.from('list')
         .select()
         .then((data) => {
-            // console.log(data);
             const listWithTasks = data.map(async (list) => findTasksById(list.id)
                 .then((tasks) => fillTasksWithAssigns(tasks))
                 .then((tasks) =>  Promise.all(tasks)
                     .then((tasks) => ({ ...list, tasks: [...tasks] })))
             );
             Promise.all(listWithTasks).then((result) => {
-                // console.log(result, 'RESULT!!!!!!!!!!');
                 response.status(200).json({ lists: result })
             });
         });
@@ -77,7 +63,6 @@ const findTasksById = function (id) {
         .innerJoin('status', 'task.status_id', 'status.id')
         .innerJoin('priority', 'task.priority_id', 'priority.id')
         .then((data) => {
-            // console.log(data, 'TASKS BY ID');
             return data;
         }));
 };

@@ -1,5 +1,6 @@
 const database = require('../db/config');
-const { findUserById } = require('./userController');
+const { getUserByIdDB } = require('../repositories/user');
+const { getTaskDataByIdDB } = require('../repositories/task');
 
 const getTasks = function (request, response) {
     return database.select({
@@ -15,7 +16,7 @@ const getTasks = function (request, response) {
         .innerJoin('priority', 'task.priority_id', 'priority.id')
         .then((data) => {
             const selectUsers = [];
-            data.forEach((i) => selectUsers.push(new Promise((resolve, reject) => findUserById(i.owner_id))));
+            data.forEach((i) => selectUsers.push(getUserByIdDB(i.owner_id)));
             console.log(data);
             Promise.all(selectUsers).then(() => {
                 console.log(data);
@@ -47,7 +48,7 @@ const addTask = function (request, response) {
                 updatedby_id: ids[2].id,
                 list_id: data.list
             }).then((data) => {
-                findTaskById(data[0].id).then(data => {
+                getTaskDataByIdDB(data[0].id).then(data => {
                     console.log(data, 'DATA FOR SENDING');
                     response.status(200).json(data);
                 })
@@ -55,27 +56,8 @@ const addTask = function (request, response) {
     });
 };
 
-const removeTask = function(request, response) = {
+const removeTask = function(request, response) {
 
-};
-
-const findTaskById = function (id) {
-    return Promise.resolve(database.select({
-        id: 'task.id',
-        title: 'task.title',
-        description: 'task.description',
-        status: 'status.title',
-        priority: 'priority.title',
-        list_id: 'task.list_id',
-        owner_id: 'task.owner_id',
-        updatedBy: 'task.updatedby_id'
-    }).from('task')
-        .where({ 'task.id': id })
-        .innerJoin('status', 'task.status_id', 'status.id')
-        .innerJoin('priority', 'task.priority_id', 'priority.id')
-        .then((data) => {
-            return data[0];
-        }));
 };
 
 const editTask = function (request, response) {

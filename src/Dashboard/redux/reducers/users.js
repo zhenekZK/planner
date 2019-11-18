@@ -1,4 +1,4 @@
-import {ADD_NEW_LIST, DATA_FETCH_SUCCESS, REMOVE_LIST} from "../constants";
+import { DATA_FETCH_SUCCESS, REMOVE_LIST} from "../constants";
 import {combineReducers} from "redux";
 
 const usersById = (state = {}, action) => {

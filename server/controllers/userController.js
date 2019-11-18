@@ -2,6 +2,8 @@ const database = require('../db/config');
 const bcrypt = require('bcrypt');                        // bcrypt will encrypt passwords to be saved in db
 const crypto = require('crypto');
 
+const { createUserDB, getUserByTokenDB } = require('../repositories/user');
+
 const signup = (request, response) => {
     const user = request.body;
 
@@ -12,7 +14,7 @@ const signup = (request, response) => {
         })
         .then(() => createToken())
         .then(token => user.token = token)
-        .then(() => createUser(user))
+        .then(() => createUserDB(user))
         .then(user => {
             delete user.password_digest;
             response.header("Access-Control-Allow-Origin", "*");
@@ -27,19 +29,6 @@ const hashPassword = (password) => {
             err ? reject(err) : resolve(hash)
         })
     )
-};
-
-const createUser = (user) => {
-    return database('users')
-        .returning(['id', 'name', 'surname', 'email', 'created_at', 'token'])
-        .insert({
-            name: user.name,
-            surname: user.surname,
-            email: user.email,
-            password_digest: user.password_digest,
-            token: user.token,
-            created_at: new Date()
-        }).then((data) => data[0]);
 };
 
 const createToken = () => {
@@ -76,13 +65,6 @@ const findUser = (userReq) => {
         .then((data) => data[0]);
 };
 
-const findUserById = (id) => {
-    return database.from('users')
-        .select()
-        .where({ id })
-        .then((data) => data[0]);
-};
-
 const checkPassword = (reqPassword, foundUser) => {
     return new Promise((resolve, reject) =>
         bcrypt.compare(reqPassword, foundUser.password_digest, (err, response) => {
@@ -106,22 +88,11 @@ const updateUserToken = (token, user) => {
         .then((data) => data[0]);
 };
 
-const findByToken = (token) => {
-    return database.from('users')
-        .select()
-        .where({ token })
-        .then((data) => data[0])
-        .catch(error => {
-            console.log(error);
-        });
-};
-
 const profile = (request, response) => {
     const token = request.body.token || request.decodedToken;
 
-    findByToken(token)
+    getUserByTokenDB(token)
         .then((user) => {
-            // console.log(user);
             response.status(200).json(user)
         })
 };
@@ -129,7 +100,5 @@ const profile = (request, response) => {
 module.exports = {
     signup,
     signin,
-    profile,
-    findByToken,
-    findUserById
+    profile
 };
