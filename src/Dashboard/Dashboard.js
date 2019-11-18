@@ -3,6 +3,7 @@ import DashboardListContainer from "./DashboardListContainer";
 import DashboardUserPanelContainer from "./DashboardUserPanelContainer";
 import DashboardToolboxContainer from "./DashboardToolboxContainer";
 import DashboardAddListPopupContainer from "./DashboardAddListPopupContainer";
+import DashboardTaskAddPopupContainer from "./DashboardTaskAddPopupContainer";
 import DashboardTaskEditPopupContainer from "./DashboardTaskEditPopupContainer";
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -39,6 +40,7 @@ function Dashboard(props) {
                     ))}
                 </Grid>
                 <DashboardAddListPopupContainer />
+                <DashboardTaskAddPopupContainer />
                 <DashboardTaskEditPopupContainer />
             </Container>
         </React.Fragment>

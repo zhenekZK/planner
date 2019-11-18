@@ -7,6 +7,7 @@ import {
 
 import axios from "axios";
 import qs from "qs";
+import { requestMaker } from "../../helpers/requestMaker";
 
 export const userPostFetch = data => dispatch => {
     return axios.post('http://localhost:4000/user/create', qs.stringify(data))
@@ -40,28 +41,21 @@ export const userLoginFetch  = user => dispatch => {
 };
 
 export const getProfileFetch = () => dispatch => {
-    const token = localStorage.token;
-    if (token) {
-        axios.get('http://localhost:4000/user/profile', {
-            headers: {
-                Authorization: 'Bearer ' + token
+    requestMaker('user/profile', 'get')
+        .then((response) => response.data)
+        .then((data) => {
+            if (data.message) {
+                localStorage.removeItem("token");
+                dispatch({
+                    type: LOGIN_USER_FAILED,
+                    payload: { message: data.message }
+                });
+                console.error(data.message, '!!!!');
+            } else {
+                dispatch(loginUser(data));
             }
-        })
-            .then((response) => response.data)
-            .then((data) => {
-                if (data.message) {
-                    localStorage.removeItem("token");
-                    dispatch({
-                        type: LOGIN_USER_FAILED,
-                        payload: { message: data.message }
-                    });
-                    console.error(data.message, '!!!!');
-                } else {
-                    dispatch(loginUser(data));
-                }
-            }
-        )
-    }
+        }
+    )
 };
 
 export const loginUser = user => ({

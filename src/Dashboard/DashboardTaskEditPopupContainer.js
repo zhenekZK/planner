@@ -69,6 +69,7 @@ class DashboardTaskEditPopupContainer extends Component {
     };
 
     onClose = () => {
+        this.props.markTaskNotEditable(this.state.id);
         this.props.onClose();
     };
 
@@ -95,7 +96,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     editTask: (data) => dispatch(editTaskRequest(data)),
-    showTaskEditPopup: () => dispatch(showEditTaskPopup()),
     markTaskNotEditable: (id) => dispatch(markTaskNotEditable(id)),
     onClose: () => dispatch(hideEditTaskPopup())
 });

@@ -22,7 +22,8 @@ const removeList = function (request, response) {
 const createList = (data) => {
     return database('list')
             .returning(['id', 'title'])
-            .insert({ title: data.title }).then((data) => data[0]);
+            .insert({ title: data.title })
+            .then((data) => response.status(200).json(data[0]));
 };
 
 const getLists = async function (request, response) {
@@ -39,8 +40,7 @@ const getLists = async function (request, response) {
                 // console.log(result, 'RESULT!!!!!!!!!!');
                 response.status(200).json({ lists: result })
             });
-        }
-        );
+        });
 };
 
 const fillTasksWithAssigns = function (tasks) {
@@ -69,8 +69,8 @@ const findTasksById = function (id) {
         description: 'task.description',
         status: 'status.title',
         priority: 'priority.title',
-        list: 'task.list_id',
-        owner: 'task.owner_id',
+        list_id: 'task.list_id',
+        owner_id: 'task.owner_id',
         updatedBy: 'task.updatedby_id'
     }).from('task')
         .where({ list_id: id })

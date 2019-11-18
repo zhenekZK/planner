@@ -4,7 +4,6 @@ import {combineReducers} from "redux";
 const usersById = (state = {}, action) => {
     switch (action.type) {
         case DATA_FETCH_SUCCESS:
-            console.log(action.payload);
             return {...state, ...action.payload.users};
         default:
             return state
@@ -14,7 +13,6 @@ const usersById = (state = {}, action) => {
 const allUsers = (state = [], action) => {
     switch (action.type) {
         case DATA_FETCH_SUCCESS:
-            console.log(action.payload);
             return [...Object.keys(action.payload.users).map((key) => parseInt(key))];
         default:
             return state;

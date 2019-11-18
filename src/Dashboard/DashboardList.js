@@ -39,10 +39,10 @@ function DashboardList(props) {
         id,
         title,
         tasks,
+        addTask,
         deleteList
     } = props;
 
-    // console.log(props);
     return (
         <Grid item xs={12} sm={6}>
             <Paper className={classes.list}>
@@ -56,7 +56,7 @@ function DashboardList(props) {
                     className={classes.add}
                     disableRipple={true}
                     disableFocusRipple={true}
-                    onClick={(e) => deleteList(id)}
+                    onClick={(e) => addTask(id)}
                 >
                     <AddCircleIcon size='small' />
                 </IconButton>

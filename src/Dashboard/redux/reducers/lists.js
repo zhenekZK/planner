@@ -1,5 +1,5 @@
 import {
-    ADD_NEW_LIST, DATA_FETCH_SUCCESS,
+    ADD_NEW_LIST, DATA_FETCH_SUCCESS, MARK_LIST_EDITABLE, MARK_LIST_NOT_EDITABLE,
     REMOVE_LIST
 } from '../constants';
 
@@ -8,7 +8,6 @@ import { combineReducers } from 'redux';
 const listsById = (state = {}, action) => {
     switch (action.type) {
         case DATA_FETCH_SUCCESS:
-            console.log(action.payload);
             return {...state, ...action.payload.lists};
         case ADD_NEW_LIST:
             const { id, title } = action.payload;
@@ -26,7 +25,22 @@ const listsById = (state = {}, action) => {
             return {
                 ...result
             };
-
+        case MARK_LIST_EDITABLE:
+            return {
+                ...state,
+                [action.payload.id]: {
+                    ...state[action.payload.id],
+                    isEditable: true,
+                }
+            };
+        case MARK_LIST_NOT_EDITABLE:
+            return {
+                ...state,
+                [action.payload.id]: {
+                    ...state[action.payload.id],
+                    isEditable: false,
+                }
+            };
         default:
             return state
     }
@@ -35,7 +49,6 @@ const listsById = (state = {}, action) => {
 const allLists = (state = [], action) => {
     switch (action.type) {
         case DATA_FETCH_SUCCESS:
-            console.log(action.payload);
             return [...Object.keys(action.payload.lists).map((key) => parseInt(key))];
         case ADD_NEW_LIST:
             const { id } = action.payload;
@@ -66,6 +79,20 @@ export const selectAllLists = (state) => {
     return {
         ...state.lists.byId
     }
+};
+
+export const selectEditableListId = (state) => {
+    let id = null;
+    const ids = selectListIds(state);
+
+    for (let i = 0, length = ids.length; i < length; i++) {
+        if (selectListById(state, ids[i]).isEditable) {
+            id = ids[i];
+            break;
+        }
+    }
+
+    return id;
 };
 
 export const selectAllListsAsArray = (state) => {

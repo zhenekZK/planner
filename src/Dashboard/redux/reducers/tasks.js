@@ -1,12 +1,13 @@
 import {
     ADD_NEW_TASK, DATA_FETCH_SUCCESS,
-    EDIT_TASK,
+    TASK_EDIT_START,
+    TASK_EDIT_SUCCESS,
+    TASK_EDIT_FAILED,
     MARK_TASK_EDITABLE,
-    MARK_TASKS_NOT_EDITABLE,
+    MARK_TASK_NOT_EDITABLE,
     REMOVE_TASK
 } from '../constants';
 import {combineReducers} from "redux";
-import _ from 'lodash';
 
 const tasksById = (state = {}, action) => {
     switch (action.type) {
@@ -22,7 +23,7 @@ const tasksById = (state = {}, action) => {
                     isEditable: true
                 }
             };
-        case MARK_TASKS_NOT_EDITABLE:
+        case MARK_TASK_NOT_EDITABLE:
             return {
                 ...state,
                 [action.payload.id]: {
@@ -30,7 +31,7 @@ const tasksById = (state = {}, action) => {
                     isEditable: false
                 }
             };
-        case EDIT_TASK:
+        case TASK_EDIT_SUCCESS:
             return {
                 ...state,
                 [action.payload.id]: {
@@ -91,7 +92,7 @@ export const selectTaskById = (state, id) => {
 export const selectTasksByListId = (state, id) => {
     const ids = selectTaskIds(state);
     const fitIds = ids.filter(taskId => {
-        return selectTaskById(state, taskId).list === id
+        return selectTaskById(state, taskId).list_id === id
     });
 
     return fitIds.map(taskId => selectTaskById(state, taskId));

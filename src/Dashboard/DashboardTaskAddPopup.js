@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -12,15 +11,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-function DashboardTaskEditPopup(props) {
+function DashboardTaskAddPopup(props) {
     const {
         open,
         title,
         description,
         status,
         priority,
-        list,
-        allLists,
         updateField,
         onSave,
         onClose
@@ -29,7 +26,7 @@ function DashboardTaskEditPopup(props) {
     return (
         <div>
             <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Edit Task</DialogTitle>
+                <DialogTitle id="form-dialog-title">Add Task</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
@@ -77,28 +74,13 @@ function DashboardTaskEditPopup(props) {
                             <MenuItem value='done'>Done</MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl fullWidth margin='normal'>
-                        <InputLabel id="edit-popup-status">List</InputLabel>
-                        <Select
-                            labelId="edit-popup-list"
-                            id="edit-popup-list-select"
-                            value={list}
-                            onChange={(e) => updateField('list', e.target.value)}
-                        >
-                            {
-                                _.map(allLists, (l) => {
-                                    return <MenuItem key={l.id} value={l.id}>{l.title}</MenuItem>
-                                })
-                            }
-                        </Select>
-                    </FormControl>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={onClose} color="primary">
                         Cancel
                     </Button>
                     <Button onClick={onSave} color="primary">
-                        Save
+                        Add
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -106,12 +88,12 @@ function DashboardTaskEditPopup(props) {
     );
 }
 
-DashboardTaskEditPopup.defaultProps = {
+DashboardTaskAddPopup.defaultProps = {
     title: '',
     open: false,
-    status: '',
-    priority: '',
-    list: ''
+    status: 'open',
+    priority: 'low',
+    list: null
 };
 
-export default DashboardTaskEditPopup;
+export default DashboardTaskAddPopup;
