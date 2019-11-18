@@ -80,27 +80,29 @@ export const deleteListRequest = (id) => dispatch => {
 
 export const addTaskRequest = (data) => dispatch => {
     return requestMaker('tasks/add', 'post', data)
-            .then(({ message }) => {
-                debugger;
-                if (message) {
-                    throw new Error('Problem with list deleting');
-                } else {
-                    dispatch(addTask(data));
-                }
-            });
+        .then((response) => response.data)
+        .then(({ message, ...data }) => {
+            debugger;
+            if (message) {
+                throw new Error('Problem with list deleting');
+            } else {
+                dispatch(addTask(data));
+            }
+        });
 };
 
 export const editTaskRequest = (data) => dispatch => {
     dispatch({ type: TASK_EDIT_START });
     return requestMaker('tasks/edit', 'post', data)
-                .then(({ message }) => {
-                    if (message) {
-                        dispatch({ type: TASK_EDIT_FAILED, payload: { message } });
-                        throw new Error('Problem with list deleting');
-                    } else {
-                        dispatch(editTask(data));
-                    }
-                });
+            .then((response) => response.data)
+            .then(({ message, ...data }) => {
+                if (message) {
+                    dispatch({ type: TASK_EDIT_FAILED, payload: { message } });
+                    throw new Error('Problem with list deleting');
+                } else {
+                    dispatch(editTask(data));
+                }
+            });
 };
 
 const deleteList = (id) => ({

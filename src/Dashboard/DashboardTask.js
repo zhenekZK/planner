@@ -44,7 +44,7 @@ function DashboardTask(props) {
         id,
         title,
         description,
-        // createdBy,
+        ownerName,
         assigns,
         priority,
         status,
@@ -60,7 +60,7 @@ function DashboardTask(props) {
                 <div>{`Status: ${status}`}</div>
                 <div>{`Priority: ${priority}`}</div>
                 <div>{`Assigns: ${assigns.join(', ')}`}</div>
-                {/*<div>{`createdBy: ${createdBy}`}</div>*/}
+                <div>{`Created by: ${ownerName}`}</div>
                 <IconButton
                     onClick={() => editTask(id)}
                     className={classes.edit}

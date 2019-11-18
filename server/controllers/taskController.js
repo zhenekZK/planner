@@ -37,7 +37,7 @@ const addTask = function (request, response) {
 
     return Promise.all(result).then(ids => {
         return database('task')
-            .returning(['id', 'description', 'list_id'])
+            .returning(['id'])
             .insert({
                 title: data.title,
                 description: data.description,
@@ -46,8 +46,36 @@ const addTask = function (request, response) {
                 owner_id: ids[2].id,
                 updatedby_id: ids[2].id,
                 list_id: data.list
-            }).then((data) => response.status(200).json(data));
+            }).then((data) => {
+                findTaskById(data[0].id).then(data => {
+                    console.log(data, 'DATA FOR SENDING');
+                    response.status(200).json(data);
+                })
+            });
     });
+};
+
+const removeTask = function(request, response) = {
+
+};
+
+const findTaskById = function (id) {
+    return Promise.resolve(database.select({
+        id: 'task.id',
+        title: 'task.title',
+        description: 'task.description',
+        status: 'status.title',
+        priority: 'priority.title',
+        list_id: 'task.list_id',
+        owner_id: 'task.owner_id',
+        updatedBy: 'task.updatedby_id'
+    }).from('task')
+        .where({ 'task.id': id })
+        .innerJoin('status', 'task.status_id', 'status.id')
+        .innerJoin('priority', 'task.priority_id', 'priority.id')
+        .then((data) => {
+            return data[0];
+        }));
 };
 
 const editTask = function (request, response) {
@@ -81,5 +109,6 @@ const editTask = function (request, response) {
 module.exports = {
     getTasks,
     addTask,
+    removeTask,
     editTask
 };

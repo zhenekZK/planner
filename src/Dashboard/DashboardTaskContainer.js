@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import DashboardTask from './DashboardTask';
 import { markTaskEditable, removeTask, showEditTaskPopup } from './redux/actions';
-import { selectUserNames } from './redux/reducers/users';
+import {selectUserNameById, selectUserNames} from './redux/reducers/users';
 
 class DashboardTaskContainer extends Component {
     render() {
@@ -13,6 +13,7 @@ class DashboardTaskContainer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+    ownerName: selectUserNameById(state, ownProps.owner_id),
     assigns: selectUserNames(state, ownProps.assigns)
 });
 

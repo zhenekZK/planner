@@ -1,5 +1,5 @@
 import {
-    ADD_NEW_LIST, DATA_FETCH_SUCCESS, MARK_LIST_EDITABLE, MARK_LIST_NOT_EDITABLE,
+    ADD_NEW_LIST, ADD_NEW_TASK, DATA_FETCH_SUCCESS, MARK_LIST_EDITABLE, MARK_LIST_NOT_EDITABLE,
     REMOVE_LIST
 } from '../constants';
 
@@ -11,13 +11,25 @@ const listsById = (state = {}, action) => {
             return {...state, ...action.payload.lists};
         case ADD_NEW_LIST:
             const { id, title } = action.payload;
-
             return {
                 ...state,
                 [id]: {
                     id: id,
                     title: title,
                     tasks: []
+                }
+            };
+        case ADD_NEW_TASK:
+            const { list_id } = action.payload.data;
+            debugger;
+            return {
+                ...state,
+                [list_id]: {
+                    ...state[list_id],
+                    tasks: [
+                        ...state[list_id].tasks,
+                        action.payload.id
+                    ]
                 }
             };
         case REMOVE_LIST:

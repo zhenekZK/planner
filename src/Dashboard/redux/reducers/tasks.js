@@ -14,7 +14,15 @@ const tasksById = (state = {}, action) => {
         case DATA_FETCH_SUCCESS:
             return { ...action.payload.tasks };
         case ADD_NEW_TASK:
-            return state;
+            const { id, ...data } = action.payload.data;
+            debugger;
+            return {
+                ...state,
+                [id]: {
+                    id,
+                    ...data
+                }
+            };
         case MARK_TASK_EDITABLE:
             return {
                 ...state,
@@ -63,7 +71,10 @@ const allTasks = (state = [], action) => {
         case DATA_FETCH_SUCCESS:
             return [...Object.keys(action.payload.tasks).map((key) => parseInt(key))];
         case ADD_NEW_TASK:
-            return state;
+            return [
+                ...state,
+                action.payload.data.id
+            ];
         case REMOVE_TASK:
             const newIds = [...state.filter((id) => {
                 return action.payload.id !== id
