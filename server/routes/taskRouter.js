@@ -5,5 +5,6 @@ const { authenticate } = require('../middlewares/authenticate');
 
 // taskRouter.post("/create", authenticate, taskController.addList);
 taskRouter.get("/", authenticate, taskController.getTasks);
+taskRouter.post("/edit", authenticate, taskController.editTask);
 
 module.exports = taskRouter;

@@ -121,7 +121,7 @@ const profile = (request, response) => {
 
     findByToken(token)
         .then((user) => {
-            console.log(user);
+            // console.log(user);
             response.status(200).json(user)
         })
 };

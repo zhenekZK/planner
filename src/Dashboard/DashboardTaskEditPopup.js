@@ -16,6 +16,7 @@ function DashboardTaskEditPopup(props) {
     const {
         open,
         title,
+        description,
         status,
         priority,
         list,
@@ -38,9 +39,20 @@ function DashboardTaskEditPopup(props) {
                         onChange={(e) => updateField('title', e.target.value)}
                         margin="dense"
                         id="edit-popup-title-select"
-                        label="Task Title"
+                        label="Title"
                         type="text"
                         fullWidth
+                    />
+                    <TextField
+                        autoFocus
+                        value={description}
+                        onChange={(e) => updateField('description', e.target.value)}
+                        margin="dense"
+                        id="edit-popup-description-select"
+                        label="Description"
+                        fullWidth
+                        multiline
+                        rows="3"
                     />
                     <FormControl fullWidth margin='normal'>
                         <InputLabel id="edit-popup-priority">Priority</InputLabel>
@@ -51,7 +63,7 @@ function DashboardTaskEditPopup(props) {
                             onChange={(e) => updateField('priority', e.target.value)}
                         >
                             <MenuItem value='low'>low</MenuItem>
-                            <MenuItem value='middle'>middle</MenuItem>
+                            <MenuItem value='medium'>medium</MenuItem>
                             <MenuItem value='high'>high</MenuItem>
                         </Select>
                     </FormControl>

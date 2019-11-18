@@ -100,6 +100,23 @@ export const addTaskRequest = (id) => dispatch => {
     });
 };
 
+export const editTaskRequest = (data) => dispatch => {
+    const token = localStorage.token;
+    // debugger;
+    return axios.post('http://localhost:4000/tasks/edit', qs.stringify(data), {
+        headers: {
+            Authorization: 'Bearer ' + token
+        }
+    }).then(({ message }) => {
+        // debugger;
+        if (message) {
+            throw new Error('Problem with list deleting');
+        } else {
+            dispatch(editTask(data));
+        }
+    });
+};
+
 const deleteList = (id) => ({
     type: REMOVE_LIST,
     payload: {
@@ -133,8 +150,11 @@ export const markTaskEditable = (id) => ({
     }
 });
 
-export const markTasksNotEditable = () => ({
-    type: MARK_TASKS_NOT_EDITABLE
+export const markTaskNotEditable = (id) => ({
+    type: MARK_TASKS_NOT_EDITABLE,
+    payload: {
+        id
+    }
 });
 
 export const showEditTaskPopup = () => ({

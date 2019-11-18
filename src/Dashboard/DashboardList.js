@@ -42,7 +42,7 @@ function DashboardList(props) {
         deleteList
     } = props;
 
-    console.log(props);
+    // console.log(props);
     return (
         <Grid item xs={12} sm={6}>
             <Paper className={classes.list}>

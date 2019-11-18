@@ -7,7 +7,7 @@ import { deleteListRequest, addTaskRequest } from "./redux/actions";
 
 class DashboardListContainer extends Component {
     render() {
-        console.log(this.props, 'lists');
+        // console.log(this.props, 'lists');
 
         return (
             <DashboardList { ...this.props } />

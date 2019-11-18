@@ -6,6 +6,7 @@ import {
     REMOVE_TASK
 } from '../constants';
 import {combineReducers} from "redux";
+import _ from 'lodash';
 
 const tasksById = (state = {}, action) => {
     switch (action.type) {
@@ -23,13 +24,13 @@ const tasksById = (state = {}, action) => {
             };
         case MARK_TASKS_NOT_EDITABLE:
             return {
-                ...Object.keys(state).map(key => ({
-                    ...state[key],
+                ...state,
+                [action.payload.id]: {
+                    ...state[action.payload.id],
                     isEditable: false
-                }))
+                }
             };
         case EDIT_TASK:
-            debugger;
             return {
                 ...state,
                 [action.payload.id]: {
@@ -89,7 +90,6 @@ export const selectTaskById = (state, id) => {
 
 export const selectTasksByListId = (state, id) => {
     const ids = selectTaskIds(state);
-
     const fitIds = ids.filter(taskId => {
         return selectTaskById(state, taskId).list === id
     });
