@@ -21,7 +21,7 @@ class DashboardTaskEditPopupContainer extends Component {
             priority: props.taskInfo.priority,
             description: props.taskInfo.description,
             status: props.taskInfo.status,
-            list: props.taskInfo.list
+            list_id: props.taskInfo.list_id
         };
     }
 
@@ -33,7 +33,7 @@ class DashboardTaskEditPopupContainer extends Component {
                 priority,
                 description,
                 status,
-                list
+                list_id
             } = props.taskInfo;
 
             return {
@@ -42,7 +42,7 @@ class DashboardTaskEditPopupContainer extends Component {
                 priority,
                 description,
                 status,
-                list
+                list_id
             }
         }
 
@@ -60,7 +60,7 @@ class DashboardTaskEditPopupContainer extends Component {
             priority: this.state.priority,
             description: this.state.description,
             status: this.state.status,
-            list: this.state.list
+            list_id: this.state.list_id
         };
 
         this.props.editTask(data);

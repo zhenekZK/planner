@@ -41,7 +41,7 @@ const getTaskDataByIdDB = function (id) {
         priority: 'priority.title',
         list_id: 'task.list_id',
         owner_id: 'task.owner_id',
-        updatedBy: 'task.updatedby_id'
+        updatedby_id: 'task.updatedby_id'
     }).from('task')
     .where({ 'task.id': id })
     .innerJoin('status', 'task.status_id', 'status.id')
@@ -58,7 +58,7 @@ const getTasksByListIdDB = function (id) {
         priority: 'priority.title',
         list_id: 'task.list_id',
         owner_id: 'task.owner_id',
-        updatedBy: 'task.updatedby_id'
+        updatedby_id: 'task.updatedby_id'
     }).from('task')
         .where({ list_id: id })
         .innerJoin('status', 'task.status_id', 'status.id')

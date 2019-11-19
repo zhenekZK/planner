@@ -54,8 +54,9 @@ const signin = (request, response) => {
         })
         .then(() => createToken())
         .then(token => updateUserTokenByIdDB(token, user.id))
-        .then(() => {
+        .then((newToken) => {
             delete user.password_digest;
+            user.token = newToken;
             response.header("Access-Control-Allow-Origin", "*");
             response.status(200).json(user)
         })

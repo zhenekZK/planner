@@ -26,7 +26,10 @@ const useStyles = makeStyles(theme => ({
             }
         }
     },
-    title: {},
+    title: {
+        marginRight: '20px',
+        marginLeft: '20px',
+    },
     edit: {
         top: '0',
         left: '0'
@@ -44,7 +47,8 @@ function DashboardTask(props) {
         id,
         title,
         description,
-        ownerName,
+        owner,
+        updatedby,
         assigns,
         priority,
         status,
@@ -55,12 +59,13 @@ function DashboardTask(props) {
     return (
         <Grid item xs={12} sm={6}>
             <Paper className={classes.root}>
-                <Typography align='center' gutterBottom>{title}</Typography>
+                <Typography align='center' className={classes.title} gutterBottom>{title}</Typography>
                 <Typography gutterBottom>{description}</Typography>
                 <div>{`Status: ${status}`}</div>
                 <div>{`Priority: ${priority}`}</div>
                 <div>{`Assigns: ${assigns.join(', ')}`}</div>
-                <div>{`Created by: ${ownerName}`}</div>
+                <div>{`Created by: ${owner}`}</div>
+                <div>{`Updated by: ${updatedby}`}</div>
                 <IconButton
                     onClick={() => editTask(id)}
                     className={classes.edit}

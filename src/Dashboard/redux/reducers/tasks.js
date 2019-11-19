@@ -7,20 +7,17 @@ import {
     MARK_TASK_NOT_EDITABLE,
     REMOVE_TASK
 } from '../constants';
-import {combineReducers} from "redux";
+import { combineReducers } from "redux";
 
 const tasksById = (state = {}, action) => {
     switch (action.type) {
         case DATA_FETCH_SUCCESS:
             return { ...action.payload.tasks };
         case ADD_NEW_TASK:
-            const { id, ...data } = action.payload.data;
-            debugger;
             return {
                 ...state,
-                [id]: {
-                    id,
-                    ...data
+                [action.payload.data.id]: {
+                    ...action.payload.data
                 }
             };
         case MARK_TASK_EDITABLE:
@@ -42,13 +39,8 @@ const tasksById = (state = {}, action) => {
         case TASK_EDIT_SUCCESS:
             return {
                 ...state,
-                [action.payload.id]: {
-                    ...state[action.payload.id],
-                    title: action.payload.title,
-                    priority: action.payload.priority,
-                    description: action.payload.description,
-                    status: action.payload.status,
-                    list: action.payload.list
+                [action.payload.data.id]: {
+                    ...action.payload.data
                 }
             };
         case REMOVE_TASK:

@@ -36,7 +36,7 @@ function Dashboard(props) {
                 <DashboardToolboxContainer />
                 <Grid container spacing={3}>
                     {lists.map((list, index) => (
-                        <DashboardListContainer key={index} title={list.title} id={list.id} />
+                        <DashboardListContainer key={index} {...list} />
                     ))}
                 </Grid>
                 <DashboardAddListPopupContainer />

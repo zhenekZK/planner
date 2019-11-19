@@ -9,23 +9,25 @@ class DashboardAddListPopupContainer extends Component {
         super(props);
 
         this.state = {
-            title: ''
+            title: '',
+            description: ''
         }
     }
 
     createList = () => {
         const data = {
-            title: this.state.title
+            title: this.state.title,
+            description: this.state.description
         };
 
         this.props.createList(data);
         this.props.closePopup();
 
-        this.setState({ title: '' });
+        this.setState({ title: '', description: '' });
     };
 
-    updateTitle = (title) => {
-        this.setState({ title });
+    updateField = (field, value) => {
+        this.setState({ [field]: value });
     };
 
     render() {
@@ -33,8 +35,9 @@ class DashboardAddListPopupContainer extends Component {
             <DashboardAddListPopup
                 open={this.props.open}
                 title={this.state.title}
+                description={this.state.description}
                 createList={this.createList}
-                updateTitle={this.updateTitle}
+                updateField={this.updateField}
                 handleClose={this.props.closePopup}
             />
         );

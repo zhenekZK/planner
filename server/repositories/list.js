@@ -6,8 +6,13 @@ const getListsDB = () => {
 
 const createListDB = (data) => {
     return database('list')
-        .returning(['id', 'title'])
-        .insert({ title: data.title })
+        .returning(['id', 'title', 'description', 'createdby_id'])
+        .insert({
+            title: data.title,
+            description: data.description,
+            createdby_id: data.createdby_id
+        })
+        .then(data => data[0]);
 };
 
 const deleteListByIdDB = (id) => {

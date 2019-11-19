@@ -13,7 +13,8 @@ class DashboardTaskContainer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    ownerName: selectUserNameById(state, ownProps.owner_id),
+    owner: selectUserNameById(state, ownProps.owner_id),
+    updatedby: selectUserNameById(state, ownProps.updatedby_id),
     assigns: selectUserNames(state, ownProps.assigns)
 });
 

@@ -1,6 +1,7 @@
 const {
     getUserByIdDB,
-    getUserIdByTokenDB
+    getUserIdByTokenDB,
+    getAssignsDB
 } = require('../repositories/user');
 const {
     getTaskDataByIdDB,
@@ -67,27 +68,45 @@ const editTask = function (request, response) {
     ];
 
     return Promise.all(result).then(ids => {
-        const updatedTask = {
+        const task = {
             id: data.id,
             title: data.title,
             description: data.description,
-            status_id: ids[0].id,
-            priority_id: ids[1].id,
+            status_id: ids[0],
+            priority_id: ids[1],
             list_id: data.list,
-            updatedby_id: ids[2].id
+            updatedby_id: ids[2]
         };
 
-        updateTaskDB(updatedTask)
-            .then((data) => {
-                    response.status(200).json(data)
+        return updateTaskDB(task)
+            .then(() => getTaskDataByIdDB(data.id))
+            .then((updatedTask) => insertAssignsIntoTask(updatedTask))
+            .then((result) => {
+                    console.log(result);
+                    response.status(200).json(result)
                 });
             })
             .catch(error => console.log(error));
+};
+
+const fillTasksWithAssigns = function (tasks) {
+    return tasks.map(async (task) => insertAssignsIntoTask(task));
+};
+
+const insertAssignsIntoTask = function (task) {
+    return getAssignsDB(task.id)
+        .then((data) => {
+            console.log(task, 'TASK');
+            console.log(data, 'INSERTASSIGNS');
+            console.log({ ...task, assigns: [...data] }, 'CONCAT');
+            return { ...task, assigns: [...data] };
+        });
 };
 
 module.exports = {
     getTasks,
     addTask,
     removeTask,
-    editTask
+    editTask,
+    fillTasksWithAssigns
 };

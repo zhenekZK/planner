@@ -19,10 +19,6 @@ app.use('/lists', listRouter);
 app.use('/tasks', taskRouter);
 app.use('/user', userRouter);
 
-app.get('/', (request, response) => {
-    response.json({ info: 'Node.js, Express, and Postgres API' })
-});
-
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 });

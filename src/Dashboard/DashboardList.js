@@ -18,7 +18,12 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(2)
     },
     title: {
-        margin: '0 0 25px'
+        margin: '0 0 20px'
+    },
+    description: {
+        color: '#777',
+        fontSize: '13px',
+        margin: '20px 0'
     },
     delete: {
         position: 'absolute',
@@ -38,15 +43,19 @@ function DashboardList(props) {
     const {
         id,
         title,
+        description,
         tasks,
         addTask,
         deleteList
     } = props;
 
+    console.log(props);
+
     return (
         <Grid item xs={12} sm={6}>
             <Paper className={classes.list}>
                 <Typography align="center" className={classes.title} gutterBottom>{title}</Typography>
+                {description && <Typography align="center" className={classes.description} gutterBottom>{description}</Typography>}
                 <Grid container spacing={3}>
                     {tasks ? tasks.map((task, index) => (
                         <DashboardTaskContainer key={index} { ...task } />

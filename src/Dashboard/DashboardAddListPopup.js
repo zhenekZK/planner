@@ -11,7 +11,8 @@ function DashboardAddListPopup(props) {
     const {
         open,
         title,
-        updateTitle,
+        description,
+        updateField,
         createList,
         handleClose
     } = props;
@@ -24,9 +25,17 @@ function DashboardAddListPopup(props) {
                     <TextField
                         autoFocus
                         value={title}
-                        onChange={(e) => updateTitle(e.target.value)}
+                        onChange={(e) => updateField('title', e.target.value)}
                         margin="dense"
-                        label="List Title"
+                        label="Title"
+                        type="text"
+                        fullWidth
+                    />
+                    <TextField
+                        value={description}
+                        onChange={(e) => updateField('description', e.target.value)}
+                        margin="dense"
+                        label="Description"
                         type="text"
                         fullWidth
                     />

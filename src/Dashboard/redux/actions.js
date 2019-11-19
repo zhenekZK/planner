@@ -22,7 +22,7 @@ import {
 } from './constants';
 
 import { requestMaker } from '../../helpers/requestMaker';
-import {normalize, schema} from "normalizr";
+import { normalize, schema } from "normalizr";
 
 export const getTasksFetch = () => dispatch => {
     dispatch({ type: DATA_FETCH_START });
@@ -31,7 +31,7 @@ export const getTasksFetch = () => dispatch => {
         .then((response) => response.data)
         .then(({ message, ...data }) => {
             if (message) {
-                throw new Error('Problem with list adding');
+                throw new Error(message);
             } else {
                 const user = new schema.Entity('users');
                 const task = new schema.Entity('tasks', {
@@ -41,7 +41,6 @@ export const getTasksFetch = () => dispatch => {
                     tasks: [task]
                 });
                 const normalizedData = normalize(data, { lists: [list] });
-                // debugger;
                 dispatch({
                     type: DATA_FETCH_SUCCESS,
                     payload: normalizedData.entities
@@ -100,6 +99,10 @@ export const editTaskRequest = (data) => dispatch => {
                     dispatch({ type: TASK_EDIT_FAILED, payload: { message } });
                     throw new Error('Problem with list deleting');
                 } else {
+                    dispatch({
+                        type: DATA_FETCH_SUCCESS,
+                        payload: normalizedData.entities
+                    });
                     dispatch(editTask(data));
                 }
             });
@@ -121,7 +124,9 @@ export const addTask = (data) => ({
 
 export const editTask = (data) => ({
     type: TASK_EDIT_SUCCESS,
-    payload: { ...data }
+    payload: {
+        data
+    }
 });
 
 export const removeTask = (id) => ({

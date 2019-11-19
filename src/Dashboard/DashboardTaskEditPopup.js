@@ -19,12 +19,14 @@ function DashboardTaskEditPopup(props) {
         description,
         status,
         priority,
-        list,
+        list_id,
         allLists,
         updateField,
         onSave,
         onClose
     } = props;
+
+    console.log(props, 'DASHBOARD');
 
     return (
         <div>
@@ -82,7 +84,7 @@ function DashboardTaskEditPopup(props) {
                         <Select
                             labelId="edit-popup-list"
                             id="edit-popup-list-select"
-                            value={list}
+                            value={list_id}
                             onChange={(e) => updateField('list', e.target.value)}
                         >
                             {
@@ -111,7 +113,7 @@ DashboardTaskEditPopup.defaultProps = {
     open: false,
     status: '',
     priority: '',
-    list: ''
+    list_id: ''
 };
 
 export default DashboardTaskEditPopup;
