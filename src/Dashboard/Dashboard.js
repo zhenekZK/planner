@@ -1,4 +1,5 @@
 import React from 'react';
+
 import DashboardListContainer from "./DashboardListContainer";
 import DashboardUserPanelContainer from "./DashboardUserPanelContainer";
 import DashboardToolboxContainer from "./DashboardToolboxContainer";
@@ -10,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from "@material-ui/core/Grid";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles({
     root: {
@@ -24,12 +26,10 @@ const useStyles = makeStyles({
 function Dashboard(props) {
     const classes = useStyles();
 
-    const {
-        lists
-    } = props;
+    const { lists } = props;
 
     return (
-        <React.Fragment>
+        <>
             <CssBaseline />
             <Container maxWidth="md" className={classes.root}>
                 <DashboardUserPanelContainer />
@@ -43,8 +43,16 @@ function Dashboard(props) {
                 <DashboardTaskAddPopupContainer />
                 <DashboardTaskEditPopupContainer />
             </Container>
-        </React.Fragment>
+        </>
     );
 }
+
+Dashboard.defaultProps = {
+    lists: []
+};
+
+Dashboard.propTypes = {
+    lists: PropTypes.array.isRequired
+};
 
 export default Dashboard;

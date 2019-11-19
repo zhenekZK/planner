@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import PropTypes from "prop-types";
+
 import DashboardTask from './DashboardTask';
+
 import { markTaskEditable, removeTask, showEditTaskPopup } from './redux/actions';
-import {selectUserNameById, selectUserNames} from './redux/reducers/users';
+import { selectUserNameById, selectUserNames } from './redux/reducers/users';
 
 class DashboardTaskContainer extends Component {
     render() {
@@ -25,5 +28,19 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(showEditTaskPopup());
     }
 });
+
+DashboardTaskContainer.defaultProps = {
+    owner: '',
+    updatedby: '',
+    assigns: []
+};
+
+DashboardTaskContainer.propTypes = {
+    owner: PropTypes.string,
+    updatedby: PropTypes.string,
+    assigns: PropTypes.array,
+    deleteTask: PropTypes.func,
+    editTask: PropTypes.func
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardTaskContainer);

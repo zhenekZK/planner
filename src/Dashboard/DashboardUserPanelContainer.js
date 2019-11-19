@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from "prop-types";
+
 import DashboardUserPanel from './DashboardUserPanel';
+
 import { logoutUser } from '../Authorization/redux/actions';
 import { selectCurrentUser } from '../Authorization/redux/reducers/authentication';
 
@@ -25,6 +28,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 DashboardUserPanelContainer.defaultProps = {
     user: {}
+};
+
+DashboardUserPanelContainer.propTypes = {
+    user: PropTypes.object,
+    logOut: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardUserPanelContainer);

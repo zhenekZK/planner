@@ -1,9 +1,11 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from "prop-types";
+
 import DashboardList from './DashboardList';
 
 import { selectTasksByListId } from './redux/reducers/tasks';
-import {deleteListRequest, markListEditable, showAddTaskPopup} from "./redux/actions";
+import { deleteListRequest, markListEditable, showAddTaskPopup } from "./redux/actions";
 
 class DashboardListContainer extends Component {
     render() {
@@ -24,5 +26,15 @@ const mapDispatchToProps = (dispatch) => ({
     },
     deleteList: (id) => dispatch(deleteListRequest(id))
 });
+
+DashboardListContainer.defaultProps = {
+    tasks: []
+};
+
+DashboardListContainer.propTypes = {
+    tasks: PropTypes.array,
+    addTask: PropTypes.func,
+    deleteList: PropTypes.func
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardListContainer);

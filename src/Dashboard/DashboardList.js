@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from "prop-types";
+
 import DashboardTaskContainer from './DashboardTaskContainer';
 
 import Grid from "@material-ui/core/Grid";
@@ -49,8 +51,6 @@ function DashboardList(props) {
         deleteList
     } = props;
 
-    console.log(props);
-
     return (
         <Grid item xs={12} sm={6}>
             <Paper className={classes.list}>
@@ -81,5 +81,20 @@ function DashboardList(props) {
         </Grid>
     );
 }
+
+DashboardList.defaultProps = {
+    id: null,
+    title: '',
+    description: ''
+};
+
+DashboardList.propTypes = {
+    id: PropTypes.number,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    tasks: PropTypes.array,
+    addTask: PropTypes.func,
+    deleteList: PropTypes.func
+};
 
 export default DashboardList;

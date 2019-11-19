@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
+import {makeStyles} from "@material-ui/core";
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import {makeStyles} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
     panel: {
@@ -46,5 +47,14 @@ function DashboardUserPanel(props) {
         </Grid>
     );
 }
+
+DashboardUserPanel.defaultProps = {
+    name: ''
+};
+
+DashboardUserPanel.propTypes = {
+    name: PropTypes.string,
+    logOut: PropTypes.func,
+};
 
 export default DashboardUserPanel;

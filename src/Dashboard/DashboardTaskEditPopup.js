@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import PropTypes from "prop-types";
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -25,8 +26,6 @@ function DashboardTaskEditPopup(props) {
         onSave,
         onClose
     } = props;
-
-    console.log(props, 'DASHBOARD');
 
     return (
         <div>
@@ -109,11 +108,26 @@ function DashboardTaskEditPopup(props) {
 }
 
 DashboardTaskEditPopup.defaultProps = {
-    title: '',
     open: false,
+    title: '',
     status: '',
     priority: '',
-    list_id: ''
+    description: '',
+    list_id: null,
+    allLists: {}
+};
+
+DashboardTaskEditPopup.propTypes = {
+    open: PropTypes.bool,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    status: PropTypes.string,
+    priority: PropTypes.string,
+    list_id: PropTypes.number,
+    allLists: PropTypes.object,
+    updateField: PropTypes.func,
+    onSave: PropTypes.func,
+    onClose: PropTypes.func
 };
 
 export default DashboardTaskEditPopup;

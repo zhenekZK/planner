@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -20,7 +21,7 @@ function DashboardAddListPopup(props) {
     return (
         <div>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Add item</DialogTitle>
+                <DialogTitle id="form-dialog-title">Add list</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
@@ -54,7 +55,19 @@ function DashboardAddListPopup(props) {
 }
 
 DashboardAddListPopup.defaultProps = {
-    open: false
+    open: false,
+    title: '',
+    description: ''
+};
+
+DashboardAddListPopup.propTypes = {
+    open: PropTypes.bool,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    onClose: PropTypes.func,
+    createList: PropTypes.func,
+    updateField: PropTypes.func,
+    handleClose: PropTypes.func
 };
 
 export default DashboardAddListPopup;

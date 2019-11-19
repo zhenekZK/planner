@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from "prop-types";
+
 import DashboardTaskEditPopup from "./DashboardTaskEditPopup";
+
 import {
     editTaskRequest,
     hideEditTaskPopup,
-    markTaskNotEditable,
-    showEditTaskPopup
+    markTaskNotEditable
 } from './redux/actions';
 import { selectTaskById, selectEditableTaskId } from './redux/reducers/tasks';
 import { selectAllLists } from './redux/reducers/lists';
@@ -50,7 +52,7 @@ class DashboardTaskEditPopupContainer extends Component {
     }
 
     updateField = (field, value) => {
-        this.setState({ [field]: value }, () => console.log(this.state));
+        this.setState({ [field]: value });
     };
 
     onSave = () => {
@@ -101,7 +103,18 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 DashboardTaskEditPopupContainer.defaultProps = {
-    taskInfo: {}
+    open: false,
+    taskInfo: {},
+    allLists: {}
+};
+
+DashboardTaskEditPopupContainer.propTypes = {
+    open: PropTypes.bool,
+    taskInfo: PropTypes.object,
+    allLists: PropTypes.object,
+    editTask: PropTypes.func,
+    markTaskNotEditable: PropTypes.func,
+    onClose: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardTaskEditPopupContainer);

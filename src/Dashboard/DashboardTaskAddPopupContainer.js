@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from "prop-types";
+
 import DashboardTaskAddPopup from "./DashboardTaskAddPopup";
+
 import {
     addTaskRequest,
     hideAddTaskPopup,
-    markListNotEditable,
-    showEditTaskPopup
+    markListNotEditable
 } from './redux/actions';
-import {selectAllLists, selectEditableListId} from './redux/reducers/lists';
+import { selectAllLists, selectEditableListId } from './redux/reducers/lists';
 import { selectTaskAddPopupIsShowing } from './redux/reducers/toolbox';
 
 class DashboardTaskAddPopupContainer extends Component {
@@ -19,14 +21,14 @@ class DashboardTaskAddPopupContainer extends Component {
             priority: 'low',
             description: '',
             status: 'open',
-            list: props.listId
+            list_id: props.list_id
         };
     }
 
     static getDerivedStateFromProps(props, currentState) {
-        if (currentState.list !== props.listId) {
+        if (currentState.list_id !== props.list_id) {
             return {
-                list: props.listId
+                list_id: props.list_id
             }
         }
 
@@ -34,21 +36,21 @@ class DashboardTaskAddPopupContainer extends Component {
     }
 
     updateField = (field, value) => {
-        this.setState({ [field]: value }, () => console.log(this.state));
+        this.setState({ [field]: value });
     };
 
     onSave = () => {
-        const data = {
+        const taskData = {
             id: this.state.id,
             title: this.state.title,
             description: this.state.description,
             priority: this.state.priority,
             status: this.state.status,
-            list: this.state.list
+            list_id: this.state.list_id
         };
 
-        this.props.addTask(data);
-        this.props.markListNotEditable(data.list);
+        this.props.addTask(taskData);
+        this.props.markListNotEditable(taskData.list_id);
         this.onClose();
     };
 
@@ -58,10 +60,10 @@ class DashboardTaskAddPopupContainer extends Component {
             priority: '',
             description: '',
             status: '',
-            list: ''
+            list_id: null
         });
 
-        this.props.markListNotEditable(this.state.list);
+        this.props.markListNotEditable(this.state.list_id);
         this.props.onClose();
     };
 
@@ -82,7 +84,7 @@ class DashboardTaskAddPopupContainer extends Component {
 
 const mapStateToProps = (state) => ({
     open: selectTaskAddPopupIsShowing(state),
-    listId: selectEditableListId(state),
+    list_id: selectEditableListId(state),
     allLists: selectAllLists(state)
 });
 
@@ -93,7 +95,18 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 DashboardTaskAddPopupContainer.defaultProps = {
-    list: null
+    list_id: null,
+    open: false,
+    allLists: {}
+};
+
+DashboardTaskAddPopupContainer.propTypes = {
+    list_id: PropTypes.number,
+    open: PropTypes.bool,
+    allLists: PropTypes.object,
+    addTask: PropTypes.func,
+    markListNotEditable: PropTypes.func,
+    onClose: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardTaskAddPopupContainer);

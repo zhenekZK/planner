@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import IconButton from "@material-ui/core/IconButton";
@@ -12,5 +13,9 @@ function DashboardToolbox(props) {
         </div>
     );
 }
+
+DashboardToolbox.propTypes = {
+    showAddListPopup: PropTypes.func
+};
 
 export default DashboardToolbox;

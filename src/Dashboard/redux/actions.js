@@ -99,10 +99,10 @@ export const editTaskRequest = (data) => dispatch => {
                     dispatch({ type: TASK_EDIT_FAILED, payload: { message } });
                     throw new Error('Problem with list deleting');
                 } else {
-                    dispatch({
-                        type: DATA_FETCH_SUCCESS,
-                        payload: normalizedData.entities
-                    });
+                    // dispatch({
+                    //     type: DATA_FETCH_SUCCESS,
+                    //     payload: normalizedData.entities
+                    // });
                     dispatch(editTask(data));
                 }
             });

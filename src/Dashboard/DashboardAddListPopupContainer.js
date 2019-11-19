@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from "prop-types";
+
 import DashboardAddListPopup from "./DashboardAddListPopup";
+
 import { addList, hideAddListPopup } from './redux/actions';
 import { selectAddListPopupIsShowing } from './redux/reducers/toolbox';
 
@@ -15,15 +18,22 @@ class DashboardAddListPopupContainer extends Component {
     }
 
     createList = () => {
-        const data = {
+        const listData = {
             title: this.state.title,
             description: this.state.description
         };
 
-        this.props.createList(data);
-        this.props.closePopup();
+        this.props.createList(listData);
+        this.closePopup();
+    };
 
-        this.setState({ title: '', description: '' });
+    closePopup = () => {
+        this.setState({
+            title: '',
+            description: '',
+        });
+
+        this.props.onClose();
     };
 
     updateField = (field, value) => {
@@ -33,12 +43,12 @@ class DashboardAddListPopupContainer extends Component {
     render() {
         return (
             <DashboardAddListPopup
-                open={this.props.open}
                 title={this.state.title}
                 description={this.state.description}
+                open={this.props.open}
+                handleClose={this.closePopup}
                 createList={this.createList}
                 updateField={this.updateField}
-                handleClose={this.props.closePopup}
             />
         );
     }
@@ -53,7 +63,17 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(hideAddListPopup());
         dispatch(addList(data))
     },
-    closePopup: () => dispatch(hideAddListPopup()),
+    onClose: () => dispatch(hideAddListPopup()),
 });
+
+DashboardAddListPopupContainer.defaultProps = {
+    open: false
+};
+
+DashboardAddListPopupContainer.propTypes = {
+    open: PropTypes.bool,
+    createList: PropTypes.func,
+    onClose: PropTypes.func
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardAddListPopupContainer);

@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
-import Grid from "@material-ui/core/Grid";
 import { makeStyles } from '@material-ui/core/styles';
+import Grid from "@material-ui/core/Grid";
 import Paper from '@material-ui/core/Paper';
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
@@ -86,5 +87,29 @@ function DashboardTask(props) {
         </Grid>
     );
 }
+
+DashboardTask.defaultProps = {
+    id: null,
+    title: '',
+    description: '',
+    owner: '',
+    updatedby: '',
+    assigns: [],
+    priority: '',
+    status: ''
+};
+
+DashboardTask.propTypes = {
+    id: PropTypes.number,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    owner: PropTypes.string,
+    updatedby: PropTypes.string,
+    assigns: PropTypes.array,
+    priority: PropTypes.string,
+    status: PropTypes.string,
+    editTask: PropTypes.func,
+    deleteTask: PropTypes.func
+};
 
 export default DashboardTask;

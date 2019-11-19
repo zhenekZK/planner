@@ -27,4 +27,8 @@ const mapDispatchToProps = (dispatch) => ({
     loadTasks: () => dispatch(getTasksFetch())
 });
 
+DashboardContainer.defaultProps = {
+    lists: []
+};
+
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardContainer);

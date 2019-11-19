@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -93,7 +94,18 @@ DashboardTaskAddPopup.defaultProps = {
     open: false,
     status: 'open',
     priority: 'low',
-    list: null
+    description: ''
+};
+
+DashboardTaskAddPopup.propTypes = {
+    open: PropTypes.bool,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    status: PropTypes.string,
+    priority: PropTypes.string,
+    updateField: PropTypes.func,
+    onSave: PropTypes.func,
+    onClose: PropTypes.func
 };
 
 export default DashboardTaskAddPopup;
