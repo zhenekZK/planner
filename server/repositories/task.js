@@ -1,5 +1,37 @@
 const database = require('../db/config');
 
+const getTasksDB = function () {
+    return database.select({
+        id: 'task.id',
+        title: 'task.title',
+        description: 'task.description',
+        status: 'status.title',
+        priority: 'priority.title',
+        list_id: 'task.list_id',
+        owner_id: 'task.owner_id'
+    }).from('task')
+        .innerJoin('status', 'task.status_id', 'status.id')
+        .innerJoin('priority', 'task.priority_id', 'priority.id')
+};
+
+const createTaskDB = function (data) {
+    return database('task')
+        .returning(['id'])
+        .insert({
+            ...data
+        })
+        .then((data) => data[0])
+};
+
+const updateTaskDB = function (data) {
+    const { id, ...anotherData } = data;
+    return database('task')
+        .where({ 'id': id })
+        .update({
+            ...anotherData
+        })
+};
+
 const getTaskDataByIdDB = function (id) {
     return database.select({
         id: 'task.id',
@@ -14,11 +46,30 @@ const getTaskDataByIdDB = function (id) {
     .where({ 'task.id': id })
     .innerJoin('status', 'task.status_id', 'status.id')
     .innerJoin('priority', 'task.priority_id', 'priority.id')
-    .then((data) => {
-        return data[0];
-    })
+    .then((data) => data[0])
+};
+
+const getTasksByListIdDB = function (id) {
+    return database.select({
+        id: 'task.id',
+        title: 'task.title',
+        description: 'task.description',
+        status: 'status.title',
+        priority: 'priority.title',
+        list_id: 'task.list_id',
+        owner_id: 'task.owner_id',
+        updatedBy: 'task.updatedby_id'
+    }).from('task')
+        .where({ list_id: id })
+        .innerJoin('status', 'task.status_id', 'status.id')
+        .innerJoin('priority', 'task.priority_id', 'priority.id')
+        .then((data) => data);
 };
 
 module.exports = {
-    getTaskDataByIdDB
+    createTaskDB,
+    getTasksDB,
+    updateTaskDB,
+    getTaskDataByIdDB,
+    getTasksByListIdDB
 };

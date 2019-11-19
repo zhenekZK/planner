@@ -1,5 +1,9 @@
 const database = require('../db/config');
 
+const getListsDB = () => {
+    return database.from('list').select()
+};
+
 const createListDB = (data) => {
     return database('list')
         .returning(['id', 'title'])
@@ -14,6 +18,7 @@ const deleteListByIdDB = (id) => {
 };
 
 module.exports = {
+    getListsDB,
     createListDB,
     deleteListByIdDB
 };

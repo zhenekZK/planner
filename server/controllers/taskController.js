@@ -1,22 +1,21 @@
-const database = require('../db/config');
-const { getUserByIdDB } = require('../repositories/user');
-const { getTaskDataByIdDB } = require('../repositories/task');
+const {
+    getUserByIdDB,
+    getUserIdByTokenDB
+} = require('../repositories/user');
+const {
+    getTaskDataByIdDB,
+    getTasksDB,
+    createTaskDB,
+    updateTaskDB
+} = require('../repositories/task');
+const { getStatusIdByTitleDB } = require('../repositories/status');
+const { getPriorityIdByTitleDB } = require('../repositories/priority');
 
 const getTasks = function (request, response) {
-    return database.select({
-        id: 'task.id',
-        title: 'task.title',
-        description: 'task.description',
-        status: 'status.title',
-        priority: 'priority.title',
-        list_id: 'task.list_id',
-        owner_id: 'task.owner_id'
-    }).from('task')
-        .innerJoin('status', 'task.status_id', 'status.id')
-        .innerJoin('priority', 'task.priority_id', 'priority.id')
+    getTasksDB()
         .then((data) => {
             const selectUsers = [];
-            data.forEach((i) => selectUsers.push(getUserByIdDB(i.owner_id)));
+            data.forEach((task) => selectUsers.push(getUserByIdDB(task.owner_id)));
             console.log(data);
             Promise.all(selectUsers).then(() => {
                 console.log(data);
@@ -28,28 +27,26 @@ const getTasks = function (request, response) {
 const addTask = function (request, response) {
     const data = request.body;
 
-    console.log(data, 'DATA FOR TASK');
-
     const result = [
-        database.select('id').from('status').where('title', '=', data.status).then((data) => data[0]),
-        database.select('id').from('priority').where('title', '=', data.priority).then((data) => data[0]),
-        database.select('id').from('users').where('token', '=', request.decodedToken).then((data) => data[0]),
+        getStatusIdByTitleDB(data.status),
+        getPriorityIdByTitleDB(data.priority),
+        getUserIdByTokenDB(request.decodedToken)
     ];
 
     return Promise.all(result).then(ids => {
-        return database('task')
-            .returning(['id'])
-            .insert({
-                title: data.title,
-                description: data.description,
-                status_id: ids[0].id,
-                priority_id: ids[1].id,
-                owner_id: ids[2].id,
-                updatedby_id: ids[2].id,
-                list_id: data.list
-            }).then((data) => {
-                getTaskDataByIdDB(data[0].id).then(data => {
-                    console.log(data, 'DATA FOR SENDING');
+        const task = {
+            title: data.title,
+            description: data.description,
+            status_id: ids[0].id,
+            priority_id: ids[1].id,
+            owner_id: ids[2].id,
+            updatedby_id: ids[2].id,
+            list_id: data.list
+        };
+
+        createTaskDB(task)
+            .then((data) => {
+                getTaskDataByIdDB(data.id).then(data => {
                     response.status(200).json(data);
                 })
             });
@@ -64,24 +61,24 @@ const editTask = function (request, response) {
     const data = request.body;
 
     const result = [
-        database.select('id').from('status').where('title', '=', data.status).then((data) => data[0]),
-        database.select('id').from('priority').where('title', '=', data.priority).then((data) => data[0]),
-        database.select('id').from('users').where('token', '=', request.decodedToken).then((data) => data[0]),
+        getStatusIdByTitleDB(data.status),
+        getPriorityIdByTitleDB(data.priority),
+        getUserIdByTokenDB(request.decodedToken)
     ];
 
     return Promise.all(result).then(ids => {
-        return database('task')
-            .where({ 'id': data.id })
-            .update({
-                title: data.title,
-                description: data.description,
-                status_id: ids[0].id,
-                priority_id: ids[1].id,
-                list_id: data.list,
-                updatedby_id: ids[2].id
-            })
+        const updatedTask = {
+            id: data.id,
+            title: data.title,
+            description: data.description,
+            status_id: ids[0].id,
+            priority_id: ids[1].id,
+            list_id: data.list,
+            updatedby_id: ids[2].id
+        };
+
+        updateTaskDB(updatedTask)
             .then((data) => {
-                    console.log(data);
                     response.status(200).json(data)
                 });
             })

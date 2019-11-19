@@ -30,8 +30,45 @@ const getUserByIdDB = (id) => {
         .then((data) => data[0]);
 };
 
+const getUserIdByTokenDB = (token) => {
+    return database.select('id')
+        .from('users')
+        .where('token', '=', token)
+        .then((data) => data[0]);
+};
+
+const getUserByEmailDB = (email) => {
+    return database.from('users')
+        .select()
+        .where({ email: email })
+        .then((data) => data[0]);
+};
+
+const getAssignedUsersDB = (id) => {
+    return database.select({
+        id: 'users.id',
+        name: 'users.name',
+        surname: 'users.surname',
+        email: 'users.email'
+    }).from('users_in_tasks')
+        .where({ task_id: id })
+        .innerJoin('users', 'users_in_tasks.user_id', 'users.id')
+};
+
+const updateUserTokenByIdDB = (token, id) => {
+    return database('users')
+        .where('id', '=', id)
+        .returning(['id', 'name', 'surname', 'email', 'token'])
+        .update({ token })
+        .then((data) => data[0]);
+};
+
 module.exports = {
     getUserByTokenDB,
     getUserByIdDB,
-    createUserDB
+    createUserDB,
+    getUserByEmailDB,
+    getUserIdByTokenDB,
+    updateUserTokenByIdDB,
+    getAssignedUsersDB
 };

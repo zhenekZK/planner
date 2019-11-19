@@ -1,8 +1,12 @@
-const database = require('../db/config');
-const bcrypt = require('bcrypt');                        // bcrypt will encrypt passwords to be saved in db
+const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 
-const { createUserDB, getUserByTokenDB } = require('../repositories/user');
+const {
+    createUserDB,
+    getUserByTokenDB,
+    updateUserTokenByIdDB,
+    getUserByEmailDB
+} = require('../repositories/user');
 
 const signup = (request, response) => {
     const user = request.body;
@@ -40,29 +44,22 @@ const createToken = () => {
 };
 
 const signin = (request, response) => {
-    const userReq = request.body;
+    const data = request.body;
     let user;
 
-    findUser(userReq)
+    getUserByEmailDB(data.email)
         .then(foundUser => {
             user = foundUser;
-            return checkPassword(userReq.password, foundUser)
+            return checkPassword(data.password, foundUser)
         })
-        .then((res) => createToken())
-        .then(token => updateUserToken(token, user))
+        .then(() => createToken())
+        .then(token => updateUserTokenByIdDB(token, user.id))
         .then(() => {
             delete user.password_digest;
             response.header("Access-Control-Allow-Origin", "*");
             response.status(200).json(user)
         })
         .catch((err) => console.error(err))
-};
-
-const findUser = (userReq) => {
-    return database.from('users')
-        .select()
-        .where({ email: userReq.email })
-        .then((data) => data[0]);
 };
 
 const checkPassword = (reqPassword, foundUser) => {
@@ -78,14 +75,6 @@ const checkPassword = (reqPassword, foundUser) => {
             }
         })
     )
-};
-
-const updateUserToken = (token, user) => {
-    return database('users')
-        .where('id', '=', user.id)
-        .returning(['id', 'name', 'surname', 'email', 'token'])
-        .update({ token })
-        .then((data) => data[0]);
 };
 
 const profile = (request, response) => {
