@@ -57,7 +57,7 @@ const signin = (request, response) => {
         .then((newToken) => {
             delete user.password_digest;
             user.token = newToken;
-            response.header("Access-Control-Allow-Origin", "*");
+            // response.header("Access-Control-Allow-Origin", "*");
             response.status(200).json(user)
         })
         .catch((err) => console.error(err))

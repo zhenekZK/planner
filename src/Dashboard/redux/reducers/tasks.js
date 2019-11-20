@@ -1,11 +1,10 @@
 import {
-    ADD_NEW_TASK, DATA_FETCH_SUCCESS,
-    TASK_EDIT_START,
+    TASK_ADD_SUCCESS,
+    TASK_REMOVE_SUCCESS,
+    DATA_FETCH_SUCCESS,
     TASK_EDIT_SUCCESS,
-    TASK_EDIT_FAILED,
     MARK_TASK_EDITABLE,
-    MARK_TASK_NOT_EDITABLE,
-    REMOVE_TASK
+    MARK_TASK_NOT_EDITABLE
 } from '../constants';
 import { combineReducers } from "redux";
 
@@ -13,7 +12,7 @@ const tasksById = (state = {}, action) => {
     switch (action.type) {
         case DATA_FETCH_SUCCESS:
             return { ...action.payload.tasks };
-        case ADD_NEW_TASK:
+        case TASK_ADD_SUCCESS:
             return {
                 ...state,
                 [action.payload.data.id]: {
@@ -43,7 +42,7 @@ const tasksById = (state = {}, action) => {
                     ...action.payload.data
                 }
             };
-        case REMOVE_TASK:
+        case TASK_REMOVE_SUCCESS:
             return {
                 ...state,
                 ...Object.keys(state)
@@ -62,12 +61,12 @@ const allTasks = (state = [], action) => {
     switch (action.type) {
         case DATA_FETCH_SUCCESS:
             return [...Object.keys(action.payload.tasks).map((key) => parseInt(key))];
-        case ADD_NEW_TASK:
+        case TASK_ADD_SUCCESS:
             return [
                 ...state,
                 action.payload.data.id
             ];
-        case REMOVE_TASK:
+        case TASK_REMOVE_SUCCESS:
             const newIds = [...state.filter((id) => {
                 return action.payload.id !== id
             })];

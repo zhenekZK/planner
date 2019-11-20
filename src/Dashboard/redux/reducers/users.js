@@ -1,5 +1,5 @@
 import { DATA_FETCH_SUCCESS, REMOVE_LIST} from "../constants";
-import {combineReducers} from "redux";
+import { combineReducers } from "redux";
 
 const usersById = (state = {}, action) => {
     switch (action.type) {

@@ -1,5 +1,4 @@
 const {
-    getUserByIdDB,
     getUserIdByTokenDB,
     getAssignsDB
 } = require('../repositories/user');
@@ -15,12 +14,6 @@ const { getPriorityIdByTitleDB } = require('../repositories/priority');
 const getTasks = function (request, response) {
     getTasksDB()
         .then((data) => {
-            const selectUsers = [];
-            data.forEach((task) => selectUsers.push(getUserByIdDB(task.owner_id)));
-            console.log(data);
-            Promise.all(selectUsers).then(() => {
-                console.log(data);
-            });
             response.status(200).json(data)
         });
 };
@@ -55,7 +48,7 @@ const addTask = function (request, response) {
 };
 
 const removeTask = function(request, response) {
-
+    // will be implemented later
 };
 
 const editTask = function (request, response) {
@@ -82,7 +75,6 @@ const editTask = function (request, response) {
             .then(() => getTaskDataByIdDB(data.id))
             .then((updatedTask) => insertAssignsIntoTask(updatedTask))
             .then((result) => {
-                    console.log(result);
                     response.status(200).json(result)
                 });
             })
@@ -95,12 +87,7 @@ const fillTasksWithAssigns = function (tasks) {
 
 const insertAssignsIntoTask = function (task) {
     return getAssignsDB(task.id)
-        .then((data) => {
-            console.log(task, 'TASK');
-            console.log(data, 'INSERTASSIGNS');
-            console.log({ ...task, assigns: [...data] }, 'CONCAT');
-            return { ...task, assigns: [...data] };
-        });
+        .then((data) => ({ ...task, assigns: [...data] }));
 };
 
 module.exports = {

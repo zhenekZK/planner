@@ -1,10 +1,10 @@
 import {
-    ADD_NEW_LIST,
-    ADD_NEW_TASK,
+    LIST_ADD_SUCCESS,
+    LIST_REMOVE_SUCCESS,
+    TASK_ADD_SUCCESS,
     DATA_FETCH_SUCCESS,
     MARK_LIST_EDITABLE,
-    MARK_LIST_NOT_EDITABLE,
-    REMOVE_LIST
+    MARK_LIST_NOT_EDITABLE
 } from '../constants';
 
 import { combineReducers } from 'redux';
@@ -13,19 +13,19 @@ const listsById = (state = {}, action) => {
     switch (action.type) {
         case DATA_FETCH_SUCCESS:
             return {...state, ...action.payload.lists};
-        case ADD_NEW_LIST:
-            const { id, title } = action.payload;
+        case LIST_ADD_SUCCESS:
+            const { id, title, description } = action.payload;
             return {
                 ...state,
                 [id]: {
-                    id: id,
-                    title: title,
+                    id,
+                    title,
+                    description,
                     tasks: []
                 }
             };
-        case ADD_NEW_TASK:
+        case TASK_ADD_SUCCESS:
             const { list_id } = action.payload.data;
-            debugger;
             return {
                 ...state,
                 [list_id]: {
@@ -36,7 +36,7 @@ const listsById = (state = {}, action) => {
                     ]
                 }
             };
-        case REMOVE_LIST:
+        case LIST_REMOVE_SUCCESS:
             const { [action.payload.id]: value, ...result } = state;
             return {
                 ...result
@@ -65,15 +65,15 @@ const listsById = (state = {}, action) => {
 const allLists = (state = [], action) => {
     switch (action.type) {
         case DATA_FETCH_SUCCESS:
-            return [...Object.keys(action.payload.lists).map((key) => parseInt(key))];
-        case ADD_NEW_LIST:
-            const { id } = action.payload;
-
+            return [
+                ...Object.keys(action.payload.lists).map((key) => parseInt(key))
+            ];
+        case LIST_ADD_SUCCESS:
             return [
                 ...state,
-                id
+                action.payload.id
             ];
-        case REMOVE_LIST:
+        case LIST_REMOVE_SUCCESS:
             return [
                 ...state.filter(listId => listId !== action.payload.id)
             ];

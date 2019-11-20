@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from "prop-types";
 
 import RegisterPage from "./RegisterPage";
+
 import { userPostFetch } from "../Authorization/redux/actions";
 
 class RegisterPageContainer extends React.Component {
@@ -18,7 +20,7 @@ class RegisterPageContainer extends React.Component {
 
     handleChange = (e) => {
         const { name, value } = e.target;
-        this.setState({ [name]: value }, () => console.log(this.state));
+        this.setState({ [name]: value });
     };
 
     handleSubmit = (e) => {
@@ -26,6 +28,7 @@ class RegisterPageContainer extends React.Component {
 
         const data = this.state;
         this.props.createUser(data);
+
         this.setState({
             name: '',
             surname: '',
@@ -51,5 +54,9 @@ class RegisterPageContainer extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
     createUser: (data) => dispatch(userPostFetch(data))
 });
+
+RegisterPageContainer.propTypes = {
+    createUser: PropTypes.func
+};
 
 export default connect(null, mapDispatchToProps)(RegisterPageContainer);

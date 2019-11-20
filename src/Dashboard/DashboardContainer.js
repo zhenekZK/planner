@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Dashboard from "./Dashboard";
 import { connect } from 'react-redux';
 import { selectAllListsAsArray } from './redux/reducers/lists';
-import { getTasksFetch } from './redux/actions';
+import { getListsFetch } from './redux/actions';
 
 class DashboardContainer extends Component {
     componentDidMount() {
@@ -24,7 +24,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    loadTasks: () => dispatch(getTasksFetch())
+    loadTasks: () => dispatch(getListsFetch())
 });
 
 DashboardContainer.defaultProps = {

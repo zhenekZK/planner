@@ -17,10 +17,7 @@ const getUserByTokenDB = (token) => {
     return database.from('users')
         .select()
         .where({ token })
-        .then((data) => data[0])
-        .catch(error => {
-            console.log(error);
-        });
+        .then((data) => data[0]);
 };
 
 const getUserByIdDB = (id) => {

@@ -2,13 +2,21 @@ import {
     DATA_FETCH_START,
     DATA_FETCH_SUCCESS,
     DATA_FETCH_FAILED,
-    ADD_NEW_LIST,
-    REMOVE_LIST,
-    ADD_NEW_TASK,
+    LIST_ADD_START,
+    LIST_ADD_SUCCESS,
+    LIST_ADD_FAILED,
+    LIST_REMOVE_START,
+    LIST_REMOVE_SUCCESS,
+    LIST_REMOVE_FAILED,
+    TASK_ADD_START,
+    TASK_ADD_SUCCESS,
+    TASK_ADD_FAILED,
     TASK_EDIT_START,
     TASK_EDIT_SUCCESS,
     TASK_EDIT_FAILED,
-    REMOVE_TASK,
+    TASK_REMOVE_START,
+    TASK_REMOVE_SUCCESS,
+    TASK_REMOVE_FAILED,
     MARK_TASK_EDITABLE,
     MARK_TASK_NOT_EDITABLE,
     TASK_ADD_POPUP_SHOW,
@@ -24,13 +32,14 @@ import {
 import { requestMaker } from '../../helpers/requestMaker';
 import { normalize, schema } from "normalizr";
 
-export const getTasksFetch = () => dispatch => {
+export const getListsFetch = () => dispatch => {
     dispatch({ type: DATA_FETCH_START });
 
     requestMaker('lists/', 'get')
         .then((response) => response.data)
         .then(({ message, ...data }) => {
             if (message) {
+                dispatch({ type: DATA_FETCH_FAILED, error: message });
                 throw new Error(message);
             } else {
                 const user = new schema.Entity('users');
@@ -41,6 +50,7 @@ export const getTasksFetch = () => dispatch => {
                     tasks: [task]
                 });
                 const normalizedData = normalize(data, { lists: [list] });
+
                 dispatch({
                     type: DATA_FETCH_SUCCESS,
                     payload: normalizedData.entities
@@ -50,14 +60,17 @@ export const getTasksFetch = () => dispatch => {
 };
 
 export const addList = (data) => dispatch => {
+    dispatch({ type: LIST_ADD_START });
+
     return requestMaker('lists/create', 'post', data)
         .then((response) => response.data)
         .then(({ message, ...data }) => {
             if (message) {
+                dispatch({ type: LIST_ADD_FAILED, error: message });
                 throw new Error('Problem with list adding');
             } else {
                 dispatch({
-                    type: ADD_NEW_LIST,
+                    type: LIST_ADD_SUCCESS,
                     payload: {
                         ...data
                     }
@@ -67,22 +80,27 @@ export const addList = (data) => dispatch => {
 };
 
 export const deleteListRequest = (id) => dispatch => {
+    dispatch({ type: LIST_REMOVE_START });
+
     return requestMaker('lists/delete', 'post', { id })
-                .then(({ message }) => {
-                    if (message) {
-                        throw new Error('Problem with list deleting');
-                    } else {
-                        dispatch(deleteList(id));
-                    }
-                });
+            .then(({ message }) => {
+                if (message) {
+                    dispatch({ type: LIST_REMOVE_FAILED, error: message });
+                    throw new Error('Problem with list deleting');
+                } else {
+                    dispatch(deleteList(id));
+                }
+            });
 };
 
 export const addTaskRequest = (data) => dispatch => {
+    dispatch({ TASK_ADD_START });
+
     return requestMaker('tasks/add', 'post', data)
         .then((response) => response.data)
         .then(({ message, ...data }) => {
-            debugger;
             if (message) {
+                dispatch({ TASK_ADD_FAILED, error: message });
                 throw new Error('Problem with list deleting');
             } else {
                 dispatch(addTask(data));
@@ -92,6 +110,7 @@ export const addTaskRequest = (data) => dispatch => {
 
 export const editTaskRequest = (data) => dispatch => {
     dispatch({ type: TASK_EDIT_START });
+
     return requestMaker('tasks/edit', 'post', data)
             .then((response) => response.data)
             .then(({ message, ...data }) => {
@@ -99,24 +118,20 @@ export const editTaskRequest = (data) => dispatch => {
                     dispatch({ type: TASK_EDIT_FAILED, payload: { message } });
                     throw new Error('Problem with list deleting');
                 } else {
-                    // dispatch({
-                    //     type: DATA_FETCH_SUCCESS,
-                    //     payload: normalizedData.entities
-                    // });
                     dispatch(editTask(data));
                 }
             });
 };
 
 const deleteList = (id) => ({
-    type: REMOVE_LIST,
+    type: LIST_REMOVE_SUCCESS,
     payload: {
         id
     }
 });
 
 export const addTask = (data) => ({
-    type: ADD_NEW_TASK,
+    type: TASK_ADD_SUCCESS,
     payload: {
         data
     }
@@ -130,7 +145,7 @@ export const editTask = (data) => ({
 });
 
 export const removeTask = (id) => ({
-    type: REMOVE_TASK,
+    type: TASK_REMOVE_SUCCESS,
     payload: {
         id
     }

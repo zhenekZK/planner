@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import PropTypes from "prop-types";
 
 import LoginPage from './LoginPage';
+
 import { userLoginFetch } from '../Authorization/redux/actions';
 import { selectCurrentUserToken } from '../Authorization/redux/reducers/authentication';
 
@@ -26,6 +28,7 @@ class LoginPageContainer extends React.Component {
 
         const data = this.state;
         this.props.loginUser(data);
+
         this.setState({
             email: '',
             password: ''
@@ -55,5 +58,14 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     loginUser: (user) => dispatch(userLoginFetch(user))
 });
+
+LoginPageContainer.defaultProps = {
+    isLogged: false
+};
+
+LoginPageContainer.propTypes = {
+    isLogged: PropTypes.bool,
+    loginUser: PropTypes.func
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPageContainer);

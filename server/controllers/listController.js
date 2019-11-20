@@ -4,10 +4,7 @@ const {
     deleteListByIdDB
 } = require('../repositories/list');
 const { getTasksByListIdDB } = require('../repositories/task');
-const {
-    getUserIdByTokenDB,
-    getAssignsDB
-} = require('../repositories/user');
+const { getUserIdByTokenDB } = require('../repositories/user');
 const { fillTasksWithAssigns } = require('./taskController');
 
 const addList = function (request, response) {

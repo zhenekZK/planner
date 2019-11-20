@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
@@ -8,7 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
-import {makeStyles} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
     '@global': {
@@ -98,5 +99,17 @@ function LoginPage(props) {
         </Container>
     );
 }
+
+LoginPage.defaultProps = {
+    email: '',
+    password: ''
+};
+
+LoginPage.propTypes = {
+    email: PropTypes.string,
+    password: PropTypes.string,
+    onChange: PropTypes.func,
+    onSubmit: PropTypes.func
+};
 
 export default LoginPage;
