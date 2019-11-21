@@ -66,10 +66,25 @@ const getTasksByListIdDB = function (id) {
         .then((data) => data);
 };
 
+const deleteTaskByIdDB = (id) => {
+    return database('task')
+        .where('id', id)
+        .returning('id')
+        .del()
+        .then((data) => data[0])
+        .then((id) =>
+            database('users_in_tasks')
+                .where('task_id', id)
+                .del()
+                .then(() => id)
+        );
+};
+
 module.exports = {
     createTaskDB,
     getTasksDB,
     updateTaskDB,
     getTaskDataByIdDB,
-    getTasksByListIdDB
+    getTasksByListIdDB,
+    deleteTaskByIdDB
 };

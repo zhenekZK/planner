@@ -6,7 +6,8 @@ const {
     getTaskDataByIdDB,
     getTasksDB,
     createTaskDB,
-    updateTaskDB
+    updateTaskDB,
+    deleteTaskByIdDB
 } = require('../repositories/task');
 const { getStatusIdByTitleDB } = require('../repositories/status');
 const { getPriorityIdByTitleDB } = require('../repositories/priority');
@@ -48,7 +49,13 @@ const addTask = function (request, response) {
 };
 
 const removeTask = function(request, response) {
-    // will be implemented later
+    const data = request.body;
+
+    // need to add owner/assign validation to pretend
+    // deleting if you have no access for task
+    deleteTaskByIdDB(data.id)
+        .then((id) => response.status(200).json({ id }));
+
 };
 
 const editTask = function (request, response) {

@@ -17,6 +17,10 @@ const addList = function (request, response) {
 
 const removeList = function (request, response) {
     const id = request.body.id;
+
+    // need to add owner/assign validation to pretend
+    // deleting if you have no access for list and tasks.
+    // also need to do something with task which has list_id of deleting list
     deleteListByIdDB(id)
         .then((result) => response.status(200).json(result));
 };

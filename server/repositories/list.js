@@ -20,6 +20,13 @@ const deleteListByIdDB = (id) => {
         .where('id', id)
         .returning('id')
         .del()
+        .then((data) => data[0])
+        .then((id) =>
+            database('users_in_lists')
+                .where('list_id', id)
+                .del()
+                .then(() => id)
+        );
 };
 
 module.exports = {

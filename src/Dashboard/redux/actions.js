@@ -96,7 +96,7 @@ export const deleteListRequest = (id) => dispatch => {
 export const addTaskRequest = (data) => dispatch => {
     dispatch({ TASK_ADD_START });
 
-    return requestMaker('tasks/add', 'post', data)
+    return requestMaker('tasks/create', 'post', data)
         .then((response) => response.data)
         .then(({ message, ...data }) => {
             if (message) {
@@ -121,6 +121,21 @@ export const editTaskRequest = (data) => dispatch => {
                     dispatch(editTask(data));
                 }
             });
+};
+
+export const removeTaskRequest = (id) => dispatch => {
+    dispatch({ type: TASK_REMOVE_START });
+
+    return requestMaker('tasks/delete', 'post', { id })
+        .then((response) => response.data)
+        .then(({ message, id }) => {
+            if (message) {
+                dispatch({ type: TASK_REMOVE_FAILED, payload: { message } });
+                throw new Error('Problem with task deleting');
+            } else {
+                dispatch(removeTask(id));
+            }
+        });
 };
 
 const deleteList = (id) => ({
