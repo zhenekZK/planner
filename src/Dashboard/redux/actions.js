@@ -94,7 +94,7 @@ export const deleteListRequest = (id) => dispatch => {
 };
 
 export const addTaskRequest = (data) => dispatch => {
-    dispatch({ TASK_ADD_START });
+    dispatch({ type: TASK_ADD_START });
 
     return requestMaker('tasks/create', 'post', data)
         .then((response) => response.data)

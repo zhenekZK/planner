@@ -9,17 +9,24 @@ import { selectUserNameById, selectUserNames } from './redux/reducers/users';
 
 class DashboardTaskContainer extends Component {
     render() {
+        console.log(this.props, 'DashboardTaskContainer');
+
         return (
             <DashboardTask {...this.props} />
         );
     }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-    owner: selectUserNameById(state, ownProps.owner_id),
-    updatedby: selectUserNameById(state, ownProps.updatedby_id),
-    assigns: selectUserNames(state, ownProps.assigns)
-});
+const mapStateToProps = (state, ownProps) => {
+    console.log(state, "STATE");
+    console.log(ownProps, "OWNPROPS");
+
+    return {
+        owner: selectUserNameById(state, ownProps.owner_id),
+        updatedby: selectUserNameById(state, ownProps.updatedby_id),
+        assigns: selectUserNames(state, ownProps.assigns)
+    }
+};
 
 const mapDispatchToProps = (dispatch) => ({
     deleteTask: (id) => dispatch(removeTaskRequest(id)),

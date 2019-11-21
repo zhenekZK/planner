@@ -26,13 +26,14 @@ const listsById = (state = {}, action) => {
             };
         case TASK_ADD_SUCCESS:
             const { list_id } = action.payload.data;
+            debugger;
             return {
                 ...state,
                 [list_id]: {
                     ...state[list_id],
                     tasks: [
                         ...state[list_id].tasks,
-                        action.payload.id
+                        action.payload.data.id
                     ]
                 }
             };

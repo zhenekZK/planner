@@ -15,12 +15,19 @@ const getTasksDB = function () {
 };
 
 const createTaskDB = function (data) {
+    const { assigns, ...anotherData } = data;
+    console.log(anotherData, 'Another data');
+    console.log(data, 'Data');
+
     return database('task')
         .returning(['id'])
         .insert({
-            ...data
+            ...anotherData
         })
-        .then((data) => data[0])
+        .then((data) => data[0].id)
+        .then((task_id) => Promise.all(
+            assigns.map(user_id => setAssignDB(user_id, task_id))
+        ).then(() => ({ id: task_id })));
 };
 
 const updateTaskDB = function (data) {
@@ -80,11 +87,33 @@ const deleteTaskByIdDB = (id) => {
         );
 };
 
+const setAssignDB = (user_id, task_id) => {
+    return database('users_in_tasks')
+        .returning(['user_id', 'task_id'])
+        .insert({
+            user_id,
+            task_id
+        }).then((data) => data[0]);
+};
+
+const getAssignsDB = (task_id) => {
+    return database.select({
+        id: 'users.id',
+        name: 'users.name',
+        surname: 'users.surname',
+        email: 'users.email'
+    }).from('users_in_tasks')
+        .where({ task_id })
+        .innerJoin('users', 'users_in_tasks.user_id', 'users.id')
+};
+
 module.exports = {
     createTaskDB,
     getTasksDB,
     updateTaskDB,
     getTaskDataByIdDB,
     getTasksByListIdDB,
-    deleteTaskByIdDB
+    deleteTaskByIdDB,
+    setAssignDB,
+    getAssignsDB
 };

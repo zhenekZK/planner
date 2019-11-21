@@ -10,6 +10,7 @@ import {
     markListNotEditable
 } from './redux/actions';
 import { selectAllLists, selectEditableListId } from './redux/reducers/lists';
+import { selectAllUsersAsArray } from './redux/reducers/users';
 import { selectTaskAddPopupIsShowing } from './redux/reducers/toolbox';
 
 class DashboardTaskAddPopupContainer extends Component {
@@ -21,7 +22,8 @@ class DashboardTaskAddPopupContainer extends Component {
             priority: 'low',
             description: '',
             status: 'open',
-            list_id: props.list_id
+            list_id: props.list_id,
+            assigns: []
         };
     }
 
@@ -41,13 +43,15 @@ class DashboardTaskAddPopupContainer extends Component {
 
     onSave = () => {
         const taskData = {
-            id: this.state.id,
             title: this.state.title,
             description: this.state.description,
             priority: this.state.priority,
             status: this.state.status,
-            list_id: this.state.list_id
+            list_id: this.state.list_id,
+            assigns: this.state.assigns.map((assign) => assign.value)
         };
+
+        debugger;
 
         this.props.addTask(taskData);
         this.props.markListNotEditable(taskData.list_id);
@@ -73,6 +77,10 @@ class DashboardTaskAddPopupContainer extends Component {
                 {...this.state}
                 open={this.props.open}
                 allLists={this.props.allLists}
+                allUsers={this.props.allUsers.map(user => ({
+                    value: user.id,
+                    label: `${user.name} ${user.surname}`
+                }))}
                 createTask={this.editTask}
                 updateField={this.updateField}
                 onSave={this.onSave}
@@ -85,7 +93,8 @@ class DashboardTaskAddPopupContainer extends Component {
 const mapStateToProps = (state) => ({
     open: selectTaskAddPopupIsShowing(state),
     list_id: selectEditableListId(state),
-    allLists: selectAllLists(state)
+    allLists: selectAllLists(state),
+    allUsers: selectAllUsersAsArray(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

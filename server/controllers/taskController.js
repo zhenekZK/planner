@@ -1,13 +1,11 @@
-const {
-    getUserIdByTokenDB,
-    getAssignsDB
-} = require('../repositories/user');
+const { getUserIdByTokenDB } = require('../repositories/user');
 const {
     getTaskDataByIdDB,
     getTasksDB,
     createTaskDB,
     updateTaskDB,
-    deleteTaskByIdDB
+    deleteTaskByIdDB,
+    getAssignsDB
 } = require('../repositories/task');
 const { getStatusIdByTitleDB } = require('../repositories/status');
 const { getPriorityIdByTitleDB } = require('../repositories/priority');
@@ -32,16 +30,19 @@ const addTask = function (request, response) {
         const task = {
             title: data.title,
             description: data.description,
-            status_id: ids[0].id,
-            priority_id: ids[1].id,
-            owner_id: ids[2].id,
-            updatedby_id: ids[2].id,
-            list_id: data.list
+            status_id: ids[0],
+            priority_id: ids[1],
+            owner_id: ids[2],
+            updatedby_id: ids[2],
+            list_id: data.list_id,
+            assigns: data.assigns
         };
 
         createTaskDB(task)
             .then((data) => {
+                console.log(data);
                 getTaskDataByIdDB(data.id).then(data => {
+                    console.log(data, 'Data before sending back');
                     response.status(200).json(data);
                 })
             });

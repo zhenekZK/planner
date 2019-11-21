@@ -41,17 +41,6 @@ const getUserByEmailDB = (email) => {
         .then((data) => data[0]);
 };
 
-const getAssignsDB = (task_id) => {
-    return database.select({
-        id: 'users.id',
-        name: 'users.name',
-        surname: 'users.surname',
-        email: 'users.email'
-    }).from('users_in_tasks')
-        .where({ task_id })
-        .innerJoin('users', 'users_in_tasks.user_id', 'users.id')
-};
-
 const updateUserTokenByIdDB = (token, id) => {
     return database('users')
         .where('id', '=', id)
@@ -66,6 +55,5 @@ module.exports = {
     createUserDB,
     getUserByEmailDB,
     getUserIdByTokenDB,
-    updateUserTokenByIdDB,
-    getAssignsDB
+    updateUserTokenByIdDB
 };

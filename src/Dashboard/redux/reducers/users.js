@@ -24,14 +24,26 @@ export default combineReducers({
     allIds: allUsers
 });
 
-export const selectUserNames = (state, ids) => {
+export const selectAllUsers = (state) => {
+    return {
+        ...state.users.byId
+    }
+};
+
+export const selectUserIds = (state) => state.users.allIds;
+
+export const selectAllUsersAsArray = (state) => {
+    return selectUserIds(state).map(id => selectUserById(state, id))
+};
+
+export const selectUserNames = (state, ids = []) => { // [] - temporary stub
     return ids.map(id => state.users.byId[id].name);
 };
 
-export const selectUserInfoById = (state, id) => {
+export const selectUserById = (state, id) => {
     return state.users.byId[id];
 };
 
 export const selectUserNameById = (state, id) => {
-    return selectUserInfoById(state, id).name;
+    return selectUserById(state, id).name;
 };
