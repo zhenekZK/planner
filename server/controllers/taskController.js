@@ -76,7 +76,8 @@ const editTask = function (request, response) {
             status_id: ids[0],
             priority_id: ids[1],
             list_id: data.list,
-            updatedby_id: ids[2]
+            updatedby_id: ids[2],
+            assigns: data.assigns
         };
 
         return updateTaskDB(task)

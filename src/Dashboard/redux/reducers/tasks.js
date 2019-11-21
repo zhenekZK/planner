@@ -82,36 +82,3 @@ export default combineReducers({
     byId: tasksById,
     allIds: allTasks
 });
-
-export const selectTaskIds = (state) => {
-    return state.tasks.allIds;
-};
-
-export const selectTaskById = (state, id) => {
-    return state.tasks.byId[id];
-};
-
-export const selectTasksByListId = (state, id) => {
-    const ids = selectTaskIds(state);
-    const fitIds = ids.filter(taskId => {
-        return selectTaskById(state, taskId).list_id === id
-    });
-
-    return fitIds.map(taskId => selectTaskById(state, taskId));
-};
-
-export const selectEditableTaskId = (state) => {
-    let editableTaskId = null,
-        taskIds = selectTaskIds(state);
-
-    for (let i = 0, length = taskIds.length; i < length; i++){
-        let taskInfo = selectTaskById(state, taskIds[i]);
-
-        if (taskInfo.isEditable) {
-            editableTaskId = taskInfo.id;
-            break;
-        }
-    }
-
-    return editableTaskId;
-};

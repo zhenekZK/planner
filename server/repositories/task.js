@@ -31,12 +31,19 @@ const createTaskDB = function (data) {
 };
 
 const updateTaskDB = function (data) {
-    const { id, ...anotherData } = data;
+    const { id, assigns, ...anotherData } = data;
     return database('task')
         .where({ 'id': id })
+        .returning(['id'])
         .update({
             ...anotherData
         })
+        .then(data => data[0].id)
+        .then((task_id) => deleteAssignsByTaskIdDB(task_id)
+            .then((task_id) => Promise.all(
+                assigns.map(user_id => setAssignDB(user_id, task_id))
+            ).then(() => ({ id: task_id })))
+        )
 };
 
 const getTaskDataByIdDB = function (id) {
@@ -79,12 +86,17 @@ const deleteTaskByIdDB = (id) => {
         .returning('id')
         .del()
         .then((data) => data[0])
-        .then((id) =>
-            database('users_in_tasks')
-                .where('task_id', id)
-                .del()
-                .then(() => id)
+        .then((id) => deleteAssignsByTaskIdDB(id)
+            .then(() => id)
         );
+};
+
+const deleteAssignsByTaskIdDB = (task_id) => {
+    return database('users_in_tasks')
+        .returning(['task_id'])
+        .where('task_id', task_id)
+        .del()
+        .then((data) => data[0])
 };
 
 const setAssignDB = (user_id, task_id) => {

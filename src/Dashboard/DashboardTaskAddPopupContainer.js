@@ -9,9 +9,13 @@ import {
     hideAddTaskPopup,
     markListNotEditable
 } from './redux/actions';
-import { selectAllLists, selectEditableListId } from './redux/reducers/lists';
-import { selectAllUsersAsArray } from './redux/reducers/users';
-import { selectTaskAddPopupIsShowing } from './redux/reducers/toolbox';
+
+import {
+    selectAllLists,
+    selectEditableListId,
+    selectAllUsersAsArray,
+    selectTaskAddPopupIsShowing
+} from './redux/selectors';
 
 class DashboardTaskAddPopupContainer extends Component {
     constructor(props) {
@@ -50,8 +54,6 @@ class DashboardTaskAddPopupContainer extends Component {
             list_id: this.state.list_id,
             assigns: this.state.assigns.map((assign) => assign.value)
         };
-
-        debugger;
 
         this.props.addTask(taskData);
         this.props.markListNotEditable(taskData.list_id);
@@ -104,8 +106,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 DashboardTaskAddPopupContainer.defaultProps = {
-    list_id: null,
     open: false,
+    list_id: null,
     allLists: {}
 };
 

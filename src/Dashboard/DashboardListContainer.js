@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import DashboardList from './DashboardList';
 
-import { selectTasksByListId } from './redux/reducers/tasks';
+import { selectTasksByListId } from './redux/selectors';
 import { deleteListRequest, markListEditable, showAddTaskPopup } from "./redux/actions";
 
 class DashboardListContainer extends Component {

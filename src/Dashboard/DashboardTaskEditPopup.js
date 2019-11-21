@@ -2,6 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 import PropTypes from "prop-types";
 
+import MultipleInput from "../shared/inputs/MultipleInput";
+
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -12,6 +14,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Typography from "@material-ui/core/Typography";
 
 function DashboardTaskEditPopup(props) {
     const {
@@ -21,11 +24,15 @@ function DashboardTaskEditPopup(props) {
         status,
         priority,
         list_id,
+        allUsers,
         allLists,
+        assigns,
         updateField,
         onSave,
         onClose
     } = props;
+
+    console.log(assigns, 'ASSIGNS');
 
     return (
         <div>
@@ -92,6 +99,15 @@ function DashboardTaskEditPopup(props) {
                                 })
                             }
                         </Select>
+                    </FormControl>
+                    <FormControl fullWidth margin='normal'>
+                        <Typography id="edit-popup-status" gutterBottom>Assigns</Typography>
+                        <MultipleInput
+                            placeholder='You can select several users'
+                            onChange={(value) => updateField('assigns', value)}
+                            options={allUsers}
+                            value={assigns}
+                        />
                     </FormControl>
                 </DialogContent>
                 <DialogActions>

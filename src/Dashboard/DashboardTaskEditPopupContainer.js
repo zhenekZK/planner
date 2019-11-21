@@ -9,9 +9,15 @@ import {
     hideEditTaskPopup,
     markTaskNotEditable
 } from './redux/actions';
-import { selectTaskById, selectEditableTaskId } from './redux/reducers/tasks';
-import { selectAllLists } from './redux/reducers/lists';
-import { selectTaskEditPopupIsShowing } from './redux/reducers/toolbox';
+
+import {
+    selectTaskById,
+    selectEditableTaskId,
+    selectAllLists,
+    selectTaskEditPopupIsShowing,
+    selectAllUsersAsArray,
+    selectAssignsDataByTaskId
+} from './redux/selectors';
 
 class DashboardTaskEditPopupContainer extends Component {
     constructor(props) {
@@ -23,7 +29,8 @@ class DashboardTaskEditPopupContainer extends Component {
             priority: props.taskInfo.priority,
             description: props.taskInfo.description,
             status: props.taskInfo.status,
-            list_id: props.taskInfo.list_id
+            list_id: props.taskInfo.list_id,
+            assigns: props.assigns
         };
     }
 
@@ -38,13 +45,16 @@ class DashboardTaskEditPopupContainer extends Component {
                 list_id
             } = props.taskInfo;
 
+            const assigns = props.assigns;
+
             return {
                 id,
                 title,
                 priority,
                 description,
                 status,
-                list_id
+                list_id,
+                assigns
             }
         }
 
@@ -56,17 +66,18 @@ class DashboardTaskEditPopupContainer extends Component {
     };
 
     onSave = () => {
-        const data = {
+        const taskData = {
             id: this.state.id,
             title: this.state.title,
             priority: this.state.priority,
             description: this.state.description,
             status: this.state.status,
-            list_id: this.state.list_id
+            list_id: this.state.list_id,
+            assigns: this.state.assigns.map((assign) => assign.value)
         };
 
-        this.props.editTask(data);
-        this.props.markTaskNotEditable(data.id);
+        this.props.editTask(taskData);
+        this.props.markTaskNotEditable(taskData.id);
         this.onClose();
     };
 
@@ -81,6 +92,10 @@ class DashboardTaskEditPopupContainer extends Component {
                 {...this.state}
                 open={this.props.open}
                 allLists={this.props.allLists}
+                allUsers={this.props.allUsers.map(user => ({
+                    value: user.id,
+                    label: `${user.name} ${user.surname}`
+                }))}
                 createTask={this.editTask}
                 updateField={this.updateField}
                 onSave={this.onSave}
@@ -93,7 +108,9 @@ class DashboardTaskEditPopupContainer extends Component {
 const mapStateToProps = (state) => ({
     open: selectTaskEditPopupIsShowing(state),
     taskInfo: selectTaskById(state, selectEditableTaskId(state)),
-    allLists: selectAllLists(state)
+    allLists: selectAllLists(state),
+    allUsers: selectAllUsersAsArray(state),
+    assigns: selectAssignsDataByTaskId(state, selectEditableTaskId(state))
 });
 
 const mapDispatchToProps = (dispatch) => ({

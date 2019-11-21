@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import DashboardTask from './DashboardTask';
 
 import { markTaskEditable, removeTaskRequest, showEditTaskPopup } from './redux/actions';
-import { selectUserNameById, selectUserNames } from './redux/reducers/users';
+import { selectUserNameById, selectUserNames } from './redux/selectors';
 
 class DashboardTaskContainer extends Component {
     render() {
@@ -17,16 +17,11 @@ class DashboardTaskContainer extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    console.log(state, "STATE");
-    console.log(ownProps, "OWNPROPS");
-
-    return {
-        owner: selectUserNameById(state, ownProps.owner_id),
-        updatedby: selectUserNameById(state, ownProps.updatedby_id),
-        assigns: selectUserNames(state, ownProps.assigns)
-    }
-};
+const mapStateToProps = (state, ownProps) => ({
+    owner: selectUserNameById(state, ownProps.owner_id),
+    updatedby: selectUserNameById(state, ownProps.updatedby_id),
+    assigns: selectUserNames(state, ownProps.assigns)
+});
 
 const mapDispatchToProps = (dispatch) => ({
     deleteTask: (id) => dispatch(removeTaskRequest(id)),

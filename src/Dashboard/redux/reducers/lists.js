@@ -87,31 +87,3 @@ export default combineReducers({
     byId: listsById,
     allIds: allLists
 });
-
-export const selectListIds = (state) => state.lists.allIds;
-
-export const selectListById = (state, id) => state.lists.byId[id];
-
-export const selectAllLists = (state) => {
-    return {
-        ...state.lists.byId
-    }
-};
-
-export const selectEditableListId = (state) => {
-    let id = null;
-    const ids = selectListIds(state);
-
-    for (let i = 0, length = ids.length; i < length; i++) {
-        if (selectListById(state, ids[i]).isEditable) {
-            id = ids[i];
-            break;
-        }
-    }
-
-    return id;
-};
-
-export const selectAllListsAsArray = (state) => {
-    return selectListIds(state).map(id => selectListById(state, id))
-};

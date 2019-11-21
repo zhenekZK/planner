@@ -111,6 +111,8 @@ export const addTaskRequest = (data) => dispatch => {
 export const editTaskRequest = (data) => dispatch => {
     dispatch({ type: TASK_EDIT_START });
 
+    debugger;
+
     return requestMaker('tasks/edit', 'post', data)
             .then((response) => response.data)
             .then(({ message, ...data }) => {

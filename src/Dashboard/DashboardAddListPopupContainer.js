@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import DashboardAddListPopup from "./DashboardAddListPopup";
 
 import { addList, hideAddListPopup } from './redux/actions';
-import { selectAddListPopupIsShowing } from './redux/reducers/toolbox';
+import { selectAddListPopupIsShowing } from './redux/selectors';
 
 class DashboardAddListPopupContainer extends Component {
     constructor(props) {

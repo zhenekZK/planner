@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Dashboard from "./Dashboard";
 import { connect } from 'react-redux';
-import { selectAllListsAsArray } from './redux/reducers/lists';
+import { selectAllListsAsArray } from './redux/selectors';
 import { getListsFetch } from './redux/actions';
 
 class DashboardContainer extends Component {
