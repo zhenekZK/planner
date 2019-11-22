@@ -9,8 +9,6 @@ import { selectUserNameById, selectUserNames } from './redux/selectors';
 
 class DashboardTaskContainer extends Component {
     render() {
-        console.log(this.props, 'DashboardTaskContainer');
-
         return (
             <DashboardTask {...this.props} />
         );

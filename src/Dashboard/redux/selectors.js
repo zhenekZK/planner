@@ -88,7 +88,10 @@ export const selectAllUsersAsArray = (state) => {
 };
 
 export const selectUserNames = (state, ids = []) => { // [] - temporary stub
-    return ids.map(id => state.users.byId[id].name);
+    return ids.map(id => {
+        let user = selectUserById(state, id);
+        return user ? user.name : 'Error';
+    });
 };
 
 export const selectUserById = (state, id) => {

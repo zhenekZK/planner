@@ -39,11 +39,17 @@ const updateTaskDB = function (data) {
             ...anotherData
         })
         .then(data => data[0].id)
-        .then((task_id) => deleteAssignsByTaskIdDB(task_id)
-            .then((task_id) => Promise.all(
-                assigns.map(user_id => setAssignDB(user_id, task_id))
-            ).then(() => ({ id: task_id })))
-        )
+        .then((task_id) => updateTaskAssignsDB(task_id, assigns)
+            .then(() => { id })
+        );
+};
+
+const updateTaskAssignsDB = function (task_id, assigns) {
+    return deleteAssignsByTaskIdDB(task_id)
+        .then(() => (assigns && assigns.length) ?
+            Promise.all(assigns.map(user_id => setAssignDB(user_id, task_id)))
+            : null
+        );
 };
 
 const getTaskDataByIdDB = function (id) {

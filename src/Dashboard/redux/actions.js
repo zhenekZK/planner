@@ -26,11 +26,15 @@ import {
     ADD_NEW_LIST_POPUP_SHOW,
     ADD_NEW_LIST_POPUP_HIDE,
     MARK_LIST_EDITABLE,
-    MARK_LIST_NOT_EDITABLE
+    MARK_LIST_NOT_EDITABLE,
+    USERS_WERE_UPDATED
 } from './constants';
 
 import { requestMaker } from '../../helpers/requestMaker';
 import { normalize, schema } from "normalizr";
+
+window.schema = schema;
+window.normalize = normalize;
 
 export const getListsFetch = () => dispatch => {
     dispatch({ type: DATA_FETCH_START });
@@ -111,8 +115,6 @@ export const addTaskRequest = (data) => dispatch => {
 export const editTaskRequest = (data) => dispatch => {
     dispatch({ type: TASK_EDIT_START });
 
-    debugger;
-
     return requestMaker('tasks/edit', 'post', data)
             .then((response) => response.data)
             .then(({ message, ...data }) => {
@@ -120,7 +122,21 @@ export const editTaskRequest = (data) => dispatch => {
                     dispatch({ type: TASK_EDIT_FAILED, payload: { message } });
                     throw new Error('Problem with list deleting');
                 } else {
-                    dispatch(editTask(data));
+                    const user = new schema.Entity('users');
+                    const task = new schema.Entity('tasks', {
+                        assigns: [user]
+                    });
+
+                    const normalizedData = normalize(data, task);
+                    const task_id = normalizedData.result;
+                    const { users, tasks } = normalizedData.entities;
+                    const userKeys = users ? Object.keys(users) : [];
+
+                    if (userKeys.length) dispatch(usersWereUpdated(users));
+
+                    // after task editting we will always get only one task,
+                    // so we can get it due to result value
+                    dispatch(editTask(tasks[task_id]));
                 }
             });
 };
@@ -139,6 +155,13 @@ export const removeTaskRequest = (id) => dispatch => {
             }
         });
 };
+
+const usersWereUpdated = (users) => ({
+    type: USERS_WERE_UPDATED,
+    payload: {
+        data: users
+    }
+});
 
 const deleteList = (id) => ({
     type: LIST_REMOVE_SUCCESS,

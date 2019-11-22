@@ -73,7 +73,7 @@ class DashboardTaskEditPopupContainer extends Component {
             description: this.state.description,
             status: this.state.status,
             list_id: this.state.list_id,
-            assigns: this.state.assigns.map((assign) => assign.value)
+            assigns: this.state.assigns ? this.state.assigns.map((assign) => assign.value) : []
         };
 
         this.props.editTask(taskData);
@@ -122,7 +122,8 @@ const mapDispatchToProps = (dispatch) => ({
 DashboardTaskEditPopupContainer.defaultProps = {
     open: false,
     taskInfo: {},
-    allLists: {}
+    allLists: {},
+    assigns: []
 };
 
 DashboardTaskEditPopupContainer.propTypes = {

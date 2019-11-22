@@ -75,7 +75,7 @@ const editTask = function (request, response) {
             description: data.description,
             status_id: ids[0],
             priority_id: ids[1],
-            list_id: data.list,
+            list_id: data.list_id,
             updatedby_id: ids[2],
             assigns: data.assigns
         };

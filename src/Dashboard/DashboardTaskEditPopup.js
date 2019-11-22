@@ -32,8 +32,6 @@ function DashboardTaskEditPopup(props) {
         onClose
     } = props;
 
-    console.log(assigns, 'ASSIGNS');
-
     return (
         <div>
             <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
@@ -90,7 +88,7 @@ function DashboardTaskEditPopup(props) {
                         <Select
                             labelId="edit-popup-list"
                             id="edit-popup-list-select"
-                            value={list_id}
+                            value={list_id ? list_id : ''}
                             onChange={(e) => updateField('list', e.target.value)}
                         >
                             {
@@ -130,7 +128,8 @@ DashboardTaskEditPopup.defaultProps = {
     priority: '',
     description: '',
     list_id: null,
-    allLists: {}
+    allLists: {},
+    assigns: ''
 };
 
 DashboardTaskEditPopup.propTypes = {
