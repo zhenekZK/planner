@@ -33,9 +33,6 @@ import {
 import { requestMaker } from '../../helpers/requestMaker';
 import { normalize, schema } from "normalizr";
 
-window.schema = schema;
-window.normalize = normalize;
-
 export const getListsFetch = () => dispatch => {
     dispatch({ type: DATA_FETCH_START });
 
