@@ -4,14 +4,17 @@ const {
     deleteListByIdDB
 } = require('../repositories/list');
 const { getTasksByListIdDB } = require('../repositories/task');
-const { getUserIdByTokenDB } = require('../repositories/user');
-const { fillTasksWithAssigns, fillTasksWithOwners } = require('./taskController');
+const { fillTasksWithAssigns } = require('./taskController');
 
 const addList = function (request, response) {
     const data = request.body;
 
-    getUserIdByTokenDB(request.decodedToken).then(id => data.createdby_id = id)
-        .then(() => createListDB(data))
+    let list = {
+        ...data,
+        createdby_id: request.user.id
+    };
+
+    createListDB(list)
         .then((list) => response.status(200).json(list));
 };
 
@@ -27,8 +30,8 @@ const removeList = function (request, response) {
 
 const getLists = async function (request, response) {
     getListsDB()
-        .then((data) => {
-            const listWithTasks = data.map(async (list) =>
+        .then((lists) => {
+            const listWithTasks = lists.map(async (list) =>
                 getTasksByListIdDB(list.id)
                     .then((tasks) => fillTasksWithAssigns(tasks))
                     .then((tasks) => ({ ...list, tasks: [...tasks] }))

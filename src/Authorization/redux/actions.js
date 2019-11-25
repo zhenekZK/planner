@@ -43,7 +43,8 @@ export const getProfileFetch = () => dispatch => {
             if (message) {
                 dispatch(loginUserFailed(message));
             } else {
-                dispatch(loginUser(data));
+                let token = localStorage.getItem('token');
+                dispatch(loginUser({ ...data, token }));
             }
         }
     )

@@ -26,13 +26,6 @@ const getUserByIdDB = (id) => {
         .then((data) => data[0]);
 };
 
-const getUserIdByTokenDB = (token) => {
-    return database.select('id')
-        .from('users')
-        .where('token', '=', token)
-        .then((data) => data[0].id);
-};
-
 const getUserByEmailDB = (email) => {
     return database.from('users')
         .select()
@@ -40,19 +33,9 @@ const getUserByEmailDB = (email) => {
         .then((data) => data[0]);
 };
 
-const updateUserTokenByIdDB = (token, id) => {
-    return database('users')
-        .where('id', '=', id)
-        .returning(['token'])
-        .update({ token })
-        .then((data) => data[0].token);
-};
-
 module.exports = {
     getUserByTokenDB,
     getUserByIdDB,
     createUserDB,
-    getUserByEmailDB,
-    getUserIdByTokenDB,
-    updateUserTokenByIdDB
+    getUserByEmailDB
 };
