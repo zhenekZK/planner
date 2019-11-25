@@ -92,8 +92,8 @@ function DashboardTaskEditPopup(props) {
                             onChange={(e) => updateField('list', e.target.value)}
                         >
                             {
-                                _.map(allLists, (l) => {
-                                    return <MenuItem key={l.id} value={l.id}>{l.title}</MenuItem>
+                                _.map(allLists, (list) => {
+                                    return <MenuItem key={list.id} value={list.id}>{list.title}</MenuItem>
                                 })
                             }
                         </Select>

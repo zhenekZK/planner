@@ -125,6 +125,17 @@ const getAssignsDB = (task_id) => {
         .innerJoin('users', 'users_in_tasks.user_id', 'users.id')
 };
 
+const getOwnerDB = (task_id) => {
+    return database.select({
+        id: 'users.id',
+        name: 'users.name',
+        surname: 'users.surname',
+        email: 'users.email'
+    }).from('users')
+        .where({ id: task_id })
+        .then(data => data[0]);
+};
+
 module.exports = {
     createTaskDB,
     getTasksDB,
@@ -133,5 +144,6 @@ module.exports = {
     getTasksByListIdDB,
     deleteTaskByIdDB,
     setAssignDB,
-    getAssignsDB
+    getAssignsDB,
+    getOwnerDB
 };

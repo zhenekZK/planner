@@ -45,7 +45,8 @@ export const getListsFetch = () => dispatch => {
             } else {
                 const user = new schema.Entity('users');
                 const task = new schema.Entity('tasks', {
-                    assigns: [user]
+                    assigns: [user],
+                    owner: user
                 });
                 const list = new schema.Entity('lists', {
                     tasks: [task]

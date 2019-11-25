@@ -5,7 +5,7 @@ const {
 } = require('../repositories/list');
 const { getTasksByListIdDB } = require('../repositories/task');
 const { getUserIdByTokenDB } = require('../repositories/user');
-const { fillTasksWithAssigns } = require('./taskController');
+const { fillTasksWithAssigns, fillTasksWithOwners } = require('./taskController');
 
 const addList = function (request, response) {
     const data = request.body;
@@ -31,9 +31,7 @@ const getLists = async function (request, response) {
             const listWithTasks = data.map(async (list) =>
                 getTasksByListIdDB(list.id)
                     .then((tasks) => fillTasksWithAssigns(tasks))
-                    .then((tasks) =>
-                        Promise.all(tasks)
-                            .then((tasks) => ({ ...list, tasks: [...tasks] })))
+                    .then((tasks) => ({ ...list, tasks: [...tasks] }))
             );
             Promise.all(listWithTasks).then((result) => {
                 response.status(200).json({ lists: result })

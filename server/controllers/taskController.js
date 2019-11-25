@@ -1,11 +1,12 @@
-const { getUserIdByTokenDB } = require('../repositories/user');
+const { getUserIdByTokenDB, getUserByIdDB } = require('../repositories/user');
 const {
     getTaskDataByIdDB,
     getTasksDB,
     createTaskDB,
     updateTaskDB,
     deleteTaskByIdDB,
-    getAssignsDB
+    getAssignsDB,
+    getOwnerDB
 } = require('../repositories/task');
 const { getStatusIdByTitleDB } = require('../repositories/status');
 const { getPriorityIdByTitleDB } = require('../repositories/priority');
@@ -91,12 +92,13 @@ const editTask = function (request, response) {
 };
 
 const fillTasksWithAssigns = function (tasks) {
-    return tasks.map(async (task) => insertAssignsIntoTask(task));
+    return Promise.all(tasks.map(async (task) => insertAssignsIntoTask(task)));
 };
 
 const insertAssignsIntoTask = function (task) {
     return getAssignsDB(task.id)
-        .then((data) => ({ ...task, assigns: [...data] }));
+        .then((assigns) => getOwnerDB(task.owner_id)
+            .then((owner) => ({ ...task, owner: {...owner}, assigns: [...assigns] })));
 };
 
 module.exports = {

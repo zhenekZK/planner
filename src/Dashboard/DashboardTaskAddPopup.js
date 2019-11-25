@@ -29,8 +29,6 @@ function DashboardTaskAddPopup(props) {
         onClose
     } = props;
 
-    console.log(props, 'DashboardTaskAddPopup');
-
     return (
         <div>
             <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
