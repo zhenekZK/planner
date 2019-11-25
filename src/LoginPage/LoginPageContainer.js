@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import LoginPage from './LoginPage';
 
 import { userLoginFetch } from '../Authorization/redux/actions';
-import { selectCurrentUserToken } from '../Authorization/redux/reducers/authentication';
+import { selectIsAuthenticated } from '../Authorization/redux/reducers/authentication';
 
 class LoginPageContainer extends React.Component {
     constructor(props) {
@@ -37,7 +37,7 @@ class LoginPageContainer extends React.Component {
 
     render() {
         return (
-            this.props.isLogged ?
+            this.props.isAuthenticated ?
                 <Redirect to='/dashboard' /> :
                 <LoginPage
                     email={this.state.email}
@@ -51,7 +51,7 @@ class LoginPageContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        isLogged: !!selectCurrentUserToken(state)
+        isAuthenticated: selectIsAuthenticated(state)
     }
 };
 

@@ -5,12 +5,24 @@ import {
     LOGOUT_USER
 } from '../constants';
 
-export default function authentication(state = {}, action) {
+const isEmpty = require("is-empty");
+
+const initialState = {
+    isAuthenticated: false,
+    user: {},
+    loading: false
+};
+
+export default function authentication(state = initialState, action) {
     switch (action.type) {
         case LOGIN_USER_STARTED:
             return state; // will be implemented later
         case LOGIN_USER_SUCCESS:
-            return action.payload;
+            return {
+                ...state,
+                isAuthenticated: !isEmpty(action.payload),
+                user: action.payload
+            };
         case LOGIN_USER_FAILED:
             return state; // will be implemented later
         case LOGOUT_USER:
@@ -20,6 +32,10 @@ export default function authentication(state = {}, action) {
     }
 }
 
-export const selectCurrentUser = (state) => state.currentUser;
+export const selectCurrentUser = (state) => state.auth.user;
 
-export const selectCurrentUserToken = (state) => state.currentUser.token;
+export const selectIsAuthenticated = (state) => {
+    return state.auth.isAuthenticated;
+};
+
+export const selectCurrentUserToken = (state) => state.auth.user;

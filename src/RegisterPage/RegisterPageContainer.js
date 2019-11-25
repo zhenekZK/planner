@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import RegisterPage from "./RegisterPage";
 
 import { userPostFetch } from "../Authorization/redux/actions";
+import { selectIsAuthenticated } from "../Authorization/redux/reducers/authentication";
+import { Redirect } from "react-router-dom";
 
 class RegisterPageContainer extends React.Component {
     constructor(props) {
@@ -39,17 +41,21 @@ class RegisterPageContainer extends React.Component {
 
     render() {
         return (
-            <RegisterPage
-                name={this.state.name}
-                surname={this.state.surname}
-                email={this.state.email}
-                password={this.state.password}
-                onChange={this.handleChange}
-                onSubmit={this.handleSubmit}
-            />
+            this.props.isAuthenticated ?
+                <Redirect to='/dashboard' /> :
+                <RegisterPage
+                    name={this.state.name}
+                    surname={this.state.surname}
+                    email={this.state.email}
+                    password={this.state.password}
+                    onChange={this.handleChange}
+                    onSubmit={this.handleSubmit}
+                />
         );
     }
 }
+
+const mapStateToProps = (state) => ({ isAuthenticated: selectIsAuthenticated(state) });
 
 const mapDispatchToProps = (dispatch) => ({
     createUser: (data) => dispatch(userPostFetch(data))
@@ -59,4 +65,4 @@ RegisterPageContainer.propTypes = {
     createUser: PropTypes.func
 };
 
-export default connect(null, mapDispatchToProps)(RegisterPageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterPageContainer);

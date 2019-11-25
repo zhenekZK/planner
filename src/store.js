@@ -3,9 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import root from './reducers/root';
 
-const initialState = {
-    currentUser: {}
-};
+const initialState = {};
 
 export default function configureStore(initialState) {
     return createStore(

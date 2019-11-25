@@ -5,7 +5,7 @@ export const requestMaker = (address, type, data) => {
     const token = localStorage.token;
     const extraData = {
         headers: {
-            Authorization: 'Bearer ' + token
+            Authorization: token
         }
     };
 

@@ -23,8 +23,7 @@ const addTask = function (request, response) {
 
     const result = [
         getStatusIdByTitleDB(data.status),
-        getPriorityIdByTitleDB(data.priority),
-        getUserIdByTokenDB(request.decodedToken)
+        getPriorityIdByTitleDB(data.priority)
     ];
 
     return Promise.all(result).then(ids => {
@@ -33,8 +32,8 @@ const addTask = function (request, response) {
             description: data.description,
             status_id: ids[0],
             priority_id: ids[1],
-            owner_id: ids[2],
-            updatedby_id: ids[2],
+            owner_id: request.user.id,
+            updatedby_id: request.user.id,
             list_id: data.list_id,
             assigns: data.assigns
         };
@@ -65,8 +64,7 @@ const editTask = function (request, response) {
 
     const result = [
         getStatusIdByTitleDB(data.status),
-        getPriorityIdByTitleDB(data.priority),
-        getUserIdByTokenDB(request.decodedToken)
+        getPriorityIdByTitleDB(data.priority)
     ];
 
     return Promise.all(result).then(ids => {
@@ -77,7 +75,7 @@ const editTask = function (request, response) {
             status_id: ids[0],
             priority_id: ids[1],
             list_id: data.list_id,
-            updatedby_id: ids[2],
+            updatedby_id: request.user.id,
             assigns: data.assigns
         };
 

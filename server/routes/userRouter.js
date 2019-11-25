@@ -1,10 +1,10 @@
 const express = require("express");
 const userController = require("../controllers/userController");
-const { authenticate } = require("../middlewares/authenticate");
+const passport = require('passport');
 const userRouter = express.Router();
 
-userRouter.post('/create', userController.signup);
-userRouter.post('/login', userController.signin);
-userRouter.get('/profile', authenticate, userController.profile);
+userRouter.post('/register', userController.register);
+userRouter.post('/login', userController.login);
+userRouter.get('/profile', passport.authenticate('jwt', { session: false }), userController.profile);
 
 module.exports = userRouter;

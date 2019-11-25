@@ -1,30 +1,56 @@
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
+const jwt = require("jsonwebtoken");
+const passport = require("passport");
+const keys = require("../config/keys");
 
 const {
     createUserDB,
-    getUserByTokenDB,
-    updateUserTokenByIdDB,
     getUserByEmailDB
 } = require('../repositories/user');
 
-const signup = (request, response) => {
-    const user = request.body;
+const createToken = (payload, secret) => {
+    return jwt.sign(
+        payload,
+        secret,
+        {
+            expiresIn: 31556926 // 1 year in seconds
+        }
+    );
+};
 
-    hashPassword(user.password)
-        .then((hashedPassword) => {
-            delete user.password;
-            user.password_digest = hashedPassword
-        })
-        .then(() => createToken())
-        .then(token => user.token = token)
-        .then(() => createUserDB(user))
-        .then(user => {
-            delete user.password_digest;
-            response.header("Access-Control-Allow-Origin", "*");
-            response.status(201).json({ user })
-        })
-        .catch((err) => console.error(err))
+const register = (request, response) => {
+    const userData = request.body;
+
+    getUserByEmailDB(userData.email).then(user => {
+        if (user) {
+            return response.status(400).json({ email: "Email already exists" });
+        } else {
+            hashPassword(userData.password)
+            .then((hashedPassword) => {
+                delete userData.password;
+                userData.password_digest = hashedPassword
+            })
+            .then(() => createUserDB(userData))
+            .then(user => {
+                delete userData.password_digest;
+
+                const payload = {
+                    id: user.id,
+                    name: user.name
+                };
+
+                // Sign token
+                let token = createToken(payload, keys.secretOrKey);
+
+                response.status(201).json({
+                    ...user,
+                    token: "Bearer " + token
+                });
+            })
+            .catch(err => console.log(err));
+        }
+    });
 };
 
 const hashPassword = (password) => {
@@ -35,32 +61,39 @@ const hashPassword = (password) => {
     )
 };
 
-const createToken = () => {
-    return new Promise((resolve, reject) => {
-        crypto.randomBytes(16, (err, data) => {
-            err ? reject(err) : resolve(data.toString('base64'))
-        })
+const login = (request, response) => {
+    const email = request.body.email;
+    const password = request.body.password;
+
+    // Find user by email
+    getUserByEmailDB(email).then(user => {
+        // Check if user exists
+        if (!user) {
+            return response.status(404).json({ message: "Email not found" });
+        }
+
+        // Check password
+        checkPassword(password, user).then(isMatch => {
+            if (isMatch) {
+                delete user.password_digest;
+
+                const payload = {
+                    id: user.id,
+                    name: user.name
+                };
+
+                // Sign token
+                let token = createToken(payload, keys.secretOrKey);
+
+                response.json({
+                    ...user,
+                    token: "Bearer " + token
+                });
+            } else {
+                return response.status(400).json({ message: "Password incorrect" });
+            }
+        });
     });
-};
-
-const signin = (request, response) => {
-    const data = request.body;
-    let user;
-
-    getUserByEmailDB(data.email)
-        .then(foundUser => {
-            user = foundUser;
-            return checkPassword(data.password, foundUser)
-        })
-        .then(() => createToken())
-        .then(token => updateUserTokenByIdDB(token, user.id))
-        .then((newToken) => {
-            delete user.password_digest;
-            user.token = newToken;
-            // response.header("Access-Control-Allow-Origin", "*");
-            response.status(200).json(user)
-        })
-        .catch((err) => console.error(err))
 };
 
 const checkPassword = (reqPassword, foundUser) => {
@@ -79,16 +112,11 @@ const checkPassword = (reqPassword, foundUser) => {
 };
 
 const profile = (request, response) => {
-    const token = request.body.token || request.decodedToken;
-
-    getUserByTokenDB(token)
-        .then((user) => {
-            response.status(200).json(user)
-        })
+    response.status(200).json(request.user);
 };
 
 module.exports = {
-    signup,
-    signin,
+    login,
+    register,
     profile
 };

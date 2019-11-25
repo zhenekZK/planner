@@ -2,13 +2,12 @@ const database = require('../db/config');
 
 const createUserDB = (user) => {
     return database('users')
-        .returning(['id', 'name', 'surname', 'email', 'created_at', 'token'])
+        .returning(['id', 'name', 'surname', 'email', 'created_at'])
         .insert({
             name: user.name,
             surname: user.surname,
             email: user.email,
             password_digest: user.password_digest,
-            token: user.token,
             created_at: new Date()
         }).then((data) => data[0]);
 };

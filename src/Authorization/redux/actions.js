@@ -10,13 +10,14 @@ import {
 } from './constants';
 
 export const userPostFetch = data => dispatch => {
-    return axios.post('http://localhost:4000/user/create', qs.stringify(data))
-        .then((response) => response.data.user)
-        .then(user => {
+    return axios.post('http://localhost:4000/user/register', qs.stringify(data))
+        .then((response) =>  response.data)
+        .then(({ message, ...user }) => {
+            debugger;
             if (user.token) {
                 dispatch(loginUser(user))
             } else {
-                throw new Error('Problem with login');
+                throw new Error('Problem with registration');
             }
         })
 };
@@ -63,8 +64,8 @@ export const loginUserFailed = (message) => {
     }
 };
 
-export const loginUser = user => {
-    localStorage.setItem("token", user.token);
+export const loginUser = ({ token, ...user }) => {
+    localStorage.setItem('token', token);
 
     return {
         type: LOGIN_USER_SUCCESS,
