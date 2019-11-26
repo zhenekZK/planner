@@ -10,8 +10,6 @@ const initialState = {};
 
 const store = configureStore(initialState);
 
-store.subscribe(() => console.log(store.getState(), 'CURRENT STATE!!!'));
-
 ReactDOM.render(
     <Provider store={store}>
         <App/>
