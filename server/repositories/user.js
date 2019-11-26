@@ -33,9 +33,14 @@ const getUserByEmailDB = (email) => {
         .then((data) => data[0]);
 };
 
+const getAllUsersDB = () => {
+    return database.from('users').select()
+};
+
 module.exports = {
     getUserByTokenDB,
     getUserByIdDB,
     createUserDB,
-    getUserByEmailDB
+    getUserByEmailDB,
+    getAllUsersDB
 };

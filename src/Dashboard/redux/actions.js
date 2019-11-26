@@ -105,7 +105,20 @@ export const addTaskRequest = (data) => dispatch => {
                 dispatch({ TASK_ADD_FAILED, error: message });
                 throw new Error('Problem with list deleting');
             } else {
-                dispatch(addTask(data));
+                const user = new schema.Entity('users');
+                const task = new schema.Entity('tasks', {
+                    assigns: [user],
+                    owner: user
+                });
+
+                const normalizedData = normalize(data, task);
+                const task_id = normalizedData.result;
+                const { users, tasks } = normalizedData.entities;
+                const userKeys = users ? Object.keys(users) : [];
+
+                if (userKeys.length) dispatch(usersWereUpdated(users));
+
+                dispatch(addTask(tasks[task_id]));
             }
         });
 };

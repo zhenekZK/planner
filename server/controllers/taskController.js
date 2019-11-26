@@ -37,14 +37,16 @@ const addTask = function (request, response) {
             assigns: data.assigns
         };
 
-        createTaskDB(task)
+        return createTaskDB(task)
             .then((data) => {
-                console.log(data);
-                getTaskDataByIdDB(data.id).then(data => {
-                    console.log(data, 'Data before sending back');
-                    response.status(200).json(data);
-                })
-            });
+                return getTaskDataByIdDB(data.id)
+                    .then(newTask => insertAssignsIntoTask(newTask)
+                        .then((result) => {
+                            console.log(data, 'Data before sending back');
+                            response.status(200).json(result)
+                        }))
+            })
+            .catch(error => console.log(error));
     });
 };
 
@@ -82,6 +84,7 @@ const editTask = function (request, response) {
             .then(() => getTaskDataByIdDB(data.id))
             .then((updatedTask) => insertAssignsIntoTask(updatedTask))
             .then((result) => {
+                console.log(result, 'updated');
                     response.status(200).json(result)
                 });
             })

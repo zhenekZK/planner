@@ -99,7 +99,8 @@ export const selectUserById = (state, id) => {
 };
 
 export const selectUserNameById = (state, id) => {
-    return selectUserById(state, id).name;
+    let user = selectUserById(state, id);
+    return user ? selectUserById(state, id).name : 'undefined';
 };
 
 export const selectAddListPopupIsShowing = (state) => state.toolbox.showAddListPopup;

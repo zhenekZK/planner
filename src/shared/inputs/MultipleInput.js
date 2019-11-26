@@ -8,7 +8,7 @@ import NoSsr from '@material-ui/core/NoSsr';
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
-        height: 250,
+        height: 300,
         minWidth: 290,
     }
 }));

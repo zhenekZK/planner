@@ -18,6 +18,7 @@ import {
     selectAllUsersAsArray,
     selectAssignsDataByTaskId
 } from './redux/selectors';
+import {requestMaker} from "../helpers/requestMaker";
 
 class DashboardTaskEditPopupContainer extends Component {
     constructor(props) {
@@ -30,7 +31,8 @@ class DashboardTaskEditPopupContainer extends Component {
             description: props.taskInfo.description,
             status: props.taskInfo.status,
             list_id: props.taskInfo.list_id,
-            assigns: props.assigns
+            assigns: props.assigns,
+            allUsers: []
         };
     }
 
@@ -59,6 +61,20 @@ class DashboardTaskEditPopupContainer extends Component {
         }
 
         return null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.open !== prevProps.open && this.props.open === true) {
+            requestMaker('user/', 'get')
+                .then((response) => response.data)
+                .then(({ message, ...data }) => {
+                    if (message) {
+                        throw new Error('Problem with user loading');
+                    } else {
+                        this.setState( { allUsers: [ ...data.users ] });
+                    }
+                });
+        }
     }
 
     updateField = (field, value) => {
@@ -92,7 +108,7 @@ class DashboardTaskEditPopupContainer extends Component {
                 {...this.state}
                 open={this.props.open}
                 allLists={this.props.allLists}
-                allUsers={this.props.allUsers.map(user => ({
+                allUsers={this.state.allUsers.map(user => ({
                     value: user.id,
                     label: `${user.name} ${user.surname}`
                 }))}
@@ -109,7 +125,7 @@ const mapStateToProps = (state) => ({
     open: selectTaskEditPopupIsShowing(state),
     taskInfo: selectTaskById(state, selectEditableTaskId(state)),
     allLists: selectAllLists(state),
-    allUsers: selectAllUsersAsArray(state),
+    // allUsers: selectAllUsersAsArray(state),
     assigns: selectAssignsDataByTaskId(state, selectEditableTaskId(state))
 });
 

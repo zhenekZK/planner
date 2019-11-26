@@ -6,7 +6,8 @@ const keys = require("../config/keys");
 
 const {
     createUserDB,
-    getUserByEmailDB
+    getUserByEmailDB,
+    getAllUsersDB
 } = require('../repositories/user');
 
 const createToken = (payload, secret) => {
@@ -111,6 +112,11 @@ const checkPassword = (reqPassword, foundUser) => {
     )
 };
 
+const getAllUsers = (request, response) => {
+    return getAllUsersDB()
+        .then((users) => response.status(200).json({users}));
+};
+
 const profile = (request, response) => {
     response.status(200).json(request.user);
 };
@@ -118,5 +124,6 @@ const profile = (request, response) => {
 module.exports = {
     login,
     register,
-    profile
+    profile,
+    getAllUsers
 };

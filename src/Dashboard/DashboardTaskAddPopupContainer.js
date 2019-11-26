@@ -7,7 +7,7 @@ import DashboardTaskAddPopup from "./DashboardTaskAddPopup";
 import {
     addTaskRequest,
     hideAddTaskPopup,
-    markListNotEditable
+    markListNotEditable, removeTask
 } from './redux/actions';
 
 import {
@@ -16,6 +16,8 @@ import {
     selectAllUsersAsArray,
     selectTaskAddPopupIsShowing
 } from './redux/selectors';
+import {requestMaker} from "../helpers/requestMaker";
+import {TASK_REMOVE_FAILED} from "./redux/constants";
 
 class DashboardTaskAddPopupContainer extends Component {
     constructor(props) {
@@ -27,8 +29,23 @@ class DashboardTaskAddPopupContainer extends Component {
             description: '',
             status: 'open',
             list_id: props.list_id,
-            assigns: []
+            assigns: [],
+            allUsers: []
         };
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.open !== prevProps.open && this.props.open === true) {
+            requestMaker('user/', 'get')
+                .then((response) => response.data)
+                .then(({ message, ...data }) => {
+                    if (message) {
+                        throw new Error('Problem with user loading');
+                    } else {
+                        this.setState( { allUsers: [ ...data.users ] });
+                    }
+                });
+        }
     }
 
     static getDerivedStateFromProps(props, currentState) {
@@ -79,7 +96,7 @@ class DashboardTaskAddPopupContainer extends Component {
                 {...this.state}
                 open={this.props.open}
                 allLists={this.props.allLists}
-                allUsers={this.props.allUsers.map(user => ({
+                allUsers={this.state.allUsers.map(user => ({
                     value: user.id,
                     label: `${user.name} ${user.surname}`
                 }))}
