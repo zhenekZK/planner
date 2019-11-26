@@ -6,6 +6,7 @@ import DashboardToolboxContainer from "./DashboardToolboxContainer";
 import DashboardAddListPopupContainer from "./DashboardAddListPopupContainer";
 import DashboardTaskAddPopupContainer from "./DashboardTaskAddPopupContainer";
 import DashboardTaskEditPopupContainer from "./DashboardTaskEditPopupContainer";
+import DashboardModal from './DashboardModal';
 
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -39,7 +40,8 @@ function Dashboard(props) {
                         <DashboardListContainer key={index} {...list} />
                     ))}
                 </Grid>
-                <DashboardAddListPopupContainer />
+                <DashboardModal />
+                {/*<DashboardAddListPopupContainer />*/}
                 <DashboardTaskAddPopupContainer />
                 <DashboardTaskEditPopupContainer />
             </Container>

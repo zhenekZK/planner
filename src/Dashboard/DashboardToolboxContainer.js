@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import DashboardToolbox from './DashboardToolbox';
 
-import { showAddListPopup } from './redux/actions'
+import { showModal } from './redux/actions'
 
 class DashboardToolboxContainer extends Component {
     render() {
@@ -15,7 +15,7 @@ class DashboardToolboxContainer extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    showAddListPopup: () => dispatch(showAddListPopup())
+    showAddListPopup: () => dispatch(showModal({ modalType: 'ADD_LIST' }))
 });
 
 DashboardToolboxContainer.propTypes = {

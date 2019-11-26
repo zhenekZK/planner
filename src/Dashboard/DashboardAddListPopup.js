@@ -55,7 +55,7 @@ function DashboardAddListPopup(props) {
 }
 
 DashboardAddListPopup.defaultProps = {
-    open: false,
+    open: true,
     title: '',
     description: ''
 };

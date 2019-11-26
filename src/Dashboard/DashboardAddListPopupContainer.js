@@ -4,8 +4,7 @@ import PropTypes from "prop-types";
 
 import DashboardAddListPopup from "./DashboardAddListPopup";
 
-import { addList, hideAddListPopup } from './redux/actions';
-import { selectAddListPopupIsShowing } from './redux/selectors';
+import { addList, hideModal } from './redux/actions';
 
 class DashboardAddListPopupContainer extends Component {
     constructor(props) {
@@ -45,7 +44,6 @@ class DashboardAddListPopupContainer extends Component {
             <DashboardAddListPopup
                 title={this.state.title}
                 description={this.state.description}
-                open={this.props.open}
                 handleClose={this.closePopup}
                 createList={this.createList}
                 updateField={this.updateField}
@@ -54,16 +52,12 @@ class DashboardAddListPopupContainer extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    open: selectAddListPopupIsShowing(state)
-});
-
 const mapDispatchToProps = (dispatch) => ({
     createList: (data) => {
-        dispatch(hideAddListPopup());
-        dispatch(addList(data))
+        dispatch(addList(data));
+        dispatch(hideModal());
     },
-    onClose: () => dispatch(hideAddListPopup()),
+    onClose: () => dispatch(hideModal()),
 });
 
 DashboardAddListPopupContainer.defaultProps = {
@@ -76,4 +70,4 @@ DashboardAddListPopupContainer.propTypes = {
     onClose: PropTypes.func
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardAddListPopupContainer);
+export default connect(null, mapDispatchToProps)(DashboardAddListPopupContainer);

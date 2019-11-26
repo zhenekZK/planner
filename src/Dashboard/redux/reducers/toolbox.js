@@ -10,11 +10,12 @@ import {
 const initialState = {
     showAddListPopup: false,
     showTaskAddPopup: false,
-    showTaskEditPopup: false
+    showTaskEditPopup: false,
 };
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        //active List : id
         case ADD_NEW_LIST_POPUP_SHOW:
             return {
                 ...state,

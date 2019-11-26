@@ -108,3 +108,5 @@ export const selectAddListPopupIsShowing = (state) => state.toolbox.showAddListP
 export const selectTaskAddPopupIsShowing = (state) => state.toolbox.showTaskAddPopup;
 
 export const selectTaskEditPopupIsShowing = (state) => state.toolbox.showTaskEditPopup;
+
+export const selectModalData = (state) => state.modal;

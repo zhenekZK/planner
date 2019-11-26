@@ -27,7 +27,9 @@ import {
     ADD_NEW_LIST_POPUP_HIDE,
     MARK_LIST_EDITABLE,
     MARK_LIST_NOT_EDITABLE,
-    USERS_WERE_UPDATED
+    USERS_WERE_UPDATED,
+    SHOW_MODAL,
+    HIDE_MODAL
 } from './constants';
 
 import { requestMaker } from '../../helpers/requestMaker';
@@ -200,6 +202,17 @@ export const removeTask = (id) => ({
     payload: {
         id
     }
+});
+
+export const showModal = (data) => ({
+    type: SHOW_MODAL,
+    payload: {
+        ...data
+    }
+});
+
+export const hideModal = () => ({
+    type: HIDE_MODAL
 });
 
 export const markListEditable = (id) => ({
