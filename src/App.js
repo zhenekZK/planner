@@ -12,7 +12,9 @@ export const history = createBrowserHistory();
 
 class App extends Component {
     componentDidMount = () => {
-        this.props.getProfile();
+        if (localStorage.token) {
+            this.props.getProfile();
+        }
     };
 
     render() {

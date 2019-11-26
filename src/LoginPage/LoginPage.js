@@ -10,6 +10,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core";
+import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles(theme => ({
     '@global': {
@@ -94,6 +95,13 @@ function LoginPage(props) {
                     >
                         Sign In
                     </Button>
+                    <Grid container justify="flex-end">
+                        <Grid item>
+                            <Link href="/signup" variant="body2">
+                                Want to create account? Sign up
+                            </Link>
+                        </Grid>
+                    </Grid>
                 </form>
             </div>
         </Container>

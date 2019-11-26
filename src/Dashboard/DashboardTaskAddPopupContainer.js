@@ -7,17 +7,15 @@ import DashboardTaskAddPopup from "./DashboardTaskAddPopup";
 import {
     addTaskRequest,
     hideAddTaskPopup,
-    markListNotEditable, removeTask
+    markListNotEditable,
 } from './redux/actions';
 
 import {
     selectAllLists,
     selectEditableListId,
-    selectAllUsersAsArray,
     selectTaskAddPopupIsShowing
 } from './redux/selectors';
 import {requestMaker} from "../helpers/requestMaker";
-import {TASK_REMOVE_FAILED} from "./redux/constants";
 
 class DashboardTaskAddPopupContainer extends Component {
     constructor(props) {
@@ -113,7 +111,7 @@ const mapStateToProps = (state) => ({
     open: selectTaskAddPopupIsShowing(state),
     list_id: selectEditableListId(state),
     allLists: selectAllLists(state),
-    allUsers: selectAllUsersAsArray(state)
+    // allUsers: selectAllUsersAsArray(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

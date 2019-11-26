@@ -32,8 +32,6 @@ function DashboardTaskEditPopup(props) {
         onClose
     } = props;
 
-    console.log(props);
-
     return (
         <div>
             <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">

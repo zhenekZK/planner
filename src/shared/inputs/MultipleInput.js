@@ -36,7 +36,7 @@ function MultipleInput(props) {
                             shrink: true,
                         },
                     }}
-                    placeholder={placeholder || 'Select several variants'}
+                    placeholder={placeholder}
                     options={options}
                     value={value}
                     onChange={onChange}
@@ -46,5 +46,18 @@ function MultipleInput(props) {
         </div>
     );
 }
+
+MultipleInput.defaultProps = {
+    options: [],
+    value: [],
+    placeholder: 'Select several variants'
+};
+
+MultipleInput.propTypes = {
+    options: PropTypes.array,
+    value: PropTypes.array,
+    placeholder: PropTypes.string,
+    onChange: PropTypes.func
+};
 
 export default MultipleInput;

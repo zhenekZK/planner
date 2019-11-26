@@ -15,7 +15,6 @@ import {
     selectEditableTaskId,
     selectAllLists,
     selectTaskEditPopupIsShowing,
-    selectAllUsersAsArray,
     selectAssignsDataByTaskId
 } from './redux/selectors';
 import {requestMaker} from "../helpers/requestMaker";
