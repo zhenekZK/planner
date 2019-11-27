@@ -6,16 +6,15 @@ import DashboardTaskAddPopup from "./DashboardTaskAddPopup";
 
 import {
     addTaskRequest,
-    hideAddTaskPopup,
-    markListNotEditable,
+    hideModal,
+    removeActiveList,
 } from './redux/actions';
 
 import {
     selectAllLists,
-    selectEditableListId,
-    selectTaskAddPopupIsShowing
+    selectActiveListId
 } from './redux/selectors';
-import {requestMaker} from "../helpers/requestMaker";
+import { requestMaker } from "../helpers/requestMaker";
 
 class DashboardTaskAddPopupContainer extends Component {
     constructor(props) {
@@ -32,18 +31,16 @@ class DashboardTaskAddPopupContainer extends Component {
         };
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props.open !== prevProps.open && this.props.open === true) {
-            requestMaker('user/', 'get')
-                .then((response) => response.data)
-                .then(({ message, ...data }) => {
-                    if (message) {
-                        throw new Error('Problem with user loading');
-                    } else {
-                        this.setState( { allUsers: [ ...data.users ] });
-                    }
-                });
-        }
+    componentDidMount() {
+        requestMaker('user/', 'get')
+            .then((response) => response.data)
+            .then(({ message, ...data }) => {
+                if (message) {
+                    throw new Error('Problem with user loading');
+                } else {
+                    this.setState( { allUsers: [ ...data.users ] });
+                }
+            });
     }
 
     static getDerivedStateFromProps(props, currentState) {
@@ -71,7 +68,6 @@ class DashboardTaskAddPopupContainer extends Component {
         };
 
         this.props.addTask(taskData);
-        this.props.markListNotEditable(taskData.list_id);
         this.onClose();
     };
 
@@ -84,7 +80,6 @@ class DashboardTaskAddPopupContainer extends Component {
             list_id: null
         });
 
-        this.props.markListNotEditable(this.state.list_id);
         this.props.onClose();
     };
 
@@ -92,7 +87,6 @@ class DashboardTaskAddPopupContainer extends Component {
         return (
             <DashboardTaskAddPopup
                 {...this.state}
-                open={this.props.open}
                 allLists={this.props.allLists}
                 allUsers={this.state.allUsers.map(user => ({
                     value: user.id,
@@ -108,30 +102,27 @@ class DashboardTaskAddPopupContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    open: selectTaskAddPopupIsShowing(state),
-    list_id: selectEditableListId(state),
-    allLists: selectAllLists(state),
-    // allUsers: selectAllUsersAsArray(state)
+    list_id: selectActiveListId(state),
+    allLists: selectAllLists(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
     addTask: (data) => dispatch(addTaskRequest(data)),
-    markListNotEditable: (id) => dispatch(markListNotEditable(id)),
-    onClose: () => dispatch(hideAddTaskPopup())
+    onClose: () => {
+        dispatch(removeActiveList());
+        dispatch(hideModal());
+    }
 });
 
 DashboardTaskAddPopupContainer.defaultProps = {
-    open: false,
     list_id: null,
     allLists: {}
 };
 
 DashboardTaskAddPopupContainer.propTypes = {
     list_id: PropTypes.number,
-    open: PropTypes.bool,
     allLists: PropTypes.object,
     addTask: PropTypes.func,
-    markListNotEditable: PropTypes.func,
     onClose: PropTypes.func
 };
 

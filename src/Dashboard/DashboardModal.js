@@ -15,7 +15,6 @@ const MODAL_COMPONENTS = {
 const DashboardModal = (props) => {
     const { modalType, modalProps } = props.state;
 
-    console.log(modalType, modalProps);
     if (!modalType) {
         return null;
     }
@@ -27,9 +26,5 @@ const DashboardModal = (props) => {
 const mapStateToProps = (state) => ({
     state: selectModalData(state)
 });
-
-// const mapDispatchToProps = (dispatch) => ({
-//
-// });
 
 export default connect(mapStateToProps, null)(DashboardModal);

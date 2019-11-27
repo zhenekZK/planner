@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import DashboardTask from './DashboardTask';
 
-import { markTaskEditable, removeTaskRequest, showEditTaskPopup } from './redux/actions';
+import { markActiveTask, removeTaskRequest, showModal } from './redux/actions';
 import { selectUserNameById, selectUserNames } from './redux/selectors';
 
 class DashboardTaskContainer extends Component {
@@ -24,8 +24,8 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
     deleteTask: (id) => dispatch(removeTaskRequest(id)),
     editTask: (id) => {
-        dispatch(markTaskEditable(id));
-        dispatch(showEditTaskPopup());
+        dispatch(markActiveTask(id));
+        dispatch(showModal({ modalType: 'EDIT_TASK' }));
     }
 });
 

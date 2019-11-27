@@ -10,7 +10,6 @@ import TextField from "@material-ui/core/TextField";
 
 function DashboardAddListPopup(props) {
     const {
-        open,
         title,
         description,
         updateField,
@@ -20,7 +19,7 @@ function DashboardAddListPopup(props) {
 
     return (
         <div>
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog open={true} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Add list</DialogTitle>
                 <DialogContent>
                     <TextField

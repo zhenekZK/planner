@@ -6,18 +6,17 @@ import DashboardTaskEditPopup from "./DashboardTaskEditPopup";
 
 import {
     editTaskRequest,
-    hideEditTaskPopup,
-    markTaskNotEditable
+    hideModal,
+    removeActiveTask
 } from './redux/actions';
 
 import {
     selectTaskById,
-    selectEditableTaskId,
+    selectActiveTaskId,
     selectAllLists,
-    selectTaskEditPopupIsShowing,
     selectAssignsDataByTaskId
 } from './redux/selectors';
-import {requestMaker} from "../helpers/requestMaker";
+import { requestMaker } from "../helpers/requestMaker";
 
 class DashboardTaskEditPopupContainer extends Component {
     constructor(props) {
@@ -62,18 +61,16 @@ class DashboardTaskEditPopupContainer extends Component {
         return null;
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props.open !== prevProps.open && this.props.open === true) {
-            requestMaker('user/', 'get')
-                .then((response) => response.data)
-                .then(({ message, ...data }) => {
-                    if (message) {
-                        throw new Error('Problem with user loading');
-                    } else {
-                        this.setState( { allUsers: [ ...data.users ] });
-                    }
-                });
-        }
+    componentDidMount() {
+        requestMaker('user/', 'get')
+            .then((response) => response.data)
+            .then(({ message, ...data }) => {
+                if (message) {
+                    throw new Error('Problem with user loading');
+                } else {
+                    this.setState( { allUsers: [ ...data.users ] });
+                }
+            });
     }
 
     updateField = (field, value) => {
@@ -92,12 +89,10 @@ class DashboardTaskEditPopupContainer extends Component {
         };
 
         this.props.editTask(taskData);
-        this.props.markTaskNotEditable(taskData.id);
         this.onClose();
     };
 
     onClose = () => {
-        this.props.markTaskNotEditable(this.state.id);
         this.props.onClose();
     };
 
@@ -105,13 +100,11 @@ class DashboardTaskEditPopupContainer extends Component {
         return (
             <DashboardTaskEditPopup
                 {...this.state}
-                open={this.props.open}
                 allLists={this.props.allLists}
                 allUsers={this.state.allUsers.map(user => ({
                     value: user.id,
                     label: `${user.name} ${user.surname}`
                 }))}
-                createTask={this.editTask}
                 updateField={this.updateField}
                 onSave={this.onSave}
                 onClose={this.onClose}
@@ -121,32 +114,29 @@ class DashboardTaskEditPopupContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    open: selectTaskEditPopupIsShowing(state),
-    taskInfo: selectTaskById(state, selectEditableTaskId(state)),
+    taskInfo: selectTaskById(state, selectActiveTaskId(state)),
     allLists: selectAllLists(state),
-    // allUsers: selectAllUsersAsArray(state),
-    assigns: selectAssignsDataByTaskId(state, selectEditableTaskId(state))
+    assigns: selectAssignsDataByTaskId(state, selectActiveTaskId(state))
 });
 
 const mapDispatchToProps = (dispatch) => ({
     editTask: (data) => dispatch(editTaskRequest(data)),
-    markTaskNotEditable: (id) => dispatch(markTaskNotEditable(id)),
-    onClose: () => dispatch(hideEditTaskPopup())
+    onClose: () => {
+        dispatch(removeActiveTask());
+        dispatch(hideModal());
+    }
 });
 
 DashboardTaskEditPopupContainer.defaultProps = {
-    open: false,
     taskInfo: {},
     allLists: {},
     assigns: []
 };
 
 DashboardTaskEditPopupContainer.propTypes = {
-    open: PropTypes.bool,
     taskInfo: PropTypes.object,
     allLists: PropTypes.object,
     editTask: PropTypes.func,
-    markTaskNotEditable: PropTypes.func,
     onClose: PropTypes.func
 };
 

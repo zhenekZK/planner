@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import DashboardList from './DashboardList';
 
 import { selectTasksByListId } from './redux/selectors';
-import { deleteListRequest, markListEditable, showAddTaskPopup } from "./redux/actions";
+import {deleteListRequest, markActiveList, showModal} from "./redux/actions";
 
 class DashboardListContainer extends Component {
     render() {
@@ -21,8 +21,8 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     addTask: (id) => {
-        dispatch(markListEditable(id));
-        dispatch(showAddTaskPopup());
+        dispatch(markActiveList(id));
+        dispatch(showModal({ modalType: 'ADD_TASK' }));
     },
     deleteList: (id) => dispatch(deleteListRequest(id))
 });

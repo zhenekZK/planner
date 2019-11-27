@@ -2,9 +2,7 @@ import {
     LIST_ADD_SUCCESS,
     LIST_REMOVE_SUCCESS,
     TASK_ADD_SUCCESS,
-    DATA_FETCH_SUCCESS,
-    MARK_LIST_EDITABLE,
-    MARK_LIST_NOT_EDITABLE
+    DATA_FETCH_SUCCESS
 } from '../constants';
 
 import { combineReducers } from 'redux';
@@ -40,22 +38,6 @@ const listsById = (state = {}, action) => {
             const { [action.payload.id]: value, ...result } = state;
             return {
                 ...result
-            };
-        case MARK_LIST_EDITABLE:
-            return {
-                ...state,
-                [action.payload.id]: {
-                    ...state[action.payload.id],
-                    isEditable: true,
-                }
-            };
-        case MARK_LIST_NOT_EDITABLE:
-            return {
-                ...state,
-                [action.payload.id]: {
-                    ...state[action.payload.id],
-                    isEditable: false,
-                }
             };
         default:
             return state

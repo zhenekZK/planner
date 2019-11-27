@@ -1,50 +1,36 @@
 import {
-    ADD_NEW_LIST_POPUP_SHOW,
-    ADD_NEW_LIST_POPUP_HIDE,
-    TASK_ADD_POPUP_SHOW,
-    TASK_ADD_POPUP_HIDE,
-    TASK_EDIT_POPUP_SHOW,
-    TASK_EDIT_POPUP_HIDE
+    MARK_LIST_ACTIVE,
+    MARK_LIST_NOT_ACTIVE,
+    MARK_TASK_ACTIVE,
+    MARK_TASK_NOT_ACTIVE
 } from '../constants';
 
 const initialState = {
-    showAddListPopup: false,
-    showTaskAddPopup: false,
-    showTaskEditPopup: false,
+    activeListId: null,
+    activeTaskId: null
 };
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        //active List : id
-        case ADD_NEW_LIST_POPUP_SHOW:
+        case MARK_LIST_ACTIVE:
             return {
                 ...state,
-                showAddListPopup: true
+                activeListId: action.payload.id
             };
-        case ADD_NEW_LIST_POPUP_HIDE:
+        case MARK_LIST_NOT_ACTIVE:
             return {
                 ...state,
-                showAddListPopup: false
+                activeListId: null
             };
-        case TASK_ADD_POPUP_SHOW:
+        case MARK_TASK_ACTIVE:
             return {
                 ...state,
-                showTaskAddPopup: true
+                activeTaskId: action.payload.id
             };
-        case TASK_ADD_POPUP_HIDE:
+        case MARK_TASK_NOT_ACTIVE:
             return {
                 ...state,
-                showTaskAddPopup: false
-            };
-        case TASK_EDIT_POPUP_SHOW:
-            return {
-                ...state,
-                showTaskEditPopup: true
-            };
-        case TASK_EDIT_POPUP_HIDE:
-            return {
-                ...state,
-                showTaskEditPopup: false
+                activeTaskId: null
             };
         default:
             return state

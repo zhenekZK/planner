@@ -17,16 +17,10 @@ import {
     TASK_REMOVE_START,
     TASK_REMOVE_SUCCESS,
     TASK_REMOVE_FAILED,
-    MARK_TASK_EDITABLE,
-    MARK_TASK_NOT_EDITABLE,
-    TASK_ADD_POPUP_SHOW,
-    TASK_ADD_POPUP_HIDE,
-    TASK_EDIT_POPUP_SHOW,
-    TASK_EDIT_POPUP_HIDE,
-    ADD_NEW_LIST_POPUP_SHOW,
-    ADD_NEW_LIST_POPUP_HIDE,
-    MARK_LIST_EDITABLE,
-    MARK_LIST_NOT_EDITABLE,
+    MARK_TASK_ACTIVE,
+    MARK_TASK_NOT_ACTIVE,
+    MARK_LIST_ACTIVE,
+    MARK_LIST_NOT_ACTIVE,
     USERS_WERE_UPDATED,
     SHOW_MODAL,
     HIDE_MODAL
@@ -215,54 +209,24 @@ export const hideModal = () => ({
     type: HIDE_MODAL
 });
 
-export const markListEditable = (id) => ({
-    type: MARK_LIST_EDITABLE,
+export const markActiveList = (id) => ({
+    type: MARK_LIST_ACTIVE,
     payload: {
         id
     }
 });
 
-export const markListNotEditable = (id) => ({
-    type: MARK_LIST_NOT_EDITABLE,
+export const removeActiveList = () => ({
+    type: MARK_LIST_NOT_ACTIVE
+});
+
+export const markActiveTask = (id) => ({
+    type: MARK_TASK_ACTIVE,
     payload: {
         id
     }
 });
 
-export const markTaskEditable = (id) => ({
-    type: MARK_TASK_EDITABLE,
-    payload: {
-        id
-    }
-});
-
-export const markTaskNotEditable = (id) => ({
-    type: MARK_TASK_NOT_EDITABLE,
-    payload: {
-        id
-    }
-});
-
-export const showAddTaskPopup = () => ({
-    type: TASK_ADD_POPUP_SHOW
-});
-
-export const hideAddTaskPopup = () => ({
-    type: TASK_ADD_POPUP_HIDE
-});
-
-export const showEditTaskPopup = () => ({
-    type: TASK_EDIT_POPUP_SHOW
-});
-
-export const hideEditTaskPopup = () => ({
-    type: TASK_EDIT_POPUP_HIDE
-});
-
-export const showAddListPopup = () => ({
-    type: ADD_NEW_LIST_POPUP_SHOW
-});
-
-export const hideAddListPopup = () => ({
-    type: ADD_NEW_LIST_POPUP_HIDE
+export const removeActiveTask = () => ({
+    type: MARK_TASK_NOT_ACTIVE
 });

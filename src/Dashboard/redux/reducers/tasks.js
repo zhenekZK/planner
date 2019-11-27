@@ -2,9 +2,7 @@ import {
     TASK_ADD_SUCCESS,
     TASK_REMOVE_SUCCESS,
     DATA_FETCH_SUCCESS,
-    TASK_EDIT_SUCCESS,
-    MARK_TASK_EDITABLE,
-    MARK_TASK_NOT_EDITABLE
+    TASK_EDIT_SUCCESS
 } from '../constants';
 import { combineReducers } from "redux";
 
@@ -17,22 +15,6 @@ const tasksById = (state = {}, action) => {
                 ...state,
                 [action.payload.data.id]: {
                     ...action.payload.data
-                }
-            };
-        case MARK_TASK_EDITABLE:
-            return {
-                ...state,
-                [action.payload.id]: {
-                    ...state[action.payload.id],
-                    isEditable: true
-                }
-            };
-        case MARK_TASK_NOT_EDITABLE:
-            return {
-                ...state,
-                [action.payload.id]: {
-                    ...state[action.payload.id],
-                    isEditable: false
                 }
             };
         case TASK_EDIT_SUCCESS:

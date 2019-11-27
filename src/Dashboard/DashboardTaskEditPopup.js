@@ -18,7 +18,6 @@ import Typography from "@material-ui/core/Typography";
 
 function DashboardTaskEditPopup(props) {
     const {
-        open,
         title,
         description,
         status,
@@ -34,7 +33,7 @@ function DashboardTaskEditPopup(props) {
 
     return (
         <div>
-            <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
+            <Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Edit Task</DialogTitle>
                 <DialogContent>
                     <TextField

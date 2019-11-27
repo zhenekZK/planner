@@ -23,10 +23,10 @@ class DashboardAddListPopupContainer extends Component {
         };
 
         this.props.createList(listData);
-        this.closePopup();
+        this.onClose();
     };
 
-    closePopup = () => {
+    onClose = () => {
         this.setState({
             title: '',
             description: '',
@@ -44,7 +44,7 @@ class DashboardAddListPopupContainer extends Component {
             <DashboardAddListPopup
                 title={this.state.title}
                 description={this.state.description}
-                handleClose={this.closePopup}
+                handleClose={this.onClose}
                 createList={this.createList}
                 updateField={this.updateField}
             />
@@ -60,12 +60,7 @@ const mapDispatchToProps = (dispatch) => ({
     onClose: () => dispatch(hideModal()),
 });
 
-DashboardAddListPopupContainer.defaultProps = {
-    open: false
-};
-
 DashboardAddListPopupContainer.propTypes = {
-    open: PropTypes.bool,
     createList: PropTypes.func,
     onClose: PropTypes.func
 };

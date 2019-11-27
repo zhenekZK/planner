@@ -2,25 +2,9 @@ export const selectListIds = (state) => state.lists.allIds;
 
 export const selectListById = (state, id) => state.lists.byId[id];
 
-export const selectAllLists = (state) => {
-    return {
-        ...state.lists.byId
-    }
-};
+export const selectAllLists = (state) => state.lists.byId;
 
-export const selectEditableListId = (state) => {
-    let id = null;
-    const ids = selectListIds(state);
-
-    for (let i = 0, length = ids.length; i < length; i++) {
-        if (selectListById(state, ids[i]).isEditable) {
-            id = ids[i];
-            break;
-        }
-    }
-
-    return id;
-};
+export const selectActiveListId = (state) => state.toolbox.activeListId;
 
 export const selectAllListsAsArray = (state) => {
     return selectListIds(state).map(id => selectListById(state, id))
@@ -59,27 +43,9 @@ export const selectTasksByListId = (state, id) => {
     return fitIds.map(taskId => selectTaskById(state, taskId));
 };
 
-export const selectEditableTaskId = (state) => {
-    let editableTaskId = null,
-        taskIds = selectTaskIds(state);
+export const selectActiveTaskId = (state) => state.toolbox.activeTaskId;
 
-    for (let i = 0, length = taskIds.length; i < length; i++){
-        let taskInfo = selectTaskById(state, taskIds[i]);
-
-        if (taskInfo.isEditable) {
-            editableTaskId = taskInfo.id;
-            break;
-        }
-    }
-
-    return editableTaskId;
-};
-
-export const selectAllUsers = (state) => {
-    return {
-        ...state.users.byId
-    }
-};
+export const selectAllUsers = (state) => state.users.byId;
 
 export const selectUserIds = (state) => state.users.allIds;
 
@@ -102,11 +68,5 @@ export const selectUserNameById = (state, id) => {
     let user = selectUserById(state, id);
     return user ? selectUserById(state, id).name : 'undefined';
 };
-
-export const selectAddListPopupIsShowing = (state) => state.toolbox.showAddListPopup;
-
-export const selectTaskAddPopupIsShowing = (state) => state.toolbox.showTaskAddPopup;
-
-export const selectTaskEditPopupIsShowing = (state) => state.toolbox.showTaskEditPopup;
 
 export const selectModalData = (state) => state.modal;

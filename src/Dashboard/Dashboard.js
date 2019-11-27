@@ -42,8 +42,8 @@ function Dashboard(props) {
                 </Grid>
                 <DashboardModal />
                 {/*<DashboardAddListPopupContainer />*/}
-                <DashboardTaskAddPopupContainer />
-                <DashboardTaskEditPopupContainer />
+                {/*<DashboardTaskAddPopupContainer />*/}
+                {/*<DashboardTaskEditPopupContainer />*/}
             </Container>
         </>
     );
